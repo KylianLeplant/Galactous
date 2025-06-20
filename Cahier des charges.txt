@@ -1,0 +1,34 @@
+IMPLEMENTATION BASIQUE
+  Barnes-Hut
+    -    Particule est définie par une position, une vitesse, une masse, une galaxie hôte, un noeud parent et un type (étoile, matière noire, gaz, poussière)
+
+    -    En théorie un noeud peut etre interne ou externe. Si externe : contient 0 ou 1 particule. Si interne : possède 0 particule mais est divisé en 8 zones.
+
+    -    Noeud défini par position, un centre de gravité, une taille, particule si noeud externe, et 8 fils si noeud interne.
+
+    -    Quand les fils d'un noeud interne ont au TOTAL 0 ou 1 particule, on le fait devenir externe.
+
+    -    Apres avoir mis à jour les positions des particules, on parcourt chaque les étoiles et on vérifie que leurs positions est bien contenue dans leurs 
+        pères. (mettre méthode dans noeud)
+
+    -    Pour calculer les interactions d'une particule donnée, on parcourt l'arbre depuis la racine.
+        Pour chaque noeud on calcule le quotient s/d avec s : largeur de la zone et d la distance entre son centre de masse et la particule.
+        Si s/d est suffisemment petit (grande distance) on calcule la force avec ce noeud et on arrete de parcourir la branche.
+
+    -    Galaxies  définies par leurs particules.
+
+  Affichage
+    -    Affiche les étoiles du dessus
+
+
+BONUS:
+    -    GUI avancée avec moyen de choisir position, orientation, nombre d'étoiles, taille de la galaxie.De  créer plusieurs galaxies. 
+        Navigabilité dans l'espace. Choisir pas de temps...
+
+    -    Enregistrement paramètres de simulation dans un fichier.
+
+    -    Simuler évènements comme création de nouvelles étoiles si présence d'assez de gaz dans une zone limitée. Possibilité de supernova si etoile 
+        suffisamment grosse. Possibiité de fusion d'objets si elles sont suffisamment proches. 
+
+    -    Existence d'autres objets comme trous noirs, étoile à neutrons etc.
+
