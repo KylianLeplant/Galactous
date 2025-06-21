@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <cmath>
 #include <stdexcept>
+#include <iostream>
 
 using scalar_t = float;
 
@@ -38,7 +39,11 @@ struct Vec3{
 
     // Change the norm of the vector
     void changeNorm(scalar_t amount);
+
+    // if the norm of the vector is more than maxNorm, set the norm to maxNorm
+    void limitNorm(scalar_t maxNorm);
 };
 
+std::ostream& operator<<(std::ostream& os, const Vec3& vec);
 
 #endif 

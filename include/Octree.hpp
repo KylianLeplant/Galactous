@@ -7,40 +7,38 @@
 
 
 struct Octree : public std::enable_shared_from_this<Octree>{
-    Vec3 pos;           //position vector of the octree node
-    scalar_t size;      //size of the octree node
+    static int nbParticul;
+    Vec3 center;           //position vector of the center of the octree node
+    scalar_t width;      //width of the octree node
     Vec3 massCenter;        //center of mass of the octree node
     scalar_t mass;          //total mass of the octree node
     OctreeBranches branches;    //children of the octree node
     OctreeWeakPtr parent;       //parent node
     ParticlePtr particle; //particle contained in the octree node, if any
 
-    Octree(const Vec3& pos, scalar_t size)
-        : pos(pos), size(size), massCenter(pos), mass(0), branches(), parent(), particle(nullptr) {}
+    Octree(const Vec3& center, scalar_t width)
+        : center(center), width(width), massCenter(center), mass(0), branches(), parent(), particle(nullptr) {}
 
-    Octree(const Vec3& pos, scalar_t size, OctreeWeakPtr parent)
-        : pos(pos), size(size), massCenter(pos), mass(0), branches(), parent(parent), particle(nullptr) {}
+    Octree(const Vec3& center, scalar_t width, OctreeWeakPtr parent)
+        : center(center), width(width), massCenter(center), mass(0), branches(), parent(parent), particle(nullptr) {}
 
     // Function to check if a point is inside the octree node   
     bool contains(const Vec3& point) const;
 
     // Function to subdivide the octree node into 8 branches
-    void subdivide() {
-        scalar_t halfSize = size / 2.0f;
-        Vec3 newPos = pos;
+    void subdivide();
 
-        // Create 8 branches
-        branches[0] = std::make_shared<Octree>(newPos, halfSize, shared_from_this());
-        branches[1] = std::make_shared<Octree>(newPos + Vec3(halfSize, 0, 0), halfSize, shared_from_this());
-        branches[2] = std::make_shared<Octree>(newPos + Vec3(0, halfSize, 0), halfSize, shared_from_this());
-        branches[3] = std::make_shared<Octree>(newPos + Vec3(halfSize, halfSize, 0), halfSize, shared_from_this());
-        branches[4] = std::make_shared<Octree>(newPos + Vec3(0, 0, halfSize), halfSize, shared_from_this());
-        branches[5] = std::make_shared<Octree>(newPos + Vec3(halfSize, 0, halfSize), halfSize, shared_from_this());
-        branches[6] = std::make_shared<Octree>(newPos + Vec3(0, halfSize, halfSize), halfSize, shared_from_this());
-        branches[7] = std::make_shared<Octree>(newPos + Vec3(halfSize, halfSize, halfSize), halfSize, shared_from_this());
-    }
-
+    // Function to add a particle to the octree node, if the node is empty, the particle is added to the node, if the node is not empty the node is subdivided and the particle is added to the appropriate branch
     void addParticle(const ParticlePtr& particle);
+
+    // Function to migrate a particle up to the parent node, if particle is not in the area of the node, this function is called recursively until the particle is added in a node
+    void migrateParticleUp(const ParticlePtr& particle);
+
+    void fillOctree(const Particles& particles);
+
+    void printOctree(int n = 0);
+
+    void updateMassCenter();
 
 };
 

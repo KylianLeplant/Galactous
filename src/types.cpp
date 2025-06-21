@@ -50,8 +50,20 @@ void Vec3::changeNorm(scalar_t amount) {
     if (n == 0) {
         throw std::runtime_error("Cannot change norm of a zero vector");
     }
-    x = (x / n) * amount;
-    y = (y / n) * amount;
-    z = (z / n) * amount;
+    scalar_t coeff = amount / n;
+    *this *= coeff;
 }
 
+
+void Vec3::limitNorm(scalar_t maxNorm) {
+    scalar_t n = norm();
+    if (n > maxNorm) {
+        changeNorm(maxNorm);
+    }
+}
+
+
+std::ostream& operator<<(std::ostream& os, const Vec3& vec){
+    os << "(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
+    return os;
+}
