@@ -126,6 +126,10 @@
 #include <TargetConditionals.h>
 #endif
 
+#ifdef IMGUI_IMPL_OPENGL_LOADER_GLAD
+#include "glad.h"
+#endif
+
 // Clang/GCC warnings with -Weverything
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -172,9 +176,11 @@
 //   Typically you would run: python3 ./gl3w_gen.py --output ../imgui/backends/imgui_impl_opengl3_loader.h --ref ../imgui/backends/imgui_impl_opengl3.cpp ./extra_symbols.txt
 // - You can temporarily use an unstripped version. See https://github.com/dearimgui/gl3w_stripped/releases
 // Changes to this backend using new APIs should be accompanied by a regenerated stripped loader version.
+#ifndef IMGUI_IMPL_OPENGL_LOADER_GLAD
 #define IMGL3W_IMPL
 #define IMGUI_IMPL_OPENGL_LOADER_IMGL3W
 #include "imgui_impl_opengl3_loader.h"
+#endif
 #endif
 
 // Vertex arrays are not supported on ES2/WebGL1 unless Emscripten which uses an extension
@@ -287,12 +293,14 @@ bool ImGui_ImplOpenGL3_InitLoader();
 bool ImGui_ImplOpenGL3_InitLoader()
 {
     // Initialize our loader
+#ifndef IMGUI_IMPL_OPENGL_LOADER_GLAD
 #ifdef IMGUI_IMPL_OPENGL_LOADER_IMGL3W
     if (glGetIntegerv == nullptr && imgl3wInit() != 0)
     {
         fprintf(stderr, "Failed to initialize OpenGL loader!\n");
         return false;
     }
+#endif
 #endif
     return true;
 }

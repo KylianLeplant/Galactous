@@ -3,52 +3,35 @@
 #include "Simulation.hpp"
 #include "Galaxy.hpp"
 #include "Particle.hpp"
-#include "glad.h"
-#include <GLFW/glfw3.h>
 #include <cmath>
 
 #include "PointRenderer.hpp"
+#include "GalaxyFactory.hpp"
 #include "Camera.hpp"
-
-
-
+#include "Window.hpp"
+#include "Input.hpp"
+#include "Page.hpp"
 
 int main() {
-    // Initialiser GLFW
-    if (!glfwInit()) {
-        std::cerr << "Erreur lors de l'initialisation de GLFW" << std::endl;
-        return -1;
-    }
+    size_t nbParticles = 3000;
+    scalar_t mass = 100.0f;
+    scalar_t radius = 100.0f;
+    scalar_t thickness = 1.0f;
+    scalar_t starSpeed = 1.0f;
+    //GalaxyPtr galaxy = std::make_shared<Galaxy>(1000, 1000.0f, 5.0f);
 
-    // Version OpenGL souhaitée : 3.3 Core
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    WindowPtr window = std::make_shared<Window>();
 
-    // Créer une fenêtre
-    GLFWwindow* window = glfwCreateWindow(800, 600, "Galactous", nullptr, nullptr);
-    if (!window) {
-        std::cerr << "Erreur de création de la fenêtre GLFW" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
 
-    // Faire de cette fenêtre le contexte courant
-    glfwMakeContextCurrent(window);
 
-    // Charger les fonctions OpenGL avec GLAD
-    if (!gladLoadGL()) {
-        std::cerr << "Erreur d'initialisation de GLAD" << std::endl;
-        return -1;
-    }
+    Page page(window); 
+    page.createGalaxy(nbParticles, mass, radius, thickness, starSpeed);
 
-    std::cout << "OpenGL prêt ! Version : " << glGetString(GL_VERSION) << std::endl;
 
     // Créer le renderer de points 3D
-    PointRenderer pointRenderer;
 
     // Configuration de la couleur de fond
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f); // Fond gris foncé
+    glClearColor(0.149f, 0.153f, 0.2f, 1.0f); // Fond gris foncé
 
     // Variables pour l'animation de la caméra
     float time = 0.0f;
@@ -58,19 +41,53 @@ int main() {
     int frameCount = 0;
     double fpsUpdateInterval = 1.0; // Mettre à jour les FPS toutes les secondes
 
+    page.run();
+    float f = 0.0f;
+    int counter = 0;
+    int testCount = 0;
+    //while (!glfwWindowShouldClose(window->getWindow())) {
+    //    std::cout << "window->getWindow() = " << window->getWindow() << std::endl;
+//
+    //    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //    
+    //    // Activer le test de profondeur
+    //    glEnable(GL_DEPTH_TEST);
+    //    //page.simulation->update();
+    //    //page.printSimulation();
+    //    // Rendu ImGui
+    //    glfwPollEvents();
+    //    if (input.isKeyPressed(Input::KEY_ESCAPE)) {
+    //        glfwSetWindowShouldClose(window->getWindow(), GLFW_TRUE);
+    //    }
+    //    ImGui_ImplGlfw_NewFrame();
+    //    ImGui_ImplOpenGL3_NewFrame();
+    //    ImGui::NewFrame();
+    //    
+    //    ImGui::Begin("Galactous");
+    //    ImGui::Text("Bienvenue dans Galactous !");
+    //    ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+    //    ImGui::ColorEdit3("clear color", (float*)&glClearColor);
+    //    if (ImGui::Button("Button")) {
+    //        counter++;
+    //        std::cout << "counter = " << counter << std::endl;
+    //    }
+    //    ImGui::SameLine();
+    //    ImGui::Text("counter = %d", counter);
+    //    if (testCount / 4000 % 2 == 0) ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    //    ImGui::End();
+    //    
+    //    ImGui::Render();
+    //    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+//
+    //    glfwSwapBuffers(window->getWindow());
+    //}
+/*
+    // Variables pour ImGui
+    float f = 0.0f;
+    int counter = 0;
+    int testCount = 0;
     // Boucle principale
-    while (!glfwWindowShouldClose(window)) {
-        // Calcul des FPS
-        double currentTime = glfwGetTime();
-        frameCount++;
-        
-        // Afficher les FPS toutes les secondes
-        if (currentTime - lastTime >= fpsUpdateInterval) {
-            double fps = frameCount / (currentTime - lastTime);
-            std::cout << "FPS: " << fps << std::endl;
-            frameCount = 0;
-            lastTime = currentTime;
-        }
+    while (!glfwWindowShouldClose(window->getWindow())) {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
@@ -79,26 +96,54 @@ int main() {
 
         // Animation de la caméra (rotation autour de l'origine)
         time += 0.0001f;
-        pointRenderer.orbitCamera(time * 0.1f, 0.3f);
+        //pointRenderer.orbitCamera(time * 0.1f, 0.3f);
 
         // Exemples d'utilisation avec vraies coordonnées 3D
         // Point blanc au centre
-        pointRenderer.drawPoint(0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);
-        
-        // Points colorés dans l'espace 3D
-        pointRenderer.drawPoint(2.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f);  // Rouge à droite
-        pointRenderer.drawPoint(-2.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f); // Vert à gauche
-        pointRenderer.drawPoint(0.0f, 2.0f, 0.0f, 0.0f, 0.0f, 1.0f);  // Bleu en haut
-        pointRenderer.drawPoint(0.0f, -2.0f, 0.0f, 1.0f, 1.0f, 0.0f); // Jaune en bas
-        pointRenderer.drawPoint(0.0f, 0.0f, 2.0f, 1.0f, 0.0f, 1.0f);  // Magenta devant
-        pointRenderer.drawPoint(0.0f, 0.0f, -2.0f, 0.0f, 1.0f, 1.0f); // Cyan derrière
-
-        glfwSwapBuffers(window);
+        //pointRenderer.drawPoint(0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);
+        //
+        //// Points colorés dans l'espace 3D
+        //pointRenderer.drawPoint(2.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f);  // Rouge à droite
+        //pointRenderer.drawPoint(-2.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f); // Vert à gauche
+        //pointRenderer.drawPoint(0.0f, 2.0f, 0.0f, 0.0f, 0.0f, 1.0f);  // Bleu en haut
+        //pointRenderer.drawPoint(0.0f, -2.0f, 0.0f, 1.0f, 1.0f, 0.0f); // Jaune en bas
+        //pointRenderer.drawPoint(0.0f, 0.0f, 2.0f, 1.0f, 0.0f, 1.0f);  // Magenta devant
+        //pointRenderer.drawPoint(0.0f, 0.0f, -2.0f, 0.0f, 1.0f, 1.0f); // Cyan derrière
+        page.simulation->update();
+        page.printSimulation();
+        // Rendu ImGui
         glfwPollEvents();
-    }
+        if (input.isKeyPressed(Input::KEY_ESCAPE)) {
+            glfwSetWindowShouldClose(window->getWindow(), GLFW_TRUE);
+        }
+        ImGui_ImplGlfw_NewFrame();
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui::NewFrame();
+        
+        ImGui::Begin("Galactous");
+        ImGui::Text("Bienvenue dans Galactous !");
+        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+        ImGui::ColorEdit3("clear color", (float*)&glClearColor);
+        if (ImGui::Button("Button")) {
+            counter++;
+            std::cout << "counter = " << counter << std::endl;
+        }
+        ImGui::SameLine();
+        ImGui::Text("counter = %d", counter);
+        if (testCount / 4000 % 2 == 0) ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        ImGui::End();
+        
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-    glfwDestroyWindow(window);
-    glfwTerminate();
+        glfwSwapBuffers(window->getWindow());
+    }*/
+
+    // Nettoyer ImGui
+    //ImGui_ImplOpenGL3_Shutdown();
+    //ImGui_ImplGlfw_Shutdown();
+    //ImGui::DestroyContext();
+
 
     /*
     GalaxyPtr galaxy = std::make_shared<Galaxy>(100000, 1000.0f, 5.0f);
