@@ -1,4 +1,5 @@
 #include "Simulation.hpp"
+#include <algorithm>
 
 
 void Simulation::update(){
@@ -6,7 +7,13 @@ void Simulation::update(){
         for (auto& particle : galaxy->particles){
             particle->acceleration = Vec3(0, 0, 0);
             updateAcceleration(particle, octreeRoot);
-            if (updatePosition(particle)){
+        }
+    }
+    for (auto& galaxy : galaxies) {
+        std::vector<ParticlePtr> to_remove;
+        for (auto& particle : galaxy->particles) {
+            if (!updatePosition(particle)) {
+                to_remove.push_back(particle);
             }
         }
     }
@@ -40,7 +47,8 @@ bool Simulation::updatePosition(ParticlePtr& particle){
     OctreePtr octree = particle->octree.lock();
     if (octree != nullptr){
         if(!octree->contains(particle->pos)){
-            octree->migrateParticleUp(particle);
+            octree->parent.lock()->migrateParticleUp(particle);
+            octree->particle=nullptr;
             return true;
         }
     }

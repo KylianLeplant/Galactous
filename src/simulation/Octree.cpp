@@ -56,14 +56,14 @@ void Octree::subdivide() {
     branches[7] = std::make_shared<Octree>(center + Vec3(quarterWidth,-quarterWidth,-quarterWidth), halfWidth, shared_from_this());
 }
 
-void Octree::migrateParticleUp(ParticlePtr& particle) {
-    if (contains(particle->pos)){
-        addParticle(particle);
+void Octree::migrateParticleUp(ParticlePtr& particleToMigrate) {
+    if (contains(particleToMigrate->pos)){
+        addParticle(particleToMigrate);
     }
     else{
         OctreePtr parentLocked = parent.lock();
         if (parentLocked != nullptr){
-            parentLocked->migrateParticleUp(particle);
+            parentLocked->migrateParticleUp(particleToMigrate);
         }
     }
 }
@@ -107,3 +107,4 @@ void Octree::updateMassCenter(){
     }
     if (mass != 0) massCenter = massCenter / mass;
 }
+

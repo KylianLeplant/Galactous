@@ -40,6 +40,17 @@ struct Octree : public std::enable_shared_from_this<Octree>{
 
     void updateMassCenter();
 
+    size_t size(){
+        if (particle != nullptr) return 1;
+        size_t s = 0;
+        if (branches[0] != nullptr){
+            for (auto& branch : branches){
+                s += branch->size();
+            }
+        }
+        return s;
+    }
+
 };
 
 
