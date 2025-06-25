@@ -7,7 +7,6 @@
 
 
 struct Octree : public std::enable_shared_from_this<Octree>{
-    static int nbParticul;
     Vec3 center;           //position vector of the center of the octree node
     scalar_t width;      //width of the octree node
     Vec3 massCenter;        //center of mass of the octree node

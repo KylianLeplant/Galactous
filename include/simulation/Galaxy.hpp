@@ -14,7 +14,7 @@ struct Galaxy{
 
     Galaxy(Particles particles);
 
-    Galaxy(size_t nbParticules, scalar_t mass_,scalar_t radius);
+    Galaxy(size_t nbParticles, scalar_t mass_,scalar_t radius);
 
     void updateMassCenter();
 

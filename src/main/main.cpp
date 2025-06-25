@@ -153,7 +153,6 @@ int main() {
     octree->updateMassCenter();
     std::cout <<  "galaxy mass : " << galaxy->mass << std::endl;
     std::cout << "octree mass : " <<octree->mass << std::endl;
-    std::cout << "nb particules : " << Octree::nbParticul << std::endl;
     //octree->printOctree();*/
     return 0;
 }

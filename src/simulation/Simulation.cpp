@@ -22,7 +22,8 @@ void Simulation::update(){
 
 void Simulation::updateAcceleration(ParticlePtr& particle, const OctreePtr& octreeRoot){
     if (octreeRoot->particle != nullptr){
-        particle->acceleration += (octreeRoot->particle->pos - particle->pos) * (G * octreeRoot->particle->mass / (particle->pos - octreeRoot->particle->pos).norm()-softening);
+        Vec3 r = octreeRoot->particle->pos - particle->pos;
+        particle->acceleration += r * (G * octreeRoot->particle->mass / r.norm()-softening);
         return;
     }
     if (octreeRoot->branches[0] == nullptr){
@@ -32,12 +33,12 @@ void Simulation::updateAcceleration(ParticlePtr& particle, const OctreePtr& octr
         scalar_t d = (particle->pos - octreeBranch->massCenter).norm() + softening;
         scalar_t s_d = octreeBranch->width / d;
         if (s_d < theta || octreeBranch->particle != nullptr){  // if the octree is a leaf or if the octree is a branch and is quite far from the particle compared to its size, the force is calculated using the octree
-            particle->acceleration += (octreeBranch->massCenter - particle->pos).limitNorm(max_acceleration) * (G * octreeBranch->mass / d);  
+            particle->acceleration += (octreeBranch->massCenter - particle->pos) * (G * octreeBranch->mass / d);  
             continue;
         }
         else updateAcceleration(particle, octreeBranch);
     }
-    particle->acceleration = particle->acceleration.limitNorm(max_acceleration);
+    //particle->acceleration = particle->acceleration.limitNorm(max_acceleration);
 }
 
 bool Simulation::updatePosition(ParticlePtr& particle){

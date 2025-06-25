@@ -1,7 +1,6 @@
 // Update the include path if Octree.hpp is in an 'include' folder relative to your project root
 #include "Octree.hpp"
 
-int Octree::nbParticul = 0;
 
 bool Octree::contains(const Vec3& point) const {
         return (point.x >= center.x - width /2 && point.x < center.x + width / 2 &&
@@ -19,7 +18,6 @@ void Octree::addParticle(ParticlePtr& newParticle) {
     if (particle == nullptr && branches[0] == nullptr) {    //if the octree is a leaf and is empty, we add the particle to the octree
         particle = newParticle;
         particle->octree = shared_from_this();
-        nbParticul++;
         return;
     } else {
         // If the node already contains a particle, we need to subdivide
@@ -29,7 +27,6 @@ void Octree::addParticle(ParticlePtr& newParticle) {
             ParticlePtr oldParticle = particle;
             particle = nullptr;
             addParticle(oldParticle);
-            nbParticul--;
         }
         //find the appropriate branch to add the particle to
         for (auto& branch : branches) {
