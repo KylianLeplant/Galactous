@@ -4,10 +4,13 @@
 #include <vector>
 #include <array>
 
+struct GPUOctree;
 struct Octree;
 using OctreePtr = std::shared_ptr<Octree>;
 using OctreeWeakPtr = std::weak_ptr<Octree>;
 using OctreeBranches = std::array<OctreePtr,8>;
+using GPUOctreePtr = std::shared_ptr<GPUOctree>;
+using GPUOctreeWeakPtr = std::weak_ptr<GPUOctree>;
 
 struct Particle;
 using ParticlePtr = std::shared_ptr<Particle>;

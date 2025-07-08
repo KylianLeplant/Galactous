@@ -2,8 +2,8 @@
 
 # Configuration du compilateur
 CXX = g++
-INCLUDES = -Iinclude -Ivendor/glad -Iexternal/imgui -Iexternal/imgui/backends -Iinclude/display -Iinclude/simulation 
-CXXFLAGS = -g -DIMGUI_IMPL_OPENGL_LOADER_GLAD #-static
+INCLUDES = -Iinclude -Iexternal/vendor/glad -Iexternal/imgui -Iexternal/imgui/backends -Iinclude/display -Iinclude/simulation -Iexternal -IOpenCL
+CXXFLAGS = -g -DIMGUI_IMPL_OPENGL_LOADER_GLAD -std=c++20
 IMGUI_CXXFLAGS = -g -DIMGUI_IMPL_OPENGL_LOADER_GLAD
 
 # Dossiers du projet
@@ -18,7 +18,7 @@ EXECUTABLE = $(TARGET_DIR)/main
 MAIN_SOURCE = $(MAIN_DIR)/main.cpp
 SOURCES = $(SRC_DIR)/types.cpp $(SRC_DIR)/Octree.cpp $(SRC_DIR)/Particle.cpp $(SRC_DIR)/Galaxy.cpp $(SRC_DIR)/GalaxyFactory.cpp $(SRC_DIR)/display/Window.cpp $(SRC_DIR)/display/Page.cpp $(SRC_DIR)/display/Input.cpp $(SRC_DIR)/display/PointRenderer.cpp $(SRC_DIR)/display/Camera.cpp $(SRC_DIR)/simulation/Simulation.cpp
 MAIN_OBJECT = $(TARGET_DIR)/main.o
-OBJECTS = $(TARGET_DIR)/types.o $(TARGET_DIR)/Octree.o $(TARGET_DIR)/Particle.o $(TARGET_DIR)/Galaxy.o $(TARGET_DIR)/GalaxyFactory.o $(TARGET_DIR)/glad.o $(TARGET_DIR)/Window.o $(TARGET_DIR)/Page.o $(TARGET_DIR)/PointRenderer.o $(TARGET_DIR)/Camera.o $(TARGET_DIR)/Simulation.o
+OBJECTS = $(TARGET_DIR)/types.o $(TARGET_DIR)/Octree.o $(TARGET_DIR)/Particle.o $(TARGET_DIR)/Galaxy.o $(TARGET_DIR)/GalaxyFactory.o $(TARGET_DIR)/glad.o $(TARGET_DIR)/Window.o $(TARGET_DIR)/Page.o $(TARGET_DIR)/PointRenderer.o $(TARGET_DIR)/Camera.o $(TARGET_DIR)/Simulation.o $(TARGET_DIR)/ComputeShader.o
 
 # Fichiers ImGui
 IMGUI_SOURCES = $(EXTERNAL_DIR)/imgui/imgui.cpp $(EXTERNAL_DIR)/imgui/imgui_demo.cpp $(EXTERNAL_DIR)/imgui/imgui_draw.cpp $(EXTERNAL_DIR)/imgui/imgui_tables.cpp $(EXTERNAL_DIR)/imgui/imgui_widgets.cpp $(EXTERNAL_DIR)/imgui/backends/imgui_impl_glfw.cpp $(EXTERNAL_DIR)/imgui/backends/imgui_impl_opengl3.cpp
@@ -38,7 +38,7 @@ rebuild: clean $(EXECUTABLE)
 
 # Compilation de l'exécutable final
 $(EXECUTABLE): $(MAIN_OBJECT) $(OBJECTS) $(IMGUI_OBJECTS)
-	$(CXX) $(INCLUDES) $(MAIN_OBJECT) $(OBJECTS) $(IMGUI_OBJECTS) -o $(EXECUTABLE) $(CXXFLAGS) $(LDFLAGS)
+	$(CXX) $(INCLUDES) $(MAIN_OBJECT) $(OBJECTS) $(IMGUI_OBJECTS) -o $(EXECUTABLE) $(CXXFLAGS) $(LDFLAGS) -lOpenCL
 
 # Compilation du fichier main
 $(MAIN_OBJECT): $(MAIN_SOURCE)
@@ -66,9 +66,9 @@ $(TARGET_DIR)/GalaxyFactory.o: $(SIM_DIR)/GalaxyFactory.cpp
 	@mkdir -p $(TARGET_DIR)
 	$(CXX) -c $(INCLUDES) $(SIM_DIR)/GalaxyFactory.cpp -o $(TARGET_DIR)/GalaxyFactory.o $(CXXFLAGS)
 
-$(TARGET_DIR)/glad.o: vendor/glad/glad.c
+$(TARGET_DIR)/glad.o: $(EXTERNAL_DIR)/vendor/glad/glad.c
 	@mkdir -p $(TARGET_DIR)
-	$(CXX) -c -Ivendor/glad vendor/glad/glad.c -o $(TARGET_DIR)/glad.o $(CXXFLAGS)
+	$(CXX) -c -I$(EXTERNAL_DIR)/vendor/glad $(EXTERNAL_DIR)/vendor/glad/glad.c -o $(TARGET_DIR)/glad.o $(CXXFLAGS)
 
 $(TARGET_DIR)/Window.o: $(SRC_DIR)/display/Window.cpp
 	@mkdir -p $(TARGET_DIR)
@@ -90,6 +90,9 @@ $(TARGET_DIR)/Simulation.o: $(SRC_DIR)/simulation/Simulation.cpp
 	@mkdir -p $(TARGET_DIR)
 	$(CXX) -c $(INCLUDES) $(SRC_DIR)/simulation/Simulation.cpp -o $(TARGET_DIR)/Simulation.o $(CXXFLAGS)
 
+$(TARGET_DIR)/ComputeShader.o: $(SRC_DIR)/ComputeShader.cpp
+	@mkdir -p $(TARGET_DIR)
+	$(CXX) -c $(INCLUDES) $(SRC_DIR)/ComputeShader.cpp -o $(TARGET_DIR)/ComputeShader.o $(CXXFLAGS)
 
 
 # Compilation des fichiers ImGui

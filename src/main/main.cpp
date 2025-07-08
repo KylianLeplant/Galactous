@@ -11,9 +11,10 @@
 #include "Window.hpp"
 #include "Input.hpp"
 #include "Page.hpp"
+#include "ComputeShader.hpp"
 
 int main() {
-    size_t nbParticles = 3000;
+    size_t nbParticles =3000;
     scalar_t mass = 100.0f;
     scalar_t radius = 100.0f;
     scalar_t thickness = 1.0f;
@@ -22,7 +23,38 @@ int main() {
 
     WindowPtr window = std::make_shared<Window>();
 
+    ComputeShader::init("shaders/compute/computeShader.cl");    // Création des buffers OpenCL
+    cl::Context context = ComputeShader::getContext();
 
+    std::vector<int> a = {1, 2, 3, 4, 5};
+    std::vector<int> b = {6, 7, 8, 9, 10};
+    std::vector<int> result(5, 0);
+    //cl::Buffer bufferA(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(int) * a.size(), a.data());
+    //cl::Buffer bufferB(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(int) * b.size(), b.data());
+    //cl::Buffer bufferResult(context, CL_MEM_WRITE_ONLY, sizeof(int) * result.size());
+// OU
+    cl::Buffer bufferA = ComputeShader::Buffer(a, Permissions::Read);
+    cl::Buffer bufferB = ComputeShader::Buffer(b, Permissions::Read);
+    cl::Buffer bufferResult = ComputeShader::Buffer(result, Permissions::Write);
+    // Préparer le vector de pointeurs
+    std::vector<cl::Buffer*> buffers = {&bufferA, &bufferB, &bufferResult};
+
+    // Lancer le kernel
+    ComputeShader::launch("add_arrays", buffers, cl::NDRange(a.size()));
+
+    // Après l'exécution du kernel
+    cl::CommandQueue queue = ComputeShader::getQueue();
+    queue.enqueueReadBuffer(bufferResult, CL_TRUE, 0, sizeof(int) * result.size(), result.data());
+
+    // Affichage du résultat
+    for (int i = 0; i < 5; i++) {
+        std::cout << result[i] << std::endl;
+    }
+
+    std::vector<cl::Device> devices = ComputeShader::getListDevices();
+    for (auto& device : devices) {
+        std::cout << "Device: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+    }
 
     Page page(window); 
     page.createGalaxy(nbParticles, mass, radius, thickness, starSpeed);
