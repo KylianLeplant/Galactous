@@ -13,23 +13,48 @@ void Simulation::update(){
         std::vector<ParticlePtr> to_remove;
         for (auto& particle : galaxy->particles) {
             if (!updatePosition(particle)) {
+                //std::cout << "!updatePosition" << std::endl;
                 to_remove.push_back(particle);
+                //std::cout << "toremove.push_back" << std::endl;
             }
         }
     }
+    //std::cout << "pre update masscenter" << std::endl;
     octreeRoot->updateMassCenter();
+    //std::cout << "post update masscenter" << std::endl;
     flattenedOctree.clear();
+    //std::cout << "post flattenedOctree.clear" << std::endl;
     unsigned int index = 0;
+    //std::cout << "pre getFlattenedOctree" << std::endl;
     auto octreeFlat = octreeRoot->getFlattenedOctree(index);
-    //std::cout << "octreeRoot"<<std::endl;
+    //std::cout << "post getFlattenedOctree" << std::endl;
+    //std::cout << "size :" << octreeRoot->size() << std::endl;
+    ////std::cout << "octreeRoot"<<std::endl;
     //octreeRoot->printOctree();
-    //std::cout << "\n\n\noctreeFlat" << std::endl;
+    ////std::cout << "\n\n\noctreeFlat" << std::endl;
     //for (auto& octree : octreeFlat){
-    //    std::cout<< "index: " << octree->index << " mass: " << octree->mass << " center: " << octree->center << " parentIndex: " << octree->parentIndex << " nextSiblingIndex: " << octree->nextSiblingIndex << std::endl;
+    //    //std::cout<< "index: " << octree->index << " mass: " << octree->mass << " center: " << octree->center << " parentIndex: " << octree->parentIndex << " nextSiblingIndex: " << octree->nextSiblingIndex << std::endl;
     //}
+    //std::cout << "pre insert flattenedOctree" << std::endl;
     flattenedOctree.insert(flattenedOctree.end(), octreeFlat.begin(), octreeFlat.end());
 }
 
+void Simulation::updateWithGPU(){
+    std::vector<float*> positions;
+    std::vector<float> masses;
+    std::vector<float*> accelerations;
+    for (auto& galaxy : galaxies){
+        for (auto& particle : galaxy->particles){
+            positions.push_back(particle->pos.convert_float_3());
+            masses.push_back(particle->mass);
+            float* acceleration = new float[3]{0.0f, 0.0f, 0.0f};
+            accelerations.push_back(acceleration);
+        }
+    }
+    cl::Buffer bufferPositions = ComputeShader::Buffer(positions, Permissions::Read);
+    cl::Buffer bufferMasses = ComputeShader::Buffer(masses, Permissions::Read);
+    cl::Buffer bufferAccelerations = ComputeShader::Buffer(accelerations, Permissions::Write);
+}
 
 void Simulation::updateAcceleration(ParticlePtr& particle, const OctreePtr& octreeRoot){
     if (octreeRoot->particle != nullptr){
@@ -41,10 +66,10 @@ void Simulation::updateAcceleration(ParticlePtr& particle, const OctreePtr& octr
         return;
     }
     for (auto& octreeBranch : octreeRoot->branches){
-        scalar_t d = (particle->pos - octreeBranch->gpuOctree->massCenter).norm() + softening;
-        scalar_t s_d = octreeBranch->gpuOctree->width / d;
+        scalar_t d = (particle->pos - octreeBranch->massCenter).norm() + softening;
+        scalar_t s_d = octreeBranch->width / d;
         if (s_d < theta || octreeBranch->particle != nullptr){  // if the octree is a leaf or if the octree is a branch and is quite far from the particle compared to its size, the force is calculated using the octree
-            particle->acceleration += (octreeBranch->gpuOctree->massCenter - particle->pos) * (G * octreeBranch->gpuOctree->mass / d);  
+            particle->acceleration += (octreeBranch->massCenter - particle->pos) * (G * octreeBranch->mass / d);  
             continue;
         }
         else updateAcceleration(particle, octreeBranch);
@@ -63,6 +88,7 @@ bool Simulation::updatePosition(ParticlePtr& particle){
             if (parentLocked != nullptr){
                 octree->particle=nullptr;
                 migrateParticleUp(particle,parentLocked);
+                //std::cout << "return to updatepos" << std::endl;
                 return true;
             }
         }
@@ -72,18 +98,23 @@ bool Simulation::updatePosition(ParticlePtr& particle){
 
 void Simulation::migrateParticleUp(ParticlePtr& particle,OctreePtr& octree){
     if (octree->contains(particle->pos)){
+        //std::cout << "add migrate " << particle->id << " to octree at position " << octree->center << std::endl;
         octree->addParticle(particle);
+        //std::cout << "added";
     }
     else{   
+        //std::cout << "else migrate" << particle->id <<std::endl;
         OctreePtr parentLocked = octree->parent.lock();
 
         if (parentLocked != nullptr){
+            //std::cout << "migrating particle " << particle->id << " to parent octree at position " << parentLocked->center << std::endl;
             migrateParticleUp(particle,parentLocked);
         }
         else{
-            std::cout << "particle is not in the octree" << std::endl;
+            //std::cout << "particle is not in the octree" << std::endl;
         }
     }
+    //std::cout << "END MIGRATION" << std::endl;
 }
 // Function to clean the octree, if the octree is empty and has no parent, the octree is deleted
 void Simulation::cleanOctree(OctreePtr& octree){

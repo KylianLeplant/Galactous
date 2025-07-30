@@ -3,6 +3,7 @@
 #include "types.hpp"
 #include "forward.hpp"
 #include "Galaxy.hpp"
+#include "ComputeShader.hpp"
 
 
 struct Simulation {
@@ -17,7 +18,7 @@ struct Simulation {
     OctreePtr octreeRoot;
 
     Simulation()
-        : galaxies(), octreeRoot(std::make_shared<Octree>(Vec3(0,0,0),1000.0f)) {Octree::root = octreeRoot;}
+        : galaxies(), octreeRoot(std::make_shared<Octree>(Vec3(0,0,0),1000.0f)) {Octree::root = octreeRoot;std::cout<<"Octree root width : "<<octreeRoot->width<<std::endl;}
     Simulation(scalar_t width)
         : galaxies(), octreeRoot(std::make_shared<Octree>(Vec3(0,0,0),width)) {Octree::root = octreeRoot;}
     Simulation(OctreePtr& octreeRoot_)
@@ -29,12 +30,15 @@ struct Simulation {
 
     void update();
 
+    void updateWithGPU();
+
     // Function to update the acceleration of a particle, if the particle is in the octree, the acceleration is calculated using the octree, if the particle is not in the octree, the acceleration is calculated using the particles in the octree.
     void updateAcceleration(ParticlePtr& particle, const OctreePtr& octreeRoot);
 
     // Function to update the position of a particle, if the particle leave its parent octree, it is migrated up to the parent node, if the particle is in the octree, the octree is updated. Returns true if the particle is in a new octree, false otherwise.
     bool updatePosition(ParticlePtr& particle);
    
+
 
     void migrateParticleUp(ParticlePtr& particle,OctreePtr& octree);
 

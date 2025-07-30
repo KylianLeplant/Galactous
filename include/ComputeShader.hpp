@@ -37,5 +37,11 @@ class ComputeShader {
             void* ptr = (flags & CL_MEM_COPY_HOST_PTR) ? data.data() : nullptr;
             return cl::Buffer(context, flags, data.size() * sizeof(T), ptr);
         }
+        template <typename T>
+        static cl::Buffer Buffer(T* data, Permissions permissions = Permissions::All){
+            cl_mem_flags flags = static_cast<cl_mem_flags>(permissions);
+            void* ptr = (flags & CL_MEM_COPY_HOST_PTR) ? data : nullptr;
+            return cl::Buffer(context, flags, sizeof(T), ptr);
+        }
 };
 #endif

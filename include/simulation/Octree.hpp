@@ -21,10 +21,10 @@
 struct Octree : public std::enable_shared_from_this<Octree>{
     static OctreePtr root;
     GPUOctreePtr gpuOctree;
-    //Vec3 center;  //center of the octree node
-    //scalar_t width; //width of the octree node
-    //Vec3 massCenter; //center of mass of the octree node
-    //scalar_t mass; //total mass of the octree node
+    Vec3 center;  //center of the octree node
+    scalar_t width; //width of the octree node
+    Vec3 massCenter; //center of mass of the octree node
+    scalar_t mass; //total mass of the octree node
     
         
     OctreeBranches branches;    //children of the octree node
@@ -32,10 +32,10 @@ struct Octree : public std::enable_shared_from_this<Octree>{
     ParticlePtr particle; //particle contained in the octree node, if any
 
     Octree(const Vec3& center, scalar_t width)
-        : gpuOctree(std::make_shared<GPUOctree>(center, width)), branches(), parent(), particle(nullptr) {}
+        : center(center),width(width),gpuOctree(std::make_shared<GPUOctree>(center.convert_float_3(),width)),massCenter(0,0,0),mass(0), branches(), parent(), particle(nullptr) {}
 
     Octree(const Vec3& center, scalar_t width, OctreeWeakPtr parent)
-        : gpuOctree(std::make_shared<GPUOctree>(center, width)), branches(), parent(parent), particle(nullptr) {}
+        : center(center),width(width),gpuOctree(std::make_shared<GPUOctree>(center.convert_float_3(),width)),massCenter(0,0,0),mass(0),branches(), parent(parent), particle(nullptr) {}
 
 
     void migrateParticleUp(ParticlePtr& particle);
@@ -66,6 +66,8 @@ struct Octree : public std::enable_shared_from_this<Octree>{
     void mergeBranches();
 
     std::vector<GPUOctreePtr> getFlattenedOctree(unsigned int& index);
+
+    void updateGPUOctree();
 };
 
 using OctreePtr = std::shared_ptr<Octree>;

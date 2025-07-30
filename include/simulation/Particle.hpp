@@ -26,6 +26,8 @@ struct Particle{
 
     TypeParticle type; //type of the particule
 
+    Particle(scalar_t mass_, const Vec3& pos_)
+        : id(nextId), mass(mass_), pos(pos_), velocity(Vec3()), acceleration(Vec3()), octree(), type(TypeParticle::STAR) {nextId++;}
     Particle(scalar_t mass, const Vec3& pos, const Vec3& velocity, TypeParticle type, OctreeWeakPtr octree = OctreeWeakPtr())
         : id(nextId), mass(mass), pos(pos), velocity(velocity), acceleration(Vec3()), octree(octree), type(type) {nextId++;}
     

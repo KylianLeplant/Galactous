@@ -45,6 +45,9 @@ struct Vec3{
 
     // if the norm of the vector is more than maxNorm, set the norm to maxNorm
     Vec3 limitNorm(scalar_t maxNorm) const;
+
+    //convert to float[3]
+    float* convert_float_3() const;
 };
 
 std::ostream& operator<<(std::ostream& os, const Vec3& vec);

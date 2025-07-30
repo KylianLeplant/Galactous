@@ -78,3 +78,11 @@ std::ostream& operator<<(std::ostream& os, const Vec3& vec){
     os << "(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
     return os;
 }
+
+float* Vec3::convert_float_3() const {
+    float* list = new float[3];
+    list[0] = x;
+    list[1] = y;    
+    list[2] = z;
+    return list;
+}
