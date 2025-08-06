@@ -8,7 +8,6 @@
 using scalar_t = float;
 
 using id_t = uint32_t;
-
 struct Vec3{
     scalar_t x, y ,z;   //coordinates of the vector
     // Default constructor initializes to zero
@@ -49,7 +48,6 @@ struct Vec3{
     //convert to float[3]
     float* convert_float_3() const;
 };
-
 std::ostream& operator<<(std::ostream& os, const Vec3& vec);
 
 

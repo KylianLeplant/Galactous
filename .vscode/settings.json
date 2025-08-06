@@ -64,7 +64,11 @@
         "unordered_map": "cpp",
         "xhash": "cpp",
         "xtree": "cpp",
-        "*.cl": "cpp"
+        "*.cl": "cpp",
+        "chrono": "cpp",
+        "forward_list": "cpp",
+        "iomanip": "cpp",
+        "sstream": "cpp"
     },
     "makefile.makefilePath": "C:\\Users\\kylia\\OneDrive\\Bureau\\Galactous\\Makefile"
 }

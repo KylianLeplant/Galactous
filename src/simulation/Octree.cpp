@@ -165,23 +165,33 @@ std::vector<GPUOctreePtr> Octree::getFlattenedOctree(unsigned int& index){
     else{
         updateGPUOctree();
         gpuOctree->index = index;    
+        //gpuOctree->parentIndex = 0;
+        gpuOctree->nextSiblingIndex = 0;
         flattenedOctree.push_back(gpuOctree); 
         //std::cout << "gpuOctree index: " << flattenedOctree.back()->index << std::endl << std::endl;
-        index++;          
+        index++;
+        std::vector<unsigned> tabIndex;          
         for (auto& branch : branches){
             if (branch == nullptr) break;
             if (branch->mass != 0){
+                tabIndex.push_back(flattenedOctree.size());
                 auto branchFlattened = branch->getFlattenedOctree(index);
                 flattenedOctree.insert(flattenedOctree.end(), branchFlattened.begin(), branchFlattened.end());
+                
+                //std::cout << "append " << branch->gpuOctree->index << std::endl;
             }
         }
-        GPUOctreePtr branchGPUOctree = nullptr;
-        for (auto& branch : branches){
-            if (branch == nullptr) break;
-            else if (branch->mass != 0){
-                if (branchGPUOctree != nullptr) branch->gpuOctree->nextSiblingIndex = branch->gpuOctree->index;
-                branchGPUOctree = branch->gpuOctree;
-                branch->gpuOctree->parentIndex = index;
+        unsigned branchGPUOctreeIndex = 0;
+        //std::cout << "size tabIndex : " << tabIndex.size() << std::endl;
+        for (unsigned i : tabIndex){
+            //std::cout << "for tabIndex" << i << std::endl;
+            if (i == 0) break;
+            //std::cout << "post if" << std::endl;
+            if (flattenedOctree[i]->mass != 0){
+                //std::cout << "else if" << std::endl;
+                if (branchGPUOctreeIndex != 0) flattenedOctree[branchGPUOctreeIndex]->nextSiblingIndex = flattenedOctree[i]->index;
+                branchGPUOctreeIndex = i;
+                flattenedOctree[i]->parentIndex = gpuOctree->index;
             } 
         }
         return flattenedOctree;
@@ -190,12 +200,8 @@ std::vector<GPUOctreePtr> Octree::getFlattenedOctree(unsigned int& index){
 }
 
 void Octree::updateGPUOctree() {
-    gpuOctree->center[0] = center.x;
-    gpuOctree->center[1] = center.y;
-    gpuOctree->center[2] = center.z;
-    gpuOctree->massCenter[0] = massCenter.x;
-    gpuOctree->massCenter[1] = massCenter.y;
-    gpuOctree->massCenter[2] = massCenter.z;
+    gpuOctree->center = center;
+    gpuOctree->massCenter = massCenter;
     gpuOctree->mass = mass;
     gpuOctree->width = width;
 }

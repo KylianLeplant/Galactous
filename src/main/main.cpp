@@ -62,6 +62,7 @@ void test2() {
     }
 }
 void test3() {
+    std::cout << "sizeof GPUOctree = " << sizeof(GPUOctree) << std::endl;
     ComputeShader::init("shaders/compute/computeShader.cl");    // Création des buffers OpenCL
     cl::Context context = ComputeShader::getContext();
     Particles particles;
@@ -75,18 +76,23 @@ void test3() {
     octree->updateMassCenter();
     unsigned int index = 0;
     std::vector<GPUOctreePtr> flattenedOctree = octree->getFlattenedOctree(index);
+    
+    const uint8_t* ptr = reinterpret_cast<const uint8_t*>(&flattenedOctree[0]);
+    for (size_t i = 0; i < sizeof(flattenedOctree[0]); ++i) printf("%02X ", ptr[i]);
+    //for (int i=0;i< flattenedOctree.size(); i++) {
+    //    std::cout << "flattenedOctree[" << i << "] =    pos : " << flattenedOctree[i]->center << ", mass = " << flattenedOctree[i]->mass << ", index : " << flattenedOctree[i]->index << ", parentIndex : " << flattenedOctree[i]->parentIndex << ", nextSiblingIndex : " << flattenedOctree[i]->nextSiblingIndex << ", massCenter : " << flattenedOctree[i]->massCenter << std::endl;
+    //}
     unsigned int sizeOctree = flattenedOctree.size();
     float softening = 1e-4f;
     float G = 6.67430e-11f; // Gravitational constant
 
     std::vector<Vec3> positions;
     std::vector<float> masses;
-    std::vector<Vec3> accelerations;
     for (auto& particle : particles){
-            positions.push_back(particle->pos);
-            masses.push_back(particle->mass);
-            accelerations.push_back(Vec3(0.0f, 0.0f, 0.0f));
+        positions.push_back(particle->pos);
+        masses.push_back(particle->mass);
     }
+    std::vector<Vec3> accelerations(positions.size(), Vec3(0.0f, 0.0f, 0.0f));
     
     cl::Buffer bufferPositions = ComputeShader::Buffer(positions, Permissions::Read);
     cl::Buffer bufferMasses = ComputeShader::Buffer(masses, Permissions::Read);
@@ -100,11 +106,121 @@ void test3() {
     ComputeShader::launch("accelerations", buffers, cl::NDRange(positions.size()));
     cl::CommandQueue queue = ComputeShader::getQueue();
     queue.enqueueReadBuffer(bufferAccelerations, CL_TRUE, 0, sizeof(Vec3) * accelerations.size(), accelerations.data());
-    for (int i = 0; i < 2; i++) {
-        std::cout<< "accelerations[" << i << "] = " << accelerations[i] << std::endl;
-    }
+    //for (int i = 0; i < 2; i++) {
+    //    std::cout<< "accelerations[" << i << "] = " << accelerations[i] << std::endl;
+    //}
 }
 
+void test4() {
+    std::cout << "sizeof GPUOctree = " << sizeof(GPUOctree) << std::endl;
+    ComputeShader::init("shaders/compute/computeShader.cl");    // Création des buffers OpenCL
+    cl::Context context = ComputeShader::getContext();
+    Particles particles;
+    OctreePtr octree = std::make_shared<Octree>(Vec3(0.0f, 0.0f, 0.0f), 3.0f);
+    for (int i = 0; i < 1; ++i) {
+        ParticlePtr particle = std::make_shared<Particle>(1.0f, Vec3(i, 0, 0));
+        particles.push_back(particle);
+    }
+    octree->fillOctree(particles);
+    octree->printOctree();
+    octree->updateMassCenter();
+    unsigned int index = 0;
+    std::vector<GPUOctreePtr> flattenedOctree = octree->getFlattenedOctree(index);
+    
+    //const uint8_t* ptr = reinterpret_cast<const uint8_t*>(&flattenedOctree[0]);
+    //for (size_t i = 0; i < sizeof(flattenedOctree[0]); ++i) printf("%02X ", ptr[i]);
+    
+    
+
+    cl::Buffer bufferOctree = ComputeShader::Buffer(flattenedOctree, Permissions::Read);
+
+    std::vector<cl::Buffer*> buffers = {&bufferOctree};
+    ComputeShader::launch("testGPUOctree", buffers, cl::NDRange(flattenedOctree.size()));
+    //cl::CommandQueue queue = ComputeShader::getQueue();
+    //queue.enqueueReadBuffer(bufferAccelerations, CL_TRUE, 0, sizeof(Vec3) * accelerations.size(), accelerations.data());
+    //for (int i = 0; i < 2; i++) {
+    //    std::cout<< "accelerations[" << i << "] = " << accelerations[i] << std::endl;
+    //}
+}
+
+void test5(){
+    std::cout << "sizeof GPUOctree = " << sizeof(GPUOctree) << std::endl;
+    ComputeShader::init("shaders/compute/computeShader.cl");    // Création des buffers OpenCL
+    cl::Context context = ComputeShader::getContext();
+    Particles particles;
+    OctreePtr octree = std::make_shared<Octree>(Vec3(0.0f, 0.0f, 0.0f), 3.0f);
+    for (int i = 0; i < 2; ++i) {
+        ParticlePtr particle = std::make_shared<Particle>(1.0f, Vec3(i, 0, 0));
+        particles.push_back(particle);
+    }
+    octree->fillOctree(particles);
+    std::cout << "size particles : " << particles.size() << std::endl;
+    octree->printOctree();
+    octree->updateMassCenter();
+    unsigned int index = 0;
+    std::vector<GPUOctreePtr> flattenedOctree = octree->getFlattenedOctree(index);
+    //for (int i=0;i< flattenedOctree.size(); i++) {
+    //    std::cout << "flattenedOctree[" << i << "] =    pos : " << flattenedOctree[i]->center << ", mass = " << flattenedOctree[i]->mass << ", index : " << flattenedOctree[i]->index << ", parentIndex : " << flattenedOctree[i]->parentIndex << ", nextSiblingIndex : " << flattenedOctree[i]->nextSiblingIndex << ", massCenter : " << flattenedOctree[i]->massCenter << std::endl;
+    //}
+    //for (int i=0;i< flattenedOctree.size(); i++) {
+    //    std::cout << "flattenedOctree[" << i << "] =    pos : " << flattenedOctree[i]->center << ", mass = " << flattenedOctree[i]->mass << ", index : " << flattenedOctree[i]->index << ", parentIndex : " << flattenedOctree[i]->parentIndex << ", nextSiblingIndex : " << flattenedOctree[i]->nextSiblingIndex << ", massCenter : " << flattenedOctree[i]->massCenter << std::endl;
+    //}
+    unsigned int sizeOctree = flattenedOctree.size();
+    float softening = 1e-4f;
+    float G = 1;//6.67430e-11f; // Gravitational constant
+
+    std::vector<Vec3> positions;
+    std::vector<float> masses;
+    for (auto& particle : particles){
+        if (positions.size()>0) { //A SUPPRIMER
+            break;
+        }
+        positions.push_back(particle->pos);
+        masses.push_back(particle->mass);
+    }
+    
+    std::vector<Vec3> accelerations(positions.size(), Vec3(0.0f, 0.0f, 0.0f));
+    std::vector<Vec3> octreeCenters;
+    std::vector<float> octreeWidths;
+    std::vector<Vec3> octreeMassCenters;
+    std::vector<float> octreeMasses;
+    std::vector<unsigned int> octreeNextSiblingIndexes;
+    std::vector<unsigned int> octreeParentIndexes;
+    std::vector<unsigned int> octreeIndexes;
+    for (auto& gpuOctree : flattenedOctree) {
+        octreeCenters.push_back(gpuOctree->center);
+        octreeWidths.push_back(gpuOctree->width);
+        std::cout << "width : " << octreeWidths[octreeWidths.size()-1] << std::endl;
+        octreeMasses.push_back(gpuOctree->mass);
+        octreeMassCenters.push_back(gpuOctree->massCenter);
+        octreeNextSiblingIndexes.push_back(gpuOctree->nextSiblingIndex);
+        octreeParentIndexes.push_back(gpuOctree->parentIndex);
+        octreeIndexes.push_back(gpuOctree->index);
+    }
+
+    
+    cl::Buffer bufferPositions = ComputeShader::Buffer(positions, Permissions::Read);
+    cl::Buffer bufferMasses = ComputeShader::Buffer(masses, Permissions::Read);
+    cl::Buffer bufferAccelerations = ComputeShader::Buffer(accelerations, Permissions::Write);
+    cl::Buffer bufferSoftening = ComputeShader::Buffer(&softening, Permissions::Read);
+    cl::Buffer bufferG = ComputeShader::Buffer(&G, Permissions::Read);
+    cl::Buffer bufferOctreeCenters = ComputeShader::Buffer(octreeCenters, Permissions::Read);
+    cl::Buffer bufferOctreeWidths = ComputeShader::Buffer(octreeWidths, Permissions::Read);
+    cl::Buffer bufferOctreeMassCenters = ComputeShader::Buffer(octreeMassCenters, Permissions::Read);
+    cl::Buffer bufferOctreeMasses = ComputeShader::Buffer(octreeMasses, Permissions::Read);
+    cl::Buffer bufferOctreeNextSiblingIndexes = ComputeShader::Buffer(octreeNextSiblingIndexes, Permissions::Read);
+    cl::Buffer bufferOctreeParentIndexes = ComputeShader::Buffer(octreeParentIndexes, Permissions::Read);
+    cl::Buffer bufferOctreeIndexes = ComputeShader::Buffer(octreeIndexes, Permissions::Read);
+    cl::Buffer bufferSizeOctree = ComputeShader::Buffer(&sizeOctree, Permissions::Read);
+
+    std::vector<cl::Buffer*> buffers = {&bufferPositions, &bufferMasses, &bufferAccelerations, &bufferSoftening, &bufferG, &bufferOctreeCenters, &bufferOctreeWidths, &bufferOctreeMassCenters, &bufferOctreeMasses, &bufferOctreeNextSiblingIndexes, &bufferOctreeParentIndexes, &bufferOctreeIndexes, &bufferSizeOctree};
+    ComputeShader::launch("accelerations", buffers, cl::NDRange(positions.size()));
+    cl::CommandQueue queue = ComputeShader::getQueue();
+    queue.enqueueReadBuffer(bufferAccelerations, CL_TRUE, 0, sizeof(Vec3) * accelerations.size(), accelerations.data());
+    //for (int i = 0; i < 2; i++) {
+    //    std::cout<< "accelerations[" << i << "] = " << accelerations[i] << std::endl;
+    //}
+}
 
 int main() {
     std::cout << sizeof(Vec3) << std::endl;
@@ -117,12 +233,12 @@ int main() {
 
     WindowPtr window = std::make_shared<Window>();
 
-    test3();
+    //test5();
 
     std::vector<cl::Device> devices = ComputeShader::getListDevices();
-    for (auto& device : devices) {
-        std::cout << "Device: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-    }
+    //for (auto& device : devices) {
+    //    std::cout << "Device: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+    //}
 
     Page page(window); 
     page.createGalaxy(nbParticles, mass, radius, thickness, starSpeed);

@@ -32,10 +32,10 @@ struct Octree : public std::enable_shared_from_this<Octree>{
     ParticlePtr particle; //particle contained in the octree node, if any
 
     Octree(const Vec3& center, scalar_t width)
-        : center(center),width(width),gpuOctree(std::make_shared<GPUOctree>(center.convert_float_3(),width)),massCenter(0,0,0),mass(0), branches(), parent(), particle(nullptr) {}
+        : center(center),width(width),gpuOctree(std::make_shared<GPUOctree>(center,width)),massCenter(0,0,0),mass(0), branches(), parent(), particle(nullptr) {}
 
     Octree(const Vec3& center, scalar_t width, OctreeWeakPtr parent)
-        : center(center),width(width),gpuOctree(std::make_shared<GPUOctree>(center.convert_float_3(),width)),massCenter(0,0,0),mass(0),branches(), parent(parent), particle(nullptr) {}
+        : center(center),width(width),gpuOctree(std::make_shared<GPUOctree>(center,width)),massCenter(0,0,0),mass(0),branches(), parent(parent), particle(nullptr) {}
 
 
     void migrateParticleUp(ParticlePtr& particle);
@@ -73,8 +73,8 @@ struct Octree : public std::enable_shared_from_this<Octree>{
 using OctreePtr = std::shared_ptr<Octree>;
 using OctreeWeakPtr = std::weak_ptr<Octree>;
 
-using GPUOctreePtr = std::shared_ptr<GPUOctree>;
-using GPUOctreeWeakPtr = std::weak_ptr<GPUOctree>;
+//using GPUOctreePtr = std::shared_ptr<GPUOctree>;
+//using GPUOctreeWeakPtr = std::weak_ptr<GPUOctree>;
 
 
 

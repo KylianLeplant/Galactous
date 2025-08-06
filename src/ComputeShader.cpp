@@ -74,8 +74,12 @@ void ComputeShader::launch(const std::string& function, const std::vector<cl::Bu
 
 	for (int i = 0; i < buffers.size(); i++)
 		kernel.setArg(i, *(buffers[i]));
-
-	queue = cl::CommandQueue(context, device);
+	cl_int err;
+	queue = cl::CommandQueue(context, device, 0, &err);
+	if (err != CL_SUCCESS) {
+    	std::cerr << "Erreur lors de la création de la CommandQueue : " << err << std::endl;
+    	throw std::runtime_error("Failed to create CommandQueue");
+	}
 	queue.enqueueNDRangeKernel(kernel, cl::NullRange, global, local);
 }
 
