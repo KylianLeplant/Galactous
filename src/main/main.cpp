@@ -12,7 +12,7 @@
 #include "Input.hpp"
 #include "Page.hpp"
 #include "ComputeShader.hpp"
-void test1() {
+/*void test1() {
     ComputeShader::init("shaders/compute/computeShader.cl");    // Création des buffers OpenCL
     cl::Context context = ComputeShader::getContext();
 
@@ -220,7 +220,7 @@ void test5(){
     //for (int i = 0; i < 2; i++) {
     //    std::cout<< "accelerations[" << i << "] = " << accelerations[i] << std::endl;
     //}
-}
+}*/
 
 int main() {
     std::cout << sizeof(Vec3) << std::endl;

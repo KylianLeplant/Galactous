@@ -5,6 +5,7 @@
 #include "forward.hpp"  // Include forward declarations for Octree and Particle
 #include "Particle.hpp"
 #include "GPUOctree.h"
+#include "FlattenedOctree.hpp"
 
 
 //struct GPUOctree{
@@ -65,7 +66,7 @@ struct Octree : public std::enable_shared_from_this<Octree>{
 
     void mergeBranches();
 
-    std::vector<GPUOctreePtr> getFlattenedOctree(unsigned int& index);
+    void getFlattenedOctree(FlattenedOctree& flattenedOctree, const unsigned int parentIndex = 0);
 
     void updateGPUOctree();
 };

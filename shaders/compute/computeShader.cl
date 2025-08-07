@@ -44,7 +44,7 @@ float norm(Vec3 vect){
     return sqrt(pow(vect.x,2)+pow(vect.y,2)+ pow(vect.z,2));
 }
 
-__kernel void accelerations(__global const Vec3* positions, __global const float* masses, __global Vec3* accelerations,  __global const float* softening, __global const float* G, __global const Vec3* octreeCenters, __global const float* octreeWidths, __global const Vec3* octreeMassCenters, __global const float* octreeMasses, __global const unsigned* octreeNextSiblingIndexes, __global const unsigned* octreeParentIndexes, __global const unsigned* octreeIndexes, __global const unsigned* sizeOctree) {
+__kernel void accelerations(__global const Vec3* positions, __global const float* masses, __global Vec3* accelerations,  __global const float* softening, __global const float* G, __global const Vec3* octreeCenters, __global const float* octreeWidths, __global const Vec3* octreeMassCenters, __global const float* octreeMasses, __global const unsigned* octreeParentIndexes, __global const unsigned* octreeNextSiblingIndexes, __global const unsigned* sizeOctree) { //, __global const unsigned* octreeIndexes
     //printf("hello");
     int gid = get_global_id(0);
     //printf("Index: %X \ncenter=%X,%X,%X\nwidth: %X\nmassCenter: %X,%X,%X\nmass: %X\nnextSiblingIndex: %X\nparentIndex: %X\n", octreeList[gid].index, octreeList[gid].center.x, octreeList[gid].center.y, octreeList[gid].center.z, octreeList[gid].width, octreeList[gid].massCenter.x, octreeList[gid].massCenter.y, octreeList[gid].massCenter.z, octreeList[gid].mass, octreeList[gid].nextSiblingIndex, octreeList[gid].parentIndex);
@@ -56,6 +56,8 @@ __kernel void accelerations(__global const Vec3* positions, __global const float
     //printf("comparaison : idOctree = %d  sizeOctree : %d\n", idOctree, *sizeOctree);
     char isFinished = false;
     unsigned nb = 0;
+
+    
     while (idOctree < *sizeOctree && !isFinished) {
         nb++;
         //printf("nb = %d\n", nb);
@@ -66,7 +68,7 @@ __kernel void accelerations(__global const Vec3* positions, __global const float
         float octreeMass = octreeMasses[idOctree];
         unsigned nextSiblingIndex = octreeNextSiblingIndexes[idOctree];
         unsigned parentIndex = octreeParentIndexes[idOctree];
-        unsigned index = octreeIndexes[idOctree];
+        //unsigned index = octreeIndexes[idOctree];
         //printf("idOctree : %d  parentIndex : %d  nextSiblingIndex : %d\n",idOctree, parentIndex, nextSiblingIndex);
         //printf("\ngid = %d\n", gid);
         //printf("AZYparticle : \n  mass : %f, pos : %f, %f, %f\n", mass, position.x, position.y, position.z);

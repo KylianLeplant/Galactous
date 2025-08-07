@@ -3,6 +3,7 @@
 #include <chrono>
 
 void Simulation::update(){
+    std::cout << "UPDATE" << std::endl;
     //for (auto& galaxy : galaxies){
     //    for (auto& particle : galaxy->particles){
     //        particle->acceleration = Vec3(0, 0, 0);
@@ -56,6 +57,8 @@ void Simulation::update(){
 }
 
 void Simulation::updateWithGPU(){
+    auto superstart = std::chrono::high_resolution_clock::now();
+    std::cout << "UPDATE WITH GPU" << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
     ComputeShader::init("shaders/compute/computeShader.cl");    // Création des buffers OpenCL
     
@@ -69,39 +72,44 @@ void Simulation::updateWithGPU(){
         }
     }
     unsigned int index = 0;
-    //auto start = std::chrono::high_resolution_clock::now();
-    std::vector<GPUOctreePtr> flattenedOctree = octreeRoot->getFlattenedOctree(index);
-    //auto end = std::chrono::high_resolution_clock::now();
-    //std::chrono::duration<double> elapsed = end - start;
-    //std::cout << "\nflattenedOctree : " << elapsed.count() << std::endl;
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    std::cout << "\nPartie 1 : " << elapsed.count() << std::endl;
+    start = std::chrono::high_resolution_clock::now();
+    FlattenedOctree flattenedOctree;
+    octreeRoot->getFlattenedOctree(flattenedOctree);
+    
+    end = std::chrono::high_resolution_clock::now();
+    elapsed = end - start;
+    std::cout << "\nflattenedOctree : " << elapsed.count() << std::endl;
     unsigned int sizeOctree = flattenedOctree.size();
     float softening = 1e-2f;
     float G = 6.67e-10f; // Gravitational constant
 
     std::vector<Vec3> accelerations(positions.size(), Vec3(0.0f, 0.0f, 0.0f));
-    std::vector<Vec3> octreeCenters;
-    std::vector<float> octreeWidths;
-    std::vector<Vec3> octreeMassCenters;
-    std::vector<float> octreeMasses;
-    std::vector<unsigned int> octreeNextSiblingIndexes;
-    std::vector<unsigned int> octreeParentIndexes;
-    std::vector<unsigned int> octreeIndexes;
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed = end - start;
-    std::cout << "\nPartie 1 : " << elapsed.count() << std::endl;
-    start = std::chrono::high_resolution_clock::now();
-    for (auto& gpuOctree : flattenedOctree) {
-        octreeCenters.push_back(gpuOctree->center);
-        octreeWidths.push_back(gpuOctree->width);
-        octreeMasses.push_back(gpuOctree->mass);
-        octreeMassCenters.push_back(gpuOctree->massCenter);
-        octreeNextSiblingIndexes.push_back(gpuOctree->nextSiblingIndex);
-        octreeParentIndexes.push_back(gpuOctree->parentIndex);
-        octreeIndexes.push_back(gpuOctree->index);
-    }
+    //std::vector<Vec3> octreeCenters;
+    //std::vector<float> octreeWidths;
+    //std::vector<Vec3> octreeMassCenters;
+    //std::vector<float> octreeMasses;
+    //std::vector<unsigned int> octreeNextSiblingIndexes;
+    //std::vector<unsigned int> octreeParentIndexes;
+    //std::vector<unsigned int> octreeIndexes;
     end = std::chrono::high_resolution_clock::now();
     elapsed = end - start;
-    std::cout << "\nPartie 2 (octree) : " << elapsed.count() << std::endl;
+    std::cout << "\nPartie 2 : " << elapsed.count() << std::endl;
+    //start = std::chrono::high_resolution_clock::now();
+    //for (auto& gpuOctree : flattenedOctree) {
+    //    octreeCenters.push_back(gpuOctree->center);
+    //    octreeWidths.push_back(gpuOctree->width);
+    //    octreeMasses.push_back(gpuOctree->mass);
+    //    octreeMassCenters.push_back(gpuOctree->massCenter);
+    //    octreeNextSiblingIndexes.push_back(gpuOctree->nextSiblingIndex);
+    //    octreeParentIndexes.push_back(gpuOctree->parentIndex);
+    //    octreeIndexes.push_back(gpuOctree->index);
+    //}
+    //end = std::chrono::high_resolution_clock::now();
+    //elapsed = end - start;
+    //std::cout << "\nPartie 2 (octree) : " << elapsed.count() << std::endl;
 
     start = std::chrono::high_resolution_clock::now();
     cl::Buffer bufferPositions = ComputeShader::Buffer(positions, Permissions::Read);
@@ -109,22 +117,22 @@ void Simulation::updateWithGPU(){
     cl::Buffer bufferAccelerations = ComputeShader::Buffer(accelerations, Permissions::Write);
     cl::Buffer bufferSoftening = ComputeShader::Buffer(&softening, Permissions::Read);
     cl::Buffer bufferG = ComputeShader::Buffer(&G, Permissions::Read);
-    cl::Buffer bufferOctreeCenters = ComputeShader::Buffer(octreeCenters, Permissions::Read);
-    cl::Buffer bufferOctreeWidths = ComputeShader::Buffer(octreeWidths, Permissions::Read);
-    cl::Buffer bufferOctreeMassCenters = ComputeShader::Buffer(octreeMassCenters, Permissions::Read);
-    cl::Buffer bufferOctreeMasses = ComputeShader::Buffer(octreeMasses, Permissions::Read);
-    cl::Buffer bufferOctreeNextSiblingIndexes = ComputeShader::Buffer(octreeNextSiblingIndexes, Permissions::Read);
-    cl::Buffer bufferOctreeParentIndexes = ComputeShader::Buffer(octreeParentIndexes, Permissions::Read);
-    cl::Buffer bufferOctreeIndexes = ComputeShader::Buffer(octreeIndexes, Permissions::Read);
+    cl::Buffer bufferOctreeCenters = ComputeShader::Buffer(flattenedOctree.centers, Permissions::Read);
+    cl::Buffer bufferOctreeWidths = ComputeShader::Buffer(flattenedOctree.widths, Permissions::Read);
+    cl::Buffer bufferOctreeMassCenters = ComputeShader::Buffer(flattenedOctree.massCenters, Permissions::Read);
+    cl::Buffer bufferOctreeMasses = ComputeShader::Buffer(flattenedOctree.masses, Permissions::Read);
+    cl::Buffer bufferOctreeNextSiblingIndexes = ComputeShader::Buffer(flattenedOctree.nextSiblingIndices, Permissions::Read);
+    cl::Buffer bufferOctreeParentIndexes = ComputeShader::Buffer(flattenedOctree.parentIndices, Permissions::Read);
+    //cl::Buffer bufferOctreeIndexes = ComputeShader::Buffer(octreeIndexes, Permissions::Read);
     cl::Buffer bufferSizeOctree = ComputeShader::Buffer(&sizeOctree, Permissions::Read);
 
     
-    std::vector<cl::Buffer*> buffers = {&bufferPositions, &bufferMasses, &bufferAccelerations, &bufferSoftening, &bufferG, &bufferOctreeCenters, &bufferOctreeWidths, &bufferOctreeMassCenters, &bufferOctreeMasses, &bufferOctreeNextSiblingIndexes, &bufferOctreeParentIndexes, &bufferOctreeIndexes, &bufferSizeOctree};
+    std::vector<cl::Buffer*> buffers = {&bufferPositions, &bufferMasses, &bufferAccelerations, &bufferSoftening, &bufferG, &bufferOctreeCenters, &bufferOctreeWidths, &bufferOctreeMassCenters, &bufferOctreeMasses, &bufferOctreeParentIndexes, &bufferOctreeNextSiblingIndexes, &bufferSizeOctree}; //, &bufferOctreeIndexes
     end = std::chrono::high_resolution_clock::now();
     elapsed = end - start;
     std::cout << "\nPartie 3 (buffers) : " << elapsed.count() << std::endl;
 
-   
+    std::cout << "sizeOctree : " << sizeOctree << std::endl;
     //std::cout << "pre launch" << std::endl;
     start = std::chrono::high_resolution_clock::now();
     ComputeShader::launch("accelerations", buffers, cl::NDRange(positions.size()));
@@ -154,10 +162,14 @@ void Simulation::updateWithGPU(){
     }
     end = std::chrono::high_resolution_clock::now();
     elapsed = end - start;
-    std::cout << "updateAcceleration : " << elapsed.count() << std::endl;
+        
     //for (int i = 0; i < 2; i++) {
     //    std::cout<< "accelerations[" << i << "] = " << accelerations[i] << std::endl;
     //}
+    
+    auto superend = std::chrono::high_resolution_clock::now();
+    elapsed = superend-superstart;
+    std::cout << "total : " << elapsed.count() << std::endl;
 }
 
 void Simulation::updateAcceleration(ParticlePtr& particle, const OctreePtr& octreeRoot){
@@ -232,34 +244,16 @@ void Simulation::cleanOctree(OctreePtr& octree){
     }
 } 
 
-//std::vector<GPUOctreePtr> Simulation::getFlattenedOctree(OctreePtr& octree, unsigned int& index){
-//    std::vector<GPUOctreePtr> flattenedOctree;
-//    if (octree->gpuOctree->mass == 0){
-//        return flattenedOctree;
-//    }
-//    else{
-//        flattenedOctree.push_back(std::make_shared<GPUOctree>(octree->gpuOctree));
-//        octree->gpuOctree->index = index;
-//        index++;          
-//        for (auto& branch : octree->branches){
-//            if (branch == nullptr) break;
-//            if (branch->gpuOctree->mass != 0){
-//                auto branchFlattened = getFlattenedOctree(branch, index);
-//                flattenedOctree.insert(flattenedOctree.end(), branchFlattened.begin(), branchFlattened.end());
-//            }
-//        }
-//        GPUOctreePtr branchGPUOctree = nullptr;
-//        for (auto& branch : octree->branches){
-//            if (branch == nullptr) break;
-//            if (branchGPUOctree == nullptr && branch->gpuOctree->mass != 0) branchGPUOctree = std::make_shared<GPUOctree>(branch->gpuOctree);
-//            else if (branch->gpuOctree->mass != 0){
-//                branchGPUOctree->nextSiblingIndex = branch->gpuOctree->index;
-//                branchGPUOctree = std::make_shared<GPUOctree>(branch->gpuOctree);
-//            } 
-//        }
-//        return flattenedOctree;
-//
-//    }
-//}
+void Simulation::updateParticlesData() {
+    ParticlesDataPtr newParticlesData = std::make_shared<ParticlesData>();
+    for (auto& galaxy : galaxies){
+        for (auto& particle : galaxy->particles){
+            newParticlesData->positions.push_back(particle->pos);
+            newParticlesData->masses.push_back(particle->mass);
+        }
+    }
+    newParticlesData->accelerations = std::vector<Vec3>(newParticlesData->positions.size(), Vec3(0.0f, 0.0f, 0.0f));
+    particlesDataQueue.push(newParticlesData);
+}
 
 
