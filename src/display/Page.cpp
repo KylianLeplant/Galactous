@@ -39,7 +39,7 @@ void Page::run(){
     int counter = 0;
     int testCount = 0;
     std::cout << "window.lock()->getWindow() = " << window.lock()->getWindow() << std::endl;
-    std::thread threadSimulation([this]() { simulation->run(); });
+    std::thread threadSimulation([this]() { simulation->run(true); });
     while (!glfwWindowShouldClose(window.lock()->getWindow())) {
         //testCount++;
 

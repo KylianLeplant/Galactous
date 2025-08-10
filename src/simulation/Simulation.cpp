@@ -5,7 +5,7 @@
 void Simulation::update(){
     while(!stopFlag.load()){
         //updateParticlesData();
-        std::cout << "UPDATE" << std::endl;
+        //std::cout << "UPDATE" << std::endl;
         //for (auto& galaxy : galaxies){
         //    for (auto& particle : galaxy->particles){
         //        particle->acceleration = Vec3(0, 0, 0);
@@ -34,9 +34,9 @@ void Simulation::update(){
                     to_remove.insert(particle);
                 }
             }
-            std::cout << "size to_remove : " << to_remove.size() << std::endl;
-            std::cout << "nb_particles_galaxy : " << galaxy->particles.size() << std::endl;
-            std::cout << "A" << std::endl;
+            //std::cout << "size to_remove : " << to_remove.size() << std::endl;
+            //std::cout << "nb_particles_galaxy : " << galaxy->particles.size() << std::endl;
+            //std::cout << "A" << std::endl;
             //for (int i = (to_remove.size()) - 1; i >= 0; --i) {
             //    std::cout << "avant B" << std::endl;
             //    std::cout << "B " << i << " , " << galaxy->particles.size() << std::endl;
@@ -54,13 +54,13 @@ void Simulation::update(){
             //}
             //std::cout << "nb_particles_galaxy : " << galaxy->particles.size() << std::endl;
         }
-        std::cout << "nb_particles_octree : " << octreeRoot->size() << std::endl << std::endl;
+        //std::cout << "nb_particles_octree : " << octreeRoot->size() << std::endl << std::endl;
         //std::cout << "pre update masscenter" << std::endl;
         start = std::chrono::high_resolution_clock::now();
         octreeRoot->updateMassCenter();
         end = std::chrono::high_resolution_clock::now();
         elapsed = end - start;
-        std::cout << "updateMassCenter : " << elapsed.count() << std::endl;
+        //std::cout << "updateMassCenter : " << elapsed.count() << std::endl;
         //std::cout << "post update masscenter" << std::endl;
         //flattenedOctree.clear();
         //std::cout << "post flattenedOctree.clear" << std::endl;
@@ -85,17 +85,20 @@ void Simulation::updateAccelerationWithGPU(){
         auto superstart = std::chrono::high_resolution_clock::now();
         std::cout << "UPDATE WITH GPU" << std::endl;
         auto start = std::chrono::high_resolution_clock::now();
-        ComputeShader::init("shaders/compute/computeShader.cl");    // Création des buffers OpenCL
-    
+        
+        //auto endInit = std::chrono::high_resolution_clock::now();
+        //auto elapsedtemp = std::chrono::duration<double>(endInit - start);
+        //std::cout << "\nInit : " << elapsedtemp.count() << std::endl;  
+
         cl::Context context = ComputeShader::getContext();
-        std::vector<Vec3> positions;
-        std::vector<float> masses;
-        for (auto& galaxy : galaxies){
-            for (auto& particle : galaxy->particles){
-                positions.push_back(particle->pos);
-                masses.push_back(particle->mass);
-            }
-        }
+        //std::vector<Vec3> positions;
+        //std::vector<float> masses;
+        //for (auto& galaxy : galaxies){
+        //    for (auto& particle : galaxy->particles){
+        //        positions.push_back(particle->pos);
+        //        masses.push_back(particle->mass);
+        //    }
+        //}
         unsigned int index = 0;
         auto end = std::chrono::high_resolution_clock::now();
         auto elapsed = std::chrono::duration<double>(end - start);
@@ -112,7 +115,11 @@ void Simulation::updateAccelerationWithGPU(){
         //float softening = 1e-2f;
         //float G = 6.67e-10f; // Gravitational constant
 
-        std::vector<Vec3> accelerations(positions.size(), Vec3(0.0f, 0.0f, 0.0f));
+        while(particlesDataQueue.size() > 1){
+            particlesDataQueue.pop();
+        }
+        ParticlesDataPtr particlesData = particlesDataQueue.front();
+        std::vector<Vec3> accelerations(particlesData->positions.size(), Vec3(0.0f, 0.0f, 0.0f));
         //std::vector<Vec3> octreeCenters;
         //std::vector<float> octreeWidths;
         //std::vector<Vec3> octreeMassCenters;
@@ -136,10 +143,9 @@ void Simulation::updateAccelerationWithGPU(){
         //end = std::chrono::high_resolution_clock::now();
         //elapsed = end - start;
         //std::cout << "\nPartie 2 (octree) : " << elapsed.count() << std::endl;
-
         start = std::chrono::high_resolution_clock::now();
-        cl::Buffer bufferPositions = ComputeShader::Buffer(positions, Permissions::Read);
-        cl::Buffer bufferMasses = ComputeShader::Buffer(masses, Permissions::Read);
+        cl::Buffer bufferPositions = ComputeShader::Buffer(particlesData->positions, Permissions::Read);
+        cl::Buffer bufferMasses = ComputeShader::Buffer(particlesData->masses, Permissions::Read);
         cl::Buffer bufferAccelerations = ComputeShader::Buffer(accelerations, Permissions::Write);
         cl::Buffer bufferSoftening = ComputeShader::Buffer(&softening, Permissions::Read);
         cl::Buffer bufferG = ComputeShader::Buffer(&G, Permissions::Read);
@@ -161,7 +167,7 @@ void Simulation::updateAccelerationWithGPU(){
         std::cout << "sizeOctree : " << sizeOctree << std::endl;
         //std::cout << "pre launch" << std::endl;
         start = std::chrono::high_resolution_clock::now();
-        ComputeShader::launch("accelerations", buffers, cl::NDRange(positions.size()));
+        ComputeShader::launch("accelerations", buffers, cl::NDRange(particlesData->positions.size()));
         end = std::chrono::high_resolution_clock::now();
         elapsed = end - start;
         std::cout << "launch :" << elapsed.count() << std::endl;
@@ -297,6 +303,7 @@ void Simulation::updateParticlesData() {
 void Simulation::run(bool withGPU){
     threadUpdateParticlesData=std::thread(&Simulation::updateParticlesData, this);
     if (withGPU){
+        ComputeShader::init("shaders/compute/computeShader.cl"); 
         threadUpdateAcceleration=std::thread(&Simulation::updateAccelerationWithGPU, this);
     }
     else{
