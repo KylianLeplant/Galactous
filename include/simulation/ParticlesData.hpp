@@ -2,7 +2,7 @@
 #define PARTICLES_DATA_HPP
 
 #include <vector>
-#include "Vec3.hpp"
+#include "types.hpp"
 
 
 

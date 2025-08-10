@@ -68,7 +68,10 @@
         "chrono": "cpp",
         "forward_list": "cpp",
         "iomanip": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "deque": "cpp",
+        "queue": "cpp",
+        "unordered_set": "cpp"
     },
     "makefile.makefilePath": "C:\\Users\\kylia\\OneDrive\\Bureau\\Galactous\\Makefile"
 }

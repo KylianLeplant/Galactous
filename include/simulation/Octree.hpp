@@ -69,6 +69,8 @@ struct Octree : public std::enable_shared_from_this<Octree>{
     void getFlattenedOctree(FlattenedOctree& flattenedOctree, const unsigned int parentIndex = 0);
 
     void updateGPUOctree();
+
+    void deleteParticle();
 };
 
 using OctreePtr = std::shared_ptr<Octree>;

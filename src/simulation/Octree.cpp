@@ -202,3 +202,7 @@ void Octree::updateGPUOctree() {
     gpuOctree->mass = mass;
     gpuOctree->width = width;
 }
+
+void Octree::deleteParticle() {
+    particle.reset();
+}

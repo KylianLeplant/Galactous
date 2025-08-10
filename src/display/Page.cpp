@@ -39,6 +39,7 @@ void Page::run(){
     int counter = 0;
     int testCount = 0;
     std::cout << "window.lock()->getWindow() = " << window.lock()->getWindow() << std::endl;
+    std::thread threadSimulation([this]() { simulation->run(); });
     while (!glfwWindowShouldClose(window.lock()->getWindow())) {
         //testCount++;
 
@@ -46,7 +47,7 @@ void Page::run(){
         
         // Activer le test de profondeur
         glEnable(GL_DEPTH_TEST);
-        simulation->update();
+        //simulation->update();
         printSimulation();
         // Rendu ImGui
         glfwPollEvents();
