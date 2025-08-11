@@ -19,5 +19,8 @@ struct FlattenedOctree {
     
 };
 
+using FlattenedOctreePtr = std::shared_ptr<FlattenedOctree>;
+using FlattenedOctreeWeakPtr = std::weak_ptr<FlattenedOctree>;
+
 
 #endif

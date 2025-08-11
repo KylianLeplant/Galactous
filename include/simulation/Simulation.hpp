@@ -19,8 +19,8 @@ struct Simulation {
     scalar_t max_velocity = 1e5;        // vitesse maximale pour éviter les instabilités numériques
     scalar_t max_acceleration = 1e5;    // accélération maximale pour éviter les instabilités numériques
     scalar_t theta = 1;                 //parameter to control the accuracy of the simulation, if (size of the octree) / (distance between the particle and the octree) is less than theta, the force is calculated using the octree
-    std::vector<GPUOctreePtr> flattenedOctree;
     std::queue<ParticlesDataPtr> particlesDataQueue; // stack to store the particles data for each step of the simulation
+    std::queue<FlattenedOctreePtr> flattenedOctreeQueue; // stack to store the flattened octree for each step of the simulation
     Galaxies galaxies;
     OctreePtr octreeRoot;
     std::thread threadUpdateParticlesData;
@@ -48,6 +48,7 @@ struct Simulation {
 
     void updateParticlesData();
 
+    void updateFlattenedOctree();
 
     void updateAccelerationParticle(ParticlePtr particle, OctreePtr octreeRoot);
 

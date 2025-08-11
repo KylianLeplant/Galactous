@@ -9,7 +9,7 @@
 struct ParticlesData {
     std::vector<Vec3> positions; // Positions of the particles
     std::vector<float> masses; // Masses of the particles
-    std::vector<Vec3> accelerations; // Accelerations of the particles
+    std::vector<Vec3> velocities; // Velocities of the particles
 };
 
 using ParticlesDataPtr = std::shared_ptr<ParticlesData>;

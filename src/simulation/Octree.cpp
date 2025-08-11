@@ -156,31 +156,31 @@ void Octree::mergeBranches(){
 }
 
 
-void Octree::getFlattenedOctree(FlattenedOctree& flattenedOctree, const unsigned int parentIndex) {
+void Octree::getFlattenedOctree(FlattenedOctreePtr& flattenedOctree, const unsigned int parentIndex) {
     //std::cout << "actual index: " << index << std::endl; 
     //std::vector<GPUOctreePtr> flattenedOctree;
     if (mass == 0){
         return;
     }
     else{
-        flattenedOctree.centers.push_back(center);
-        flattenedOctree.widths.push_back(width);
-        flattenedOctree.massCenters.push_back(massCenter);
-        flattenedOctree.masses.push_back(mass);
-        flattenedOctree.nextSiblingIndices.push_back(0);
-        flattenedOctree.parentIndices.push_back(parentIndex);
+        flattenedOctree->centers.push_back(center);
+        flattenedOctree->widths.push_back(width);
+        flattenedOctree->massCenters.push_back(massCenter);
+        flattenedOctree->masses.push_back(mass);
+        flattenedOctree->nextSiblingIndices.push_back(0);
+        flattenedOctree->parentIndices.push_back(parentIndex);
         //updateGPUOctree();
         //gpuOctree->index = index;    
         ////gpuOctree->parentIndex = 0;
         //gpuOctree->nextSiblingIndex = 0;
         //flattenedOctree.push_back(gpuOctree); 
         //std::cout << "gpuOctree index: " << flattenedOctree.back()->index << std::endl << std::endl;
-        unsigned int index = flattenedOctree.size() - 1;
+        unsigned int index = flattenedOctree->size() - 1;
         std::vector<unsigned> tabIndex;          
         for (auto& branch : branches){
             if (branch == nullptr) break;
             if (branch->mass != 0){
-                tabIndex.push_back(flattenedOctree.size());
+                tabIndex.push_back(flattenedOctree->size());
                 branch->getFlattenedOctree(flattenedOctree, index);
             }
         }
@@ -188,7 +188,7 @@ void Octree::getFlattenedOctree(FlattenedOctree& flattenedOctree, const unsigned
         for (int i = 0; i+1 < tabIndex.size(); i++){
             unsigned int index = tabIndex[i];
             unsigned int nextIndex = tabIndex[i+1];
-            flattenedOctree.nextSiblingIndices[index] = nextIndex;
+            flattenedOctree->nextSiblingIndices[index] = nextIndex;
             //std::cout << "index : " << index << " parent : " << flattenedOctree.parentIndices[index] << " nextIndex : " << flattenedOctree.nextSiblingIndices[index] << std::endl;
         }
 

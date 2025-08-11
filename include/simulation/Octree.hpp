@@ -66,7 +66,7 @@ struct Octree : public std::enable_shared_from_this<Octree>{
 
     void mergeBranches();
 
-    void getFlattenedOctree(FlattenedOctree& flattenedOctree, const unsigned int parentIndex = 0);
+    void getFlattenedOctree(FlattenedOctreePtr& flattenedOctree, const unsigned int parentIndex = 0);
 
     void updateGPUOctree();
 

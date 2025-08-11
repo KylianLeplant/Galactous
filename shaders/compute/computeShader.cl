@@ -44,12 +44,13 @@ float norm(Vec3 vect){
     return sqrt(pow(vect.x,2)+pow(vect.y,2)+ pow(vect.z,2));
 }
 
-__kernel void accelerations(__global const Vec3* positions, __global const float* masses, __global Vec3* accelerations,  __global const float* softening, __global const float* G, __global const Vec3* octreeCenters, __global const float* octreeWidths, __global const Vec3* octreeMassCenters, __global const float* octreeMasses, __global const unsigned* octreeParentIndexes, __global const unsigned* octreeNextSiblingIndexes, __global const unsigned* sizeOctree) { //, __global const unsigned* octreeIndexes
+__kernel void accelerations(__global Vec3* positions, __global const float* masses, __global Vec3* velocities,  __global const float* softening, __global const float* G, __global const Vec3* octreeCenters, __global const float* octreeWidths, __global const Vec3* octreeMassCenters, __global const float* octreeMasses, __global const unsigned* octreeParentIndexes, __global const unsigned* octreeNextSiblingIndexes, __global const unsigned* sizeOctree, __global const float* timeStep) { //, __global const unsigned* octreeIndexes
     //printf("hello");
     int gid = get_global_id(0);
     //printf("Index: %X \ncenter=%X,%X,%X\nwidth: %X\nmassCenter: %X,%X,%X\nmass: %X\nnextSiblingIndex: %X\nparentIndex: %X\n", octreeList[gid].index, octreeList[gid].center.x, octreeList[gid].center.y, octreeList[gid].center.z, octreeList[gid].width, octreeList[gid].massCenter.x, octreeList[gid].massCenter.y, octreeList[gid].massCenter.z, octreeList[gid].mass, octreeList[gid].nextSiblingIndex, octreeList[gid].parentIndex);
     //printf("sizeOctree = %d\n", *sizeOctree);
     Vec3 position = positions[gid];
+    Vec3 velocity = velocities[gid];
     float mass = masses[gid];
     Vec3 acceleration = {0.0f, 0.0f, 0.0f};
     unsigned idOctree = 0;
@@ -103,9 +104,15 @@ __kernel void accelerations(__global const Vec3* positions, __global const float
             idOctree++;
         }
     }
-    accelerations[gid] = acceleration;
-    if (norm(accelerations[gid]) > 100.0f) {
-        printf("Final acceleration for particle %d: (%f, %f, %f)\n", gid, acceleration.x, acceleration.y, acceleration.z);
-    }
+    velocities[gid].x += acceleration.x * *timeStep;
+    velocities[gid].y += acceleration.y * *timeStep;
+    velocities[gid].z += acceleration.z * *timeStep;
+    positions[gid].x += velocities[gid].x * *timeStep;
+    positions[gid].y += velocities[gid].y * *timeStep;
+    positions[gid].z += velocities[gid].z * *timeStep;
+
+    //if (norm(accelerations[gid]) > 100.0f) {
+    //    printf("Final acceleration for particle %d: (%f, %f, %f)\n", gid, acceleration.x, acceleration.y, acceleration.z);
+    //}
     //printf("gid = %d, acceleration = (%f, %f, %f)\n", gid, acceleration.x, acceleration.y, acceleration.z);
 }
