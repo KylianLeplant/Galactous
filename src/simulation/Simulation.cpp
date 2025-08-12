@@ -4,101 +4,26 @@
 
 void Simulation::update(){
     while(!stopFlag.load()){
-        //updateParticlesData();
-        //std::cout << "UPDATE" << std::endl;
-        //for (auto& galaxy : galaxies){
-        //    for (auto& particle : galaxy->particles){
-        //        particle->acceleration = Vec3(0, 0, 0);
-        //        updateAcceleration(particle, octreeRoot);
-        //    }
-        //}
-        auto start = std::chrono::high_resolution_clock::now();
-        //updateAccelerationWithGPU();
-        auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> elapsed = end - start;
-        //std::cout << "updateAccelerationWithGPU : " << elapsed.count() << std::endl;
         double sum = 0.0;
         for (auto& galaxy : galaxies) {
             std::unordered_set<ParticlePtr> to_remove;
             for (auto& particle : galaxy->particles) {
-                start = std::chrono::high_resolution_clock::now();
-                if (!updatePosition(particle)) {
-                    end = std::chrono::high_resolution_clock::now();
-                    elapsed = end - start;
-                    sum+=elapsed.count();
-                    //std::cout << "updatePosition : " << elapsed.count() << std::endl;
-                    //std::cout << "!updatePosition" << std::endl;
-                    //std::cout << "toremove.push_back" << std::endl;
-                }
-                else{
+                if (updatePosition(particle)) {
                     to_remove.insert(particle);
                 }
             }
-            //std::cout << "size to_remove : " << to_remove.size() << std::endl;
-            //std::cout << "nb_particles_galaxy : " << galaxy->particles.size() << std::endl;
-            //std::cout << "A" << std::endl;
-            //for (int i = (to_remove.size()) - 1; i >= 0; --i) {
-            //    std::cout << "avant B" << std::endl;
-            //    std::cout << "B " << i << " , " << galaxy->particles.size() << std::endl;
-            //    if (galaxy->particles[i]->octree.lock()) {
-            //        std::cout << "count : " << galaxy->particles[i].use_count()<<std::endl;
-            //        galaxy->particles[i]->octree.lock()->deleteParticle();
-            //        std::cout << "count : " << galaxy->particles[i].use_count()<<std::endl;        
-            //        std::cout << "octree deleted " << galaxy->particles.size() << std::endl;
-            //    }
-            //    std::cout << "C " << i << " , " << galaxy->particles.size() << std::endl;
-            //    //supprime la particule   de la galaxie
-            //    galaxy->particles[i].reset();
-            //    std::erase(galaxy->particles, galaxy->particles[i]);
-            //    std::cout << "D " << i << std::endl;
-            //}
-            //std::cout << "nb_particles_galaxy : " << galaxy->particles.size() << std::endl;
         }
-        //std::cout << "nb_particles_octree : " << octreeRoot->size() << std::endl << std::endl;
-        //std::cout << "pre update masscenter" << std::endl;
-        start = std::chrono::high_resolution_clock::now();
         octreeRoot->updateMassCenter();
-        end = std::chrono::high_resolution_clock::now();
-        elapsed = end - start;
-        //std::cout << "updateMassCenter : " << elapsed.count() << std::endl;
-        //std::cout << "post update masscenter" << std::endl;
-        //flattenedOctree.clear();
-        //std::cout << "post flattenedOctree.clear" << std::endl;
-        //unsigned int index = 0;
-        //std::cout << "pre getFlattenedOctree" << std::endl;
-        //auto octreeFlat = octreeRoot->getFlattenedOctree(index);
-        //std::cout << "post getFlattenedOctree" << std::endl;
-        //std::cout << "size :" << octreeRoot->size() << std::endl;
-        ////std::cout << "octreeRoot"<<std::endl;
-        //octreeRoot->printOctree();
-        ////std::cout << "\n\n\noctreeFlat" << std::endl;
-        //for (auto& octree : octreeFlat){
-        //    //std::cout<< "index: " << octree->index << " mass: " << octree->mass << " center: " << octree->center << " parentIndex: " << octree->parentIndex << " nextSiblingIndex: " << octree->nextSiblingIndex << std::endl;
-        //}
-        //std::cout << "pre insert flattenedOctree" << std::endl;
-        //flattenedOctree.insert(flattenedOctree.end(), octreeFlat.begin(), octreeFlat.end());
     }
 }
 
-void Simulation::updateAccelerationWithGPU(){
+void Simulation::updateWithGPU(){
     while(!stopFlag.load()){
         auto superstart = std::chrono::high_resolution_clock::now();
-        std::cout << "UPDATE WITH GPU" << std::endl;
         auto start = std::chrono::high_resolution_clock::now();
-        
-        //auto endInit = std::chrono::high_resolution_clock::now();
-        //auto elapsedtemp = std::chrono::duration<double>(endInit - start);
-        //std::cout << "\nInit : " << elapsedtemp.count() << std::endl;  
 
         cl::Context context = ComputeShader::getContext();
-        //std::vector<Vec3> positions;
-        //std::vector<float> masses;
-        //for (auto& galaxy : galaxies){
-        //    for (auto& particle : galaxy->particles){
-        //        positions.push_back(particle->pos);
-        //        masses.push_back(particle->mass);
-        //    }
-        //}
+
         unsigned int index = 0;
         auto end = std::chrono::high_resolution_clock::now();
         auto elapsed = std::chrono::duration<double>(end - start);
@@ -122,37 +47,15 @@ void Simulation::updateAccelerationWithGPU(){
         elapsed = end - start;
         std::cout << "\nflattenedOctree : " << elapsed.count() << std::endl;
         unsigned int sizeOctree = flattenedOctree->centers.size();
-        //float softening = 1e-2f;
-        //float G = 6.67e-10f; // Gravitational constant
 
         while(particlesDataQueue.size() > 1){
             particlesDataQueue.pop();
         }
         ParticlesDataPtr particlesData = particlesDataQueue.front();
         std::vector<Vec3> accelerations(particlesData->positions.size(), Vec3(0.0f, 0.0f, 0.0f));
-        //std::vector<Vec3> octreeCenters;
-        //std::vector<float> octreeWidths;
-        //std::vector<Vec3> octreeMassCenters;
-        //std::vector<float> octreeMasses;
-        //std::vector<unsigned int> octreeNextSiblingIndexes;
-        //std::vector<unsigned int> octreeParentIndexes;
-        //std::vector<unsigned int> octreeIndexes;
         end = std::chrono::high_resolution_clock::now();
         elapsed = end - start;
         std::cout << "\nPartie 2 : " << elapsed.count() << std::endl;
-        //start = std::chrono::high_resolution_clock::now();
-        //for (auto& gpuOctree : flattenedOctree) {
-        //    octreeCenters.push_back(gpuOctree->center);
-        //    octreeWidths.push_back(gpuOctree->width);
-        //    octreeMasses.push_back(gpuOctree->mass);
-        //    octreeMassCenters.push_back(gpuOctree->massCenter);
-        //    octreeNextSiblingIndexes.push_back(gpuOctree->nextSiblingIndex);
-        //    octreeParentIndexes.push_back(gpuOctree->parentIndex);
-        //    octreeIndexes.push_back(gpuOctree->index);
-        //}
-        //end = std::chrono::high_resolution_clock::now();
-        //elapsed = end - start;
-        //std::cout << "\nPartie 2 (octree) : " << elapsed.count() << std::endl;
         start = std::chrono::high_resolution_clock::now();
         cl::Buffer bufferPositions = ComputeShader::Buffer(particlesData->positions, Permissions::All);
         cl::Buffer bufferMasses = ComputeShader::Buffer(particlesData->masses, Permissions::Read);
@@ -165,7 +68,6 @@ void Simulation::updateAccelerationWithGPU(){
         cl::Buffer bufferOctreeMasses = ComputeShader::Buffer(flattenedOctree->masses, Permissions::Read);
         cl::Buffer bufferOctreeNextSiblingIndexes = ComputeShader::Buffer(flattenedOctree->nextSiblingIndices, Permissions::Read);
         cl::Buffer bufferOctreeParentIndexes = ComputeShader::Buffer(flattenedOctree->parentIndices, Permissions::Read);
-        //cl::Buffer bufferOctreeIndexes = ComputeShader::Buffer(octreeIndexes, Permissions::Read);
         cl::Buffer bufferSizeOctree = ComputeShader::Buffer(&sizeOctree, Permissions::Read);
         cl::Buffer buffertimeStep = ComputeShader::Buffer(&time_step, Permissions::Read);
 
@@ -175,14 +77,11 @@ void Simulation::updateAccelerationWithGPU(){
         elapsed = end - start;
         std::cout << "\nPartie 3 (buffers) : " << elapsed.count() << std::endl;
 
-        std::cout << "sizeOctree : " << sizeOctree << std::endl;
-        //std::cout << "pre launch" << std::endl;
         start = std::chrono::high_resolution_clock::now();
         ComputeShader::launch("accelerations", buffers, cl::NDRange(particlesData->positions.size()));
         end = std::chrono::high_resolution_clock::now();
         elapsed = end - start;
-        std::cout << "launch :" << elapsed.count() << std::endl;
-        
+        std::cout << "durée kernel :" << elapsed.count() << std::endl;
 
         start = std::chrono::high_resolution_clock::now();
         cl::CommandQueue queue = ComputeShader::getQueue();
@@ -205,15 +104,11 @@ void Simulation::updateAccelerationWithGPU(){
             }
             galaxies[indexGalaxy]->particles[indexParticle]->velocity = particlesData->velocities[i];
             galaxies[indexGalaxy]->particles[indexParticle]->pos = particlesData->positions[i];
-            //std::cout << "acceleration[" << i << "] : " << accelerations[i] << std::endl;
             indexParticle++;
         }
         end = std::chrono::high_resolution_clock::now();
         elapsed = end - start;
-            
-        //for (int i = 0; i < 2; i++) {
-        //    std::cout<< "accelerations[" << i << "] = " << accelerations[i] << std::endl;
-        //}
+        std::cout << "\nPartie 4 (readBuffer) : " << elapsed.count() << std::endl;
         
         auto superend = std::chrono::high_resolution_clock::now();
         elapsed = superend-superstart;
@@ -239,7 +134,6 @@ void Simulation::updateAccelerationParticle(ParticlePtr particle, OctreePtr octr
         }
         else updateAccelerationParticle(particle, octreeBranch);
     }
-    //particle->acceleration = particle->acceleration.limitNorm(max_acceleration);
     
 }
 
@@ -256,9 +150,6 @@ void Simulation::updateAcceleration(){
 bool Simulation::updatePosition(ParticlePtr& particle){
     particle->velocity += particle->acceleration * time_step/2;
     particle->pos += particle->velocity * time_step;
-    if (particle->pos.norm() > 200) {
-        std::cout << "pos : " << particle->pos << "velocity : " << particle->velocity << "acceleration : " << particle->acceleration << std::endl;
-    }
     particle->velocity += particle->acceleration * time_step/2;
     OctreePtr octree = particle->octree.lock(); 
     if (octree != nullptr){
@@ -267,7 +158,6 @@ bool Simulation::updatePosition(ParticlePtr& particle){
             if (parentLocked != nullptr){
                 octree->particle=nullptr;
                 migrateParticleUp(particle,parentLocked);
-                //std::cout << "return to updatepos" << std::endl;
                 return true;
             }
         }
@@ -277,32 +167,17 @@ bool Simulation::updatePosition(ParticlePtr& particle){
 
 void Simulation::migrateParticleUp(ParticlePtr& particle,OctreePtr& octree){
     if (octree->contains(particle->pos)){
-        //std::cout << "add migrate " << particle->id << " to octree at position " << octree->center << std::endl;
         octree->addParticle(particle);
-        //std::cout << "added";
     }
     else{   
-        //std::cout << "else migrate" << particle->id <<std::endl;
         OctreePtr parentLocked = octree->parent.lock();
 
         if (parentLocked != nullptr){
-            //std::cout << "migrating particle " << particle->id << " to parent octree at position " << parentLocked->center << std::endl;
             migrateParticleUp(particle,parentLocked);
         }
-        else{
-            //std::cout << "particle is not in the octree" << std::endl;
-        }
     }
-    //std::cout << "END MIGRATION" << std::endl;
 }
-// Function to clean the octree, if the octree is empty and has no parent, the octree is deleted
-void Simulation::cleanOctree(OctreePtr& octree){
-    if (octree->branches[0] != nullptr && octree->size() == 0){
-        for (auto& branch : octree->branches){
-            branch = nullptr;
-        }
-    }
-} 
+
 
 void Simulation::updateParticlesData() {
     ParticlesDataPtr newParticlesData = std::make_shared<ParticlesData>();
@@ -325,15 +200,15 @@ void Simulation::updateFlattenedOctree() {
 }
 
 void Simulation::run(bool withGPU){
-    threadUpdateParticlesData=std::thread(&Simulation::updateParticlesData, this);
     if (withGPU){
         ComputeShader::init("shaders/compute/computeShader.cl"); 
-        threadUpdateAcceleration=std::thread(&Simulation::updateAccelerationWithGPU, this);
+        threadUpdateParticlesData=std::thread(&Simulation::updateParticlesData, this);
+        threadUpdate=std::thread(&Simulation::updateWithGPU, this);
         updateFlattenedOctree();
     }
     else{
-        threadUpdateAcceleration=std::thread(&Simulation::updateAcceleration, this);
-        update();
+        threadUpdate=std::thread(&Simulation::update, this);
+        updateAcceleration();
     }
 
     
@@ -345,7 +220,7 @@ void Simulation::stop(){
     if (threadUpdateParticlesData.joinable()) {
         threadUpdateParticlesData.join();
     }
-    if (threadUpdateAcceleration.joinable()) {
-        threadUpdateAcceleration.join();
+    if (threadUpdate.joinable()) {
+        threadUpdate.join();
     }
 }

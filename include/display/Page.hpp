@@ -25,13 +25,14 @@ class Page {
     //Page(WindowWeakPtr window, SimulationPtr simulation, PointRendererPtr pointRenderer);
     ~Page();
 
+    // create a galaxy
     void createGalaxy(size_t nbParticles, scalar_t mass_,scalar_t radius, scalar_t thickness, scalar_t starSpeed=0);
+
+    // run the display
     void run();
+
+    // Print the simulation
     void printSimulation();
-
-
-
-
 };
 
 

@@ -5,7 +5,7 @@
 #include "types.hpp"
 
 
-
+// struct containing the data of particles necessary for simulation in GPU mode
 struct ParticlesData {
     std::vector<Vec3> positions; // Positions of the particles
     std::vector<float> masses; // Masses of the particles

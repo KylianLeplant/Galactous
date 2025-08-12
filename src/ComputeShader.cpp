@@ -93,3 +93,4 @@ void ComputeShader::launch(const std::string& function, const std::vector<cl::Bu
 	queue = cl::CommandQueue(context, device);
 	queue.enqueueNDRangeKernel(kernel, cl::NullRange, global);
 }
+

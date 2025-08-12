@@ -14,7 +14,6 @@ struct FlattenedOctree {
     std::vector<float> masses; // Total mass of the octree node
     std::vector<unsigned int> nextSiblingIndices; // Index of the next sibling in the list of SimpleOctree
     std::vector<unsigned int> parentIndices; // Index of the parent in the list of SimpleOctree
-    //std::vector<unsigned int> indices; // Index of the octree node in the list of SimpleOctree
     unsigned int size(){return centers.size();}
     
 };

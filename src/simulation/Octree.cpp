@@ -157,8 +157,6 @@ void Octree::mergeBranches(){
 
 
 void Octree::getFlattenedOctree(FlattenedOctreePtr& flattenedOctree, const unsigned int parentIndex) {
-    //std::cout << "actual index: " << index << std::endl; 
-    //std::vector<GPUOctreePtr> flattenedOctree;
     if (mass == 0){
         return;
     }
@@ -169,12 +167,7 @@ void Octree::getFlattenedOctree(FlattenedOctreePtr& flattenedOctree, const unsig
         flattenedOctree->masses.push_back(mass);
         flattenedOctree->nextSiblingIndices.push_back(0);
         flattenedOctree->parentIndices.push_back(parentIndex);
-        //updateGPUOctree();
-        //gpuOctree->index = index;    
-        ////gpuOctree->parentIndex = 0;
-        //gpuOctree->nextSiblingIndex = 0;
-        //flattenedOctree.push_back(gpuOctree); 
-        //std::cout << "gpuOctree index: " << flattenedOctree.back()->index << std::endl << std::endl;
+
         unsigned int index = flattenedOctree->size() - 1;
         std::vector<unsigned> tabIndex;          
         for (auto& branch : branches){
@@ -188,20 +181,12 @@ void Octree::getFlattenedOctree(FlattenedOctreePtr& flattenedOctree, const unsig
         for (int i = 0; i+1 < tabIndex.size(); i++){
             unsigned int index = tabIndex[i];
             unsigned int nextIndex = tabIndex[i+1];
-            flattenedOctree->nextSiblingIndices[index] = nextIndex;
-            //std::cout << "index : " << index << " parent : " << flattenedOctree.parentIndices[index] << " nextIndex : " << flattenedOctree.nextSiblingIndices[index] << std::endl;
+            flattenedOctree->nextSiblingIndices[index] = nextIndex; 
         }
 
     }
-    //std::cout << "FIN ";
 }
 
-void Octree::updateGPUOctree() {
-    gpuOctree->center = center;
-    gpuOctree->massCenter = massCenter;
-    gpuOctree->mass = mass;
-    gpuOctree->width = width;
-}
 
 void Octree::deleteParticle() {
     particle.reset();

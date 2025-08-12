@@ -7,7 +7,7 @@ Page::Page(WindowWeakPtr window) : window(window), cameras() {
     pointRenderer = std::make_shared<PointRenderer>();
     pointRenderer->setCamera(camera);
     input = std::make_shared<Input>(window, camera);
-    input->enable();
+    input->activate();
     simulation = std::make_shared<Simulation>();
     galaxyFactory = std::make_shared<GalaxyFactory>(simulation);
 }
@@ -18,36 +18,24 @@ Page::Page(WindowWeakPtr window, SimulationPtr simulation) : window(window), sim
     pointRenderer = std::make_shared<PointRenderer>();
     pointRenderer->setCamera(camera);
     input = std::make_shared<Input>(window, camera);
-    input->enable();
+    input->activate();
     galaxyFactory = std::make_shared<GalaxyFactory>(simulation);
 }
 
-//Page::Page(WindowWeakPtr window, SimulationPtr simulation, PointRendererPtr pointRenderer) : window(window), simulation(simulation), pointRenderer(pointRenderer), cameras() {
-//    CameraPtr camera = std::make_shared<Camera>();
-//    cameras.push_back(camera);
-//    input = std::make_shared<Input>(window, camera);
-//    galaxyFactory = std::make_shared<GalaxyFactory>(simulation);
-//}
-
-
 Page::~Page(){
-    input->disable();
+    input->deactivate();
 }
 
 void Page::run(){
     float f = 0.0f;
     int counter = 0;
-    int testCount = 0;
     std::cout << "window.lock()->getWindow() = " << window.lock()->getWindow() << std::endl;
     std::thread threadSimulation([this]() { simulation->run(true); });
     while (!glfwWindowShouldClose(window.lock()->getWindow())) {
-        //testCount++;
-
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         // Activer le test de profondeur
         glEnable(GL_DEPTH_TEST);
-        //simulation->update();
         printSimulation();
         // Rendu ImGui
         glfwPollEvents();

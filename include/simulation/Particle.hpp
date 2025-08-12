@@ -17,7 +17,7 @@ enum class TypeParticle {
 struct Particle{
     static id_t nextId; //static variable to generate unique ids for each particule
     id_t id;            //unique id of the particule
-    scalar_t mass;          
+    scalar_t mass;      // mass of the particule
     Vec3 pos;           //position vector
     Vec3 velocity;      //velocity vector
     Vec3 acceleration;  //acceleration vector
