@@ -18,7 +18,7 @@ EXECUTABLE = $(TARGET_DIR)/main
 MAIN_SOURCE = $(MAIN_DIR)/main.cpp
 SOURCES = $(SRC_DIR)/types.cpp $(SRC_DIR)/Octree.cpp $(SRC_DIR)/Particle.cpp $(SRC_DIR)/Galaxy.cpp $(SRC_DIR)/GalaxyFactory.cpp $(SRC_DIR)/display/Window.cpp $(SRC_DIR)/display/Page.cpp $(SRC_DIR)/display/Input.cpp $(SRC_DIR)/display/PointRenderer.cpp $(SRC_DIR)/display/Camera.cpp $(SRC_DIR)/simulation/Simulation.cpp
 MAIN_OBJECT = $(TARGET_DIR)/main.o
-OBJECTS = $(TARGET_DIR)/types.o $(TARGET_DIR)/Octree.o $(TARGET_DIR)/Particle.o $(TARGET_DIR)/Galaxy.o $(TARGET_DIR)/GalaxyFactory.o $(TARGET_DIR)/glad.o $(TARGET_DIR)/Window.o $(TARGET_DIR)/Page.o $(TARGET_DIR)/Simulation.o $(TARGET_DIR)/ComputeShader.o $(TARGET_DIR)/Input.o $(TARGET_DIR)/Camera.o
+OBJECTS = $(TARGET_DIR)/types.o $(TARGET_DIR)/Octree.o $(TARGET_DIR)/Particle.o $(TARGET_DIR)/Galaxy.o $(TARGET_DIR)/GalaxyFactory.o $(TARGET_DIR)/glad.o $(TARGET_DIR)/Window.o $(TARGET_DIR)/Page.o $(TARGET_DIR)/Simulation.o $(TARGET_DIR)/ComputeShader.o $(TARGET_DIR)/Input.o $(TARGET_DIR)/Camera.o $(TARGET_DIR)/PointRenderer.o
 
 # Fichiers ImGui
 IMGUI_SOURCES = $(EXTERNAL_DIR)/imgui/imgui.cpp $(EXTERNAL_DIR)/imgui/imgui_demo.cpp $(EXTERNAL_DIR)/imgui/imgui_draw.cpp $(EXTERNAL_DIR)/imgui/imgui_tables.cpp $(EXTERNAL_DIR)/imgui/imgui_widgets.cpp $(EXTERNAL_DIR)/imgui/backends/imgui_impl_glfw.cpp $(EXTERNAL_DIR)/imgui/backends/imgui_impl_opengl3.cpp
@@ -78,9 +78,9 @@ $(TARGET_DIR)/Page.o: $(SRC_DIR)/display/Page.cpp
 	@mkdir -p $(TARGET_DIR)
 	$(CXX) -c $(INCLUDES) $(SRC_DIR)/display/Page.cpp -o $(TARGET_DIR)/Page.o $(CXXFLAGS)
 
-#$(TARGET_DIR)/PointRenderer.o: $(SRC_DIR)/display/PointRenderer.cpp
-#	@mkdir -p $(TARGET_DIR)
-#	$(CXX) -c $(INCLUDES) $(SRC_DIR)/display/PointRenderer.cpp -o $(TARGET_DIR)/PointRenderer.o $(CXXFLAGS)
+$(TARGET_DIR)/PointRenderer.o: $(SRC_DIR)/display/PointRenderer.cpp
+	@mkdir -p $(TARGET_DIR)
+	$(CXX) -c $(INCLUDES) $(SRC_DIR)/display/PointRenderer.cpp -o $(TARGET_DIR)/PointRenderer.o $(CXXFLAGS)
 
 $(TARGET_DIR)/Camera.o: $(SRC_DIR)/display/Camera.cpp
 	@mkdir -p $(TARGET_DIR)
