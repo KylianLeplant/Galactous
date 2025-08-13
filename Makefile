@@ -2,7 +2,8 @@
 
 # Configuration du compilateur
 CXX = g++
-INCLUDES = -Iinclude -Iexternal/vendor/glad -Iexternal/imgui -Iexternal/imgui/backends -Iinclude/display -Iinclude/simulation -Iexternal -IOpenCL
+INCLUDES = -Iinclude -IOpenCL -Iinclude/display -Iinclude/simulation 
+ALL_INCLUDES = $(INCLUDES) -Iexternal/vendor/glad -Iexternal/imgui -Iexternal/imgui/backends -Iexternal
 CXXFLAGS = -g -DIMGUI_IMPL_OPENGL_LOADER_GLAD -std=c++20
 IMGUI_CXXFLAGS = -g -DIMGUI_IMPL_OPENGL_LOADER_GLAD
 
@@ -43,7 +44,7 @@ $(EXECUTABLE): $(MAIN_OBJECT) $(OBJECTS) $(IMGUI_OBJECTS)
 # Compilation du fichier main
 $(MAIN_OBJECT): $(MAIN_SOURCE)
 	@mkdir -p $(TARGET_DIR)
-	$(CXX) -c $(INCLUDES) $(MAIN_SOURCE) -o $(MAIN_OBJECT) $(CXXFLAGS)
+	$(CXX) -c $(ALL_INCLUDES) $(MAIN_SOURCE) -o $(MAIN_OBJECT) $(CXXFLAGS)
 
 # Compilation des autres fichiers source
 $(TARGET_DIR)/types.o: $(SRC_DIR)/types.cpp
@@ -72,23 +73,23 @@ $(TARGET_DIR)/glad.o: $(EXTERNAL_DIR)/vendor/glad/glad.c
 
 $(TARGET_DIR)/Window.o: $(SRC_DIR)/display/Window.cpp
 	@mkdir -p $(TARGET_DIR)
-	$(CXX) -c $(INCLUDES) $(SRC_DIR)/display/Window.cpp -o $(TARGET_DIR)/Window.o $(CXXFLAGS)
+	$(CXX) -c $(ALL_INCLUDES) $(SRC_DIR)/display/Window.cpp -o $(TARGET_DIR)/Window.o $(CXXFLAGS)
 
 $(TARGET_DIR)/Page.o: $(SRC_DIR)/display/Page.cpp
 	@mkdir -p $(TARGET_DIR)
-	$(CXX) -c $(INCLUDES) $(SRC_DIR)/display/Page.cpp -o $(TARGET_DIR)/Page.o $(CXXFLAGS)
+	$(CXX) -c $(ALL_INCLUDES) $(SRC_DIR)/display/Page.cpp -o $(TARGET_DIR)/Page.o $(CXXFLAGS)
 
 $(TARGET_DIR)/PointRenderer.o: $(SRC_DIR)/display/PointRenderer.cpp
 	@mkdir -p $(TARGET_DIR)
-	$(CXX) -c $(INCLUDES) $(SRC_DIR)/display/PointRenderer.cpp -o $(TARGET_DIR)/PointRenderer.o $(CXXFLAGS)
+	$(CXX) -c $(ALL_INCLUDES) $(SRC_DIR)/display/PointRenderer.cpp -o $(TARGET_DIR)/PointRenderer.o $(CXXFLAGS)
 
 $(TARGET_DIR)/Camera.o: $(SRC_DIR)/display/Camera.cpp
 	@mkdir -p $(TARGET_DIR)
-	$(CXX) -c $(INCLUDES) $(SRC_DIR)/display/Camera.cpp -o $(TARGET_DIR)/Camera.o $(CXXFLAGS)
+	$(CXX) -c $(ALL_INCLUDES) $(SRC_DIR)/display/Camera.cpp -o $(TARGET_DIR)/Camera.o $(CXXFLAGS)
 
 $(TARGET_DIR)/Input.o: $(SRC_DIR)/Input.cpp
 	@mkdir -p $(TARGET_DIR)
-	$(CXX) -c $(INCLUDES) $(SRC_DIR)/Input.cpp -o $(TARGET_DIR)/Input.o $(CXXFLAGS)
+	$(CXX) -c $(ALL_INCLUDES) $(SRC_DIR)/Input.cpp -o $(TARGET_DIR)/Input.o $(CXXFLAGS)
 
 $(TARGET_DIR)/Simulation.o: $(SRC_DIR)/simulation/Simulation.cpp
 	@mkdir -p $(TARGET_DIR)
