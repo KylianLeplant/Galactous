@@ -31,14 +31,20 @@ void Page::run(){
     int counter = 0;
     std::cout << "window.lock()->getWindow() = " << window.lock()->getWindow() << std::endl;
     std::thread threadSimulation([this]() { simulation->run(true); });
+    std::cout << "after thread" << std::endl;
     while (!glfwWindowShouldClose(window.lock()->getWindow())) {
+        std::cout << 36 << std::endl;
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        std::cout << 38 << std::endl;
         
         // Activer le test de profondeur
         glEnable(GL_DEPTH_TEST);
+        std::cout << 40 << std::endl;
         printSimulation();
+        std::cout << 42 << std::endl;
         // Rendu ImGui
         glfwPollEvents();
+        std::cout << 44 << std::endl;
         if (input->isKeyPressed(Input::KEY_ESCAPE)) {
             glfwSetWindowShouldClose(window.lock()->getWindow(), GLFW_TRUE);
         }

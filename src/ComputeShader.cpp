@@ -62,10 +62,12 @@ void ComputeShader::init(std::string path, cl::Device device) {
 	context = cl::Context(device);
 	program = cl::Program(context, sources);
 
-	auto err = program.build();
-	if(err != CL_BUILD_SUCCESS){
-		throw std::runtime_error("Error building program");
-	}
+    auto err = program.build();
+    if(err != CL_BUILD_SUCCESS){
+        std::string buildlog = program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(device);
+        std::cerr << "Build log:\n" << buildlog << std::endl;
+        throw std::runtime_error("Error building program");
+    }
 }
 
 void ComputeShader::launch(const std::string& function, const std::vector<cl::Buffer*>& buffers, const cl::NDRange& global, const cl::NDRange& local)

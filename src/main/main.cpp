@@ -15,7 +15,7 @@
 
 
 int main() {
-    std::cout << sizeof(Vec3) << std::endl;
+    //std::cout << "dsddsdsds" << sizeof(Vec3) << std::endl;
     size_t nbParticles =3000;
     scalar_t mass = 100.0f;
     scalar_t radius = 100.0f;
