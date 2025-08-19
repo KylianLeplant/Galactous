@@ -1,7 +1,7 @@
 #ifndef PAGE_HPP
 #define PAGE_HPP
 
-#include "PointRenderer.hpp"
+#include "Renderer.hpp"
 #include "Window.hpp"
 #include "Simulation.hpp"
 #include "imgui.h"
@@ -13,7 +13,7 @@ class Page {
     private:
     WindowWeakPtr window;
     SimulationPtr simulation;
-    PointRendererPtr pointRenderer;
+    RendererPtr renderer;
     InputPtr input;
     GalaxyFactoryPtr galaxyFactory;
 
@@ -22,7 +22,7 @@ class Page {
     public:
     Page(WindowWeakPtr window);
     Page(WindowWeakPtr window, SimulationPtr simulation);
-    //Page(WindowWeakPtr window, SimulationPtr simulation, PointRendererPtr pointRenderer);
+    //Page(WindowWeakPtr window, SimulationPtr simulation, RendererPtr Renderer);
     ~Page();
 
     // create a galaxy

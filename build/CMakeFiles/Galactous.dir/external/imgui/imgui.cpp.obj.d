@@ -2,6 +2,12 @@ CMakeFiles/Galactous.dir/external/imgui/imgui.cpp.obj: \
  C:\msys64\home\kylia\Galactous\external\imgui\imgui.cpp \
  C:\msys64\home\kylia\Galactous\external\imgui\imgui.h \
  C:\msys64\home\kylia\Galactous\external\imgui\imconfig.h \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Graphics/Color.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Graphics/Export.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Config.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/System/Vector2.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/System/Vector2.inl \
+ C:\msys64\home\kylia\Galactous\external\imgui\imgui-SFML_export.h \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/float.h \
  C:/msys64/mingw64/include/float.h C:/msys64/mingw64/include/crtdefs.h \
  C:/msys64/mingw64/include/corecrt.h C:/msys64/mingw64/include/_mingw.h \
@@ -182,6 +188,8 @@ CMakeFiles/Galactous.dir/external/imgui/imgui.cpp.obj: \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/prfchwintrin.h \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/keylockerintrin.h \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/amxfp16intrin.h \
+ C:\msys64\home\kylia\Galactous\external\imgui\imstb_textedit.h \
+ C:/msys64/mingw64/include/ctype.h \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/stdint.h \
  C:/msys64/mingw64/include/stdint.h C:/msys64/mingw64/include/windows.h \
  C:/msys64/mingw64/include/sdkddkver.h C:/msys64/mingw64/include/excpt.h \
@@ -193,7 +201,7 @@ CMakeFiles/Galactous.dir/external/imgui/imgui.cpp.obj: \
  C:/msys64/mingw64/include/driverspecs.h \
  C:/msys64/mingw64/include/winnt.h \
  C:/msys64/mingw64/include/_mingw_unicode.h \
- C:/msys64/mingw64/include/ctype.h C:/msys64/mingw64/include/apiset.h \
+ C:/msys64/mingw64/include/apiset.h \
  C:/msys64/mingw64/include/psdk_inc/intrin-impl.h \
  C:/msys64/mingw64/include/basetsd.h C:/msys64/mingw64/include/guiddef.h \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/x86intrin.h \
@@ -252,4 +260,4 @@ CMakeFiles/Galactous.dir/external/imgui/imgui.cpp.obj: \
  C:/msys64/mingw64/include/stralign.h \
  C:/msys64/mingw64/include/sec_api/stralign_s.h \
  C:/msys64/mingw64/include/winsvc.h C:/msys64/mingw64/include/mcx.h \
- C:/msys64/mingw64/include/imm.h C:/msys64/mingw64/include/shellapi.h
+ C:/msys64/mingw64/include/imm.h

@@ -257,6 +257,12 @@ CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Path to a library.
+FreeType_LIB:FILEPATH=C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/lib/libfreetype.a
+
+//Off-screen Mesa mode
+GLEW_OSMESA:BOOL=OFF
+
 //Value Computed by CMake
 Galactous_BINARY_DIR:STATIC=C:/msys64/home/kylia/Galactous/build
 
@@ -266,11 +272,47 @@ Galactous_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 Galactous_SOURCE_DIR:STATIC=C:/msys64/home/kylia/Galactous
 
+//Dependencies for the target
+Libraries_LIB_DEPENDS:STATIC=general;sfml-system;general;sfml-window;general;sfml-graphics;general;libglew_static;
+
+//Do not build executables
+ONLY_LIBS:BOOL=OFF
+
+//OpenGL library for win32
+OPENGL_gl_LIBRARY:STRING=opengl32
+
+//GLU library for win32
+OPENGL_glu_LIBRARY:STRING=glu32
+
+//Generate pc file for specified target as glew. libglew_static|libglew_shared
+PKG_CONFIG_REPRESENTATIVE_TARGET:BOOL=OFF
+
+//The directory containing a CMake configuration file for SFML.
+SFML_DIR:PATH=C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/lib/cmake/SFML
+
+//Path to a file.
+SFML_DOC_DIR:PATH=SFML_DOC_DIR-NOTFOUND
+
+//Use GLU
+USE_GLU:BOOL=OFF
+
+//Build the shared glew library
+glew-cmake_BUILD_SHARED:BOOL=ON
+
+//Build the static glew library
+glew-cmake_BUILD_STATIC:BOOL=ON
+
+//Value Computed by CMake
+glew_BINARY_DIR:STATIC=C:/msys64/home/kylia/Galactous/build/external/GLEW
+
+//Value Computed by CMake
+glew_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+glew_SOURCE_DIR:STATIC=C:/msys64/home/kylia/Galactous/external/GLEW
+
 //The directory containing a CMake configuration file for glfw3.
 glfw3_DIR:PATH=C:/msys64/mingw64/lib/cmake/glfw3
-
-//The directory containing a CMake configuration file for glfw.
-glfw_DIR:PATH=glfw_DIR-NOTFOUND
 
 
 ########################
@@ -439,6 +481,14 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_TAPI-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Details about finding OpenGL
+FIND_PACKAGE_MESSAGE_DETAILS_OpenGL:INTERNAL=[opengl32][ ][v()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
+//ADVANCED property for variable: FreeType_LIB
+FreeType_LIB-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OPENGL_gl_LIBRARY
+OPENGL_gl_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OPENGL_glu_LIBRARY
+OPENGL_glu_LIBRARY-ADVANCED:INTERNAL=1
 

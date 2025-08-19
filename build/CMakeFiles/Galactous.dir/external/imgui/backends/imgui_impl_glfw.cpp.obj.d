@@ -2,6 +2,12 @@ CMakeFiles/Galactous.dir/external/imgui/backends/imgui_impl_glfw.cpp.obj: \
  C:\msys64\home\kylia\Galactous\external\imgui\backends\imgui_impl_glfw.cpp \
  C:/msys64/home/kylia/Galactous/external/imgui/imgui.h \
  C:/msys64/home/kylia/Galactous/external/imgui/imconfig.h \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Graphics/Color.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Graphics/Export.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Config.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/System/Vector2.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/System/Vector2.inl \
+ C:/msys64/home/kylia/Galactous/external/imgui/imgui-SFML_export.h \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/float.h \
  C:/msys64/mingw64/include/float.h C:/msys64/mingw64/include/crtdefs.h \
  C:/msys64/mingw64/include/corecrt.h C:/msys64/mingw64/include/_mingw.h \
@@ -246,8 +252,4 @@ CMakeFiles/Galactous.dir/external/imgui/backends/imgui_impl_glfw.cpp.obj: \
  C:/msys64/mingw64/include/commdlg.h C:/msys64/mingw64/include/stralign.h \
  C:/msys64/mingw64/include/sec_api/stralign_s.h \
  C:/msys64/mingw64/include/winsvc.h C:/msys64/mingw64/include/mcx.h \
- C:/msys64/mingw64/include/imm.h C:/msys64/mingw64/include/stdio.h \
- C:/msys64/mingw64/include/corecrt_stdio_config.h \
- C:/msys64/mingw64/include/_mingw_off_t.h \
- C:/msys64/mingw64/include/swprintf.inl \
- C:/msys64/mingw64/include/sec_api/stdio_s.h
+ C:/msys64/mingw64/include/imm.h

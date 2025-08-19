@@ -4,8 +4,8 @@
 Page::Page(WindowWeakPtr window) : window(window), cameras() {
     CameraPtr camera = std::make_shared<Camera>();
     cameras.push_back(camera);
-    pointRenderer = std::make_shared<PointRenderer>();
-    pointRenderer->setCamera(camera);
+    renderer = std::make_shared<Renderer>();
+    renderer->setCamera(camera);
     input = std::make_shared<Input>(window, camera);
     input->activate();
     simulation = std::make_shared<Simulation>();
@@ -15,8 +15,8 @@ Page::Page(WindowWeakPtr window) : window(window), cameras() {
 Page::Page(WindowWeakPtr window, SimulationPtr simulation) : window(window), simulation(simulation), cameras() {
     CameraPtr camera = std::make_shared<Camera>();
     cameras.push_back(camera);
-    pointRenderer = std::make_shared<PointRenderer>();
-    pointRenderer->setCamera(camera);
+    renderer = std::make_shared<Renderer>();
+    renderer->setCamera(camera);
     input = std::make_shared<Input>(window, camera);
     input->activate();
     galaxyFactory = std::make_shared<GalaxyFactory>(simulation);
@@ -76,7 +76,7 @@ void Page::printSimulation(){
     for(auto galaxy : simulation->galaxies){
         for(auto particle : galaxy->particles){
             Vec3& position = particle->pos;
-            pointRenderer->drawPoint(position.x, position.y, position.z, 1.0, 1.0, 1.0);
+            renderer->drawPoint(position.x, position.y, position.z, 1.0, 1.0, 1.0);
         }
     }
 }

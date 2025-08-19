@@ -176,6 +176,30 @@ external/imgui/backends/imgui_impl_opengl3.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Galactous.dir\build.make CMakeFiles/Galactous.dir/external/imgui/backends/imgui_impl_opengl3.cpp.s
 .PHONY : external/imgui/backends/imgui_impl_opengl3.cpp.s
 
+external/imgui/imgui-SFML.obj: external/imgui/imgui-SFML.cpp.obj
+.PHONY : external/imgui/imgui-SFML.obj
+
+# target to build an object file
+external/imgui/imgui-SFML.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Galactous.dir\build.make CMakeFiles/Galactous.dir/external/imgui/imgui-SFML.cpp.obj
+.PHONY : external/imgui/imgui-SFML.cpp.obj
+
+external/imgui/imgui-SFML.i: external/imgui/imgui-SFML.cpp.i
+.PHONY : external/imgui/imgui-SFML.i
+
+# target to preprocess a source file
+external/imgui/imgui-SFML.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Galactous.dir\build.make CMakeFiles/Galactous.dir/external/imgui/imgui-SFML.cpp.i
+.PHONY : external/imgui/imgui-SFML.cpp.i
+
+external/imgui/imgui-SFML.s: external/imgui/imgui-SFML.cpp.s
+.PHONY : external/imgui/imgui-SFML.s
+
+# target to generate assembly for a file
+external/imgui/imgui-SFML.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Galactous.dir\build.make CMakeFiles/Galactous.dir/external/imgui/imgui-SFML.cpp.s
+.PHONY : external/imgui/imgui-SFML.cpp.s
+
 external/imgui/imgui.obj: external/imgui/imgui.cpp.obj
 .PHONY : external/imgui/imgui.obj
 
@@ -416,29 +440,29 @@ src/display/Page.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Galactous.dir\build.make CMakeFiles/Galactous.dir/src/display/Page.cpp.s
 .PHONY : src/display/Page.cpp.s
 
-src/display/PointRenderer.obj: src/display/PointRenderer.cpp.obj
-.PHONY : src/display/PointRenderer.obj
+src/display/Renderer.obj: src/display/Renderer.cpp.obj
+.PHONY : src/display/Renderer.obj
 
 # target to build an object file
-src/display/PointRenderer.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Galactous.dir\build.make CMakeFiles/Galactous.dir/src/display/PointRenderer.cpp.obj
-.PHONY : src/display/PointRenderer.cpp.obj
+src/display/Renderer.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Galactous.dir\build.make CMakeFiles/Galactous.dir/src/display/Renderer.cpp.obj
+.PHONY : src/display/Renderer.cpp.obj
 
-src/display/PointRenderer.i: src/display/PointRenderer.cpp.i
-.PHONY : src/display/PointRenderer.i
+src/display/Renderer.i: src/display/Renderer.cpp.i
+.PHONY : src/display/Renderer.i
 
 # target to preprocess a source file
-src/display/PointRenderer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Galactous.dir\build.make CMakeFiles/Galactous.dir/src/display/PointRenderer.cpp.i
-.PHONY : src/display/PointRenderer.cpp.i
+src/display/Renderer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Galactous.dir\build.make CMakeFiles/Galactous.dir/src/display/Renderer.cpp.i
+.PHONY : src/display/Renderer.cpp.i
 
-src/display/PointRenderer.s: src/display/PointRenderer.cpp.s
-.PHONY : src/display/PointRenderer.s
+src/display/Renderer.s: src/display/Renderer.cpp.s
+.PHONY : src/display/Renderer.s
 
 # target to generate assembly for a file
-src/display/PointRenderer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Galactous.dir\build.make CMakeFiles/Galactous.dir/src/display/PointRenderer.cpp.s
-.PHONY : src/display/PointRenderer.cpp.s
+src/display/Renderer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Galactous.dir\build.make CMakeFiles/Galactous.dir/src/display/Renderer.cpp.s
+.PHONY : src/display/Renderer.cpp.s
 
 src/display/Window.obj: src/display/Window.cpp.obj
 .PHONY : src/display/Window.obj
@@ -647,6 +671,9 @@ help:
 	@echo ... external/imgui/backends/imgui_impl_opengl3.obj
 	@echo ... external/imgui/backends/imgui_impl_opengl3.i
 	@echo ... external/imgui/backends/imgui_impl_opengl3.s
+	@echo ... external/imgui/imgui-SFML.obj
+	@echo ... external/imgui/imgui-SFML.i
+	@echo ... external/imgui/imgui-SFML.s
 	@echo ... external/imgui/imgui.obj
 	@echo ... external/imgui/imgui.i
 	@echo ... external/imgui/imgui.s
@@ -677,9 +704,9 @@ help:
 	@echo ... src/display/Page.obj
 	@echo ... src/display/Page.i
 	@echo ... src/display/Page.s
-	@echo ... src/display/PointRenderer.obj
-	@echo ... src/display/PointRenderer.i
-	@echo ... src/display/PointRenderer.s
+	@echo ... src/display/Renderer.obj
+	@echo ... src/display/Renderer.i
+	@echo ... src/display/Renderer.s
 	@echo ... src/display/Window.obj
 	@echo ... src/display/Window.i
 	@echo ... src/display/Window.s

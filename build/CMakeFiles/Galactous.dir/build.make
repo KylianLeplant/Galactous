@@ -101,11 +101,26 @@ CMakeFiles/Galactous.dir/external/imgui/backends/imgui_impl_opengl3.cpp.s: cmake
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Galactous.dir/external/imgui/backends/imgui_impl_opengl3.cpp.s"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\msys64\home\kylia\Galactous\external\imgui\backends\imgui_impl_opengl3.cpp -o CMakeFiles\Galactous.dir\external\imgui\backends\imgui_impl_opengl3.cpp.s
 
+CMakeFiles/Galactous.dir/external/imgui/imgui-SFML.cpp.obj: CMakeFiles/Galactous.dir/flags.make
+CMakeFiles/Galactous.dir/external/imgui/imgui-SFML.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
+CMakeFiles/Galactous.dir/external/imgui/imgui-SFML.cpp.obj: C:/msys64/home/kylia/Galactous/external/imgui/imgui-SFML.cpp
+CMakeFiles/Galactous.dir/external/imgui/imgui-SFML.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Galactous.dir/external/imgui/imgui-SFML.cpp.obj"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/external/imgui/imgui-SFML.cpp.obj -MF CMakeFiles\Galactous.dir\external\imgui\imgui-SFML.cpp.obj.d -o CMakeFiles\Galactous.dir\external\imgui\imgui-SFML.cpp.obj -c C:\msys64\home\kylia\Galactous\external\imgui\imgui-SFML.cpp
+
+CMakeFiles/Galactous.dir/external/imgui/imgui-SFML.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Galactous.dir/external/imgui/imgui-SFML.cpp.i"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\msys64\home\kylia\Galactous\external\imgui\imgui-SFML.cpp > CMakeFiles\Galactous.dir\external\imgui\imgui-SFML.cpp.i
+
+CMakeFiles/Galactous.dir/external/imgui/imgui-SFML.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Galactous.dir/external/imgui/imgui-SFML.cpp.s"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\msys64\home\kylia\Galactous\external\imgui\imgui-SFML.cpp -o CMakeFiles\Galactous.dir\external\imgui\imgui-SFML.cpp.s
+
 CMakeFiles/Galactous.dir/external/imgui/imgui.cpp.obj: CMakeFiles/Galactous.dir/flags.make
 CMakeFiles/Galactous.dir/external/imgui/imgui.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/external/imgui/imgui.cpp.obj: C:/msys64/home/kylia/Galactous/external/imgui/imgui.cpp
 CMakeFiles/Galactous.dir/external/imgui/imgui.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Galactous.dir/external/imgui/imgui.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Galactous.dir/external/imgui/imgui.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/external/imgui/imgui.cpp.obj -MF CMakeFiles\Galactous.dir\external\imgui\imgui.cpp.obj.d -o CMakeFiles\Galactous.dir\external\imgui\imgui.cpp.obj -c C:\msys64\home\kylia\Galactous\external\imgui\imgui.cpp
 
 CMakeFiles/Galactous.dir/external/imgui/imgui.cpp.i: cmake_force
@@ -120,7 +135,7 @@ CMakeFiles/Galactous.dir/external/imgui/imgui_demo.cpp.obj: CMakeFiles/Galactous
 CMakeFiles/Galactous.dir/external/imgui/imgui_demo.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/external/imgui/imgui_demo.cpp.obj: C:/msys64/home/kylia/Galactous/external/imgui/imgui_demo.cpp
 CMakeFiles/Galactous.dir/external/imgui/imgui_demo.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Galactous.dir/external/imgui/imgui_demo.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Galactous.dir/external/imgui/imgui_demo.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/external/imgui/imgui_demo.cpp.obj -MF CMakeFiles\Galactous.dir\external\imgui\imgui_demo.cpp.obj.d -o CMakeFiles\Galactous.dir\external\imgui\imgui_demo.cpp.obj -c C:\msys64\home\kylia\Galactous\external\imgui\imgui_demo.cpp
 
 CMakeFiles/Galactous.dir/external/imgui/imgui_demo.cpp.i: cmake_force
@@ -135,7 +150,7 @@ CMakeFiles/Galactous.dir/external/imgui/imgui_draw.cpp.obj: CMakeFiles/Galactous
 CMakeFiles/Galactous.dir/external/imgui/imgui_draw.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/external/imgui/imgui_draw.cpp.obj: C:/msys64/home/kylia/Galactous/external/imgui/imgui_draw.cpp
 CMakeFiles/Galactous.dir/external/imgui/imgui_draw.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Galactous.dir/external/imgui/imgui_draw.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Galactous.dir/external/imgui/imgui_draw.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/external/imgui/imgui_draw.cpp.obj -MF CMakeFiles\Galactous.dir\external\imgui\imgui_draw.cpp.obj.d -o CMakeFiles\Galactous.dir\external\imgui\imgui_draw.cpp.obj -c C:\msys64\home\kylia\Galactous\external\imgui\imgui_draw.cpp
 
 CMakeFiles/Galactous.dir/external/imgui/imgui_draw.cpp.i: cmake_force
@@ -150,7 +165,7 @@ CMakeFiles/Galactous.dir/external/imgui/imgui_tables.cpp.obj: CMakeFiles/Galacto
 CMakeFiles/Galactous.dir/external/imgui/imgui_tables.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/external/imgui/imgui_tables.cpp.obj: C:/msys64/home/kylia/Galactous/external/imgui/imgui_tables.cpp
 CMakeFiles/Galactous.dir/external/imgui/imgui_tables.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Galactous.dir/external/imgui/imgui_tables.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Galactous.dir/external/imgui/imgui_tables.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/external/imgui/imgui_tables.cpp.obj -MF CMakeFiles\Galactous.dir\external\imgui\imgui_tables.cpp.obj.d -o CMakeFiles\Galactous.dir\external\imgui\imgui_tables.cpp.obj -c C:\msys64\home\kylia\Galactous\external\imgui\imgui_tables.cpp
 
 CMakeFiles/Galactous.dir/external/imgui/imgui_tables.cpp.i: cmake_force
@@ -165,7 +180,7 @@ CMakeFiles/Galactous.dir/external/imgui/imgui_widgets.cpp.obj: CMakeFiles/Galact
 CMakeFiles/Galactous.dir/external/imgui/imgui_widgets.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/external/imgui/imgui_widgets.cpp.obj: C:/msys64/home/kylia/Galactous/external/imgui/imgui_widgets.cpp
 CMakeFiles/Galactous.dir/external/imgui/imgui_widgets.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Galactous.dir/external/imgui/imgui_widgets.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Galactous.dir/external/imgui/imgui_widgets.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/external/imgui/imgui_widgets.cpp.obj -MF CMakeFiles\Galactous.dir\external\imgui\imgui_widgets.cpp.obj.d -o CMakeFiles\Galactous.dir\external\imgui\imgui_widgets.cpp.obj -c C:\msys64\home\kylia\Galactous\external\imgui\imgui_widgets.cpp
 
 CMakeFiles/Galactous.dir/external/imgui/imgui_widgets.cpp.i: cmake_force
@@ -180,7 +195,7 @@ CMakeFiles/Galactous.dir/external/vendor/glad/glad.c.obj: CMakeFiles/Galactous.d
 CMakeFiles/Galactous.dir/external/vendor/glad/glad.c.obj: CMakeFiles/Galactous.dir/includes_C.rsp
 CMakeFiles/Galactous.dir/external/vendor/glad/glad.c.obj: C:/msys64/home/kylia/Galactous/external/vendor/glad/glad.c
 CMakeFiles/Galactous.dir/external/vendor/glad/glad.c.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/Galactous.dir/external/vendor/glad/glad.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/Galactous.dir/external/vendor/glad/glad.c.obj"
 	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Galactous.dir/external/vendor/glad/glad.c.obj -MF CMakeFiles\Galactous.dir\external\vendor\glad\glad.c.obj.d -o CMakeFiles\Galactous.dir\external\vendor\glad\glad.c.obj -c C:\msys64\home\kylia\Galactous\external\vendor\glad\glad.c
 
 CMakeFiles/Galactous.dir/external/vendor/glad/glad.c.i: cmake_force
@@ -195,7 +210,7 @@ CMakeFiles/Galactous.dir/src/ComputeShader.cpp.obj: CMakeFiles/Galactous.dir/fla
 CMakeFiles/Galactous.dir/src/ComputeShader.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/src/ComputeShader.cpp.obj: C:/msys64/home/kylia/Galactous/src/ComputeShader.cpp
 CMakeFiles/Galactous.dir/src/ComputeShader.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Galactous.dir/src/ComputeShader.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Galactous.dir/src/ComputeShader.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/src/ComputeShader.cpp.obj -MF CMakeFiles\Galactous.dir\src\ComputeShader.cpp.obj.d -o CMakeFiles\Galactous.dir\src\ComputeShader.cpp.obj -c C:\msys64\home\kylia\Galactous\src\ComputeShader.cpp
 
 CMakeFiles/Galactous.dir/src/ComputeShader.cpp.i: cmake_force
@@ -210,7 +225,7 @@ CMakeFiles/Galactous.dir/src/Input.cpp.obj: CMakeFiles/Galactous.dir/flags.make
 CMakeFiles/Galactous.dir/src/Input.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/src/Input.cpp.obj: C:/msys64/home/kylia/Galactous/src/Input.cpp
 CMakeFiles/Galactous.dir/src/Input.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Galactous.dir/src/Input.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/Galactous.dir/src/Input.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/src/Input.cpp.obj -MF CMakeFiles\Galactous.dir\src\Input.cpp.obj.d -o CMakeFiles\Galactous.dir\src\Input.cpp.obj -c C:\msys64\home\kylia\Galactous\src\Input.cpp
 
 CMakeFiles/Galactous.dir/src/Input.cpp.i: cmake_force
@@ -225,7 +240,7 @@ CMakeFiles/Galactous.dir/src/display/Camera.cpp.obj: CMakeFiles/Galactous.dir/fl
 CMakeFiles/Galactous.dir/src/display/Camera.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/src/display/Camera.cpp.obj: C:/msys64/home/kylia/Galactous/src/display/Camera.cpp
 CMakeFiles/Galactous.dir/src/display/Camera.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/Galactous.dir/src/display/Camera.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/Galactous.dir/src/display/Camera.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/src/display/Camera.cpp.obj -MF CMakeFiles\Galactous.dir\src\display\Camera.cpp.obj.d -o CMakeFiles\Galactous.dir\src\display\Camera.cpp.obj -c C:\msys64\home\kylia\Galactous\src\display\Camera.cpp
 
 CMakeFiles/Galactous.dir/src/display/Camera.cpp.i: cmake_force
@@ -240,7 +255,7 @@ CMakeFiles/Galactous.dir/src/display/Page.cpp.obj: CMakeFiles/Galactous.dir/flag
 CMakeFiles/Galactous.dir/src/display/Page.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/src/display/Page.cpp.obj: C:/msys64/home/kylia/Galactous/src/display/Page.cpp
 CMakeFiles/Galactous.dir/src/display/Page.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/Galactous.dir/src/display/Page.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/Galactous.dir/src/display/Page.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/src/display/Page.cpp.obj -MF CMakeFiles\Galactous.dir\src\display\Page.cpp.obj.d -o CMakeFiles\Galactous.dir\src\display\Page.cpp.obj -c C:\msys64\home\kylia\Galactous\src\display\Page.cpp
 
 CMakeFiles/Galactous.dir/src/display/Page.cpp.i: cmake_force
@@ -251,26 +266,26 @@ CMakeFiles/Galactous.dir/src/display/Page.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Galactous.dir/src/display/Page.cpp.s"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\msys64\home\kylia\Galactous\src\display\Page.cpp -o CMakeFiles\Galactous.dir\src\display\Page.cpp.s
 
-CMakeFiles/Galactous.dir/src/display/PointRenderer.cpp.obj: CMakeFiles/Galactous.dir/flags.make
-CMakeFiles/Galactous.dir/src/display/PointRenderer.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
-CMakeFiles/Galactous.dir/src/display/PointRenderer.cpp.obj: C:/msys64/home/kylia/Galactous/src/display/PointRenderer.cpp
-CMakeFiles/Galactous.dir/src/display/PointRenderer.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/Galactous.dir/src/display/PointRenderer.cpp.obj"
-	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/src/display/PointRenderer.cpp.obj -MF CMakeFiles\Galactous.dir\src\display\PointRenderer.cpp.obj.d -o CMakeFiles\Galactous.dir\src\display\PointRenderer.cpp.obj -c C:\msys64\home\kylia\Galactous\src\display\PointRenderer.cpp
+CMakeFiles/Galactous.dir/src/display/Renderer.cpp.obj: CMakeFiles/Galactous.dir/flags.make
+CMakeFiles/Galactous.dir/src/display/Renderer.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
+CMakeFiles/Galactous.dir/src/display/Renderer.cpp.obj: C:/msys64/home/kylia/Galactous/src/display/Renderer.cpp
+CMakeFiles/Galactous.dir/src/display/Renderer.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/Galactous.dir/src/display/Renderer.cpp.obj"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/src/display/Renderer.cpp.obj -MF CMakeFiles\Galactous.dir\src\display\Renderer.cpp.obj.d -o CMakeFiles\Galactous.dir\src\display\Renderer.cpp.obj -c C:\msys64\home\kylia\Galactous\src\display\Renderer.cpp
 
-CMakeFiles/Galactous.dir/src/display/PointRenderer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Galactous.dir/src/display/PointRenderer.cpp.i"
-	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\msys64\home\kylia\Galactous\src\display\PointRenderer.cpp > CMakeFiles\Galactous.dir\src\display\PointRenderer.cpp.i
+CMakeFiles/Galactous.dir/src/display/Renderer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Galactous.dir/src/display/Renderer.cpp.i"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\msys64\home\kylia\Galactous\src\display\Renderer.cpp > CMakeFiles\Galactous.dir\src\display\Renderer.cpp.i
 
-CMakeFiles/Galactous.dir/src/display/PointRenderer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Galactous.dir/src/display/PointRenderer.cpp.s"
-	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\msys64\home\kylia\Galactous\src\display\PointRenderer.cpp -o CMakeFiles\Galactous.dir\src\display\PointRenderer.cpp.s
+CMakeFiles/Galactous.dir/src/display/Renderer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Galactous.dir/src/display/Renderer.cpp.s"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\msys64\home\kylia\Galactous\src\display\Renderer.cpp -o CMakeFiles\Galactous.dir\src\display\Renderer.cpp.s
 
 CMakeFiles/Galactous.dir/src/display/Window.cpp.obj: CMakeFiles/Galactous.dir/flags.make
 CMakeFiles/Galactous.dir/src/display/Window.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/src/display/Window.cpp.obj: C:/msys64/home/kylia/Galactous/src/display/Window.cpp
 CMakeFiles/Galactous.dir/src/display/Window.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/Galactous.dir/src/display/Window.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/Galactous.dir/src/display/Window.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/src/display/Window.cpp.obj -MF CMakeFiles\Galactous.dir\src\display\Window.cpp.obj.d -o CMakeFiles\Galactous.dir\src\display\Window.cpp.obj -c C:\msys64\home\kylia\Galactous\src\display\Window.cpp
 
 CMakeFiles/Galactous.dir/src/display/Window.cpp.i: cmake_force
@@ -285,7 +300,7 @@ CMakeFiles/Galactous.dir/src/main/main.cpp.obj: CMakeFiles/Galactous.dir/flags.m
 CMakeFiles/Galactous.dir/src/main/main.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/src/main/main.cpp.obj: C:/msys64/home/kylia/Galactous/src/main/main.cpp
 CMakeFiles/Galactous.dir/src/main/main.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/Galactous.dir/src/main/main.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/Galactous.dir/src/main/main.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/src/main/main.cpp.obj -MF CMakeFiles\Galactous.dir\src\main\main.cpp.obj.d -o CMakeFiles\Galactous.dir\src\main\main.cpp.obj -c C:\msys64\home\kylia\Galactous\src\main\main.cpp
 
 CMakeFiles/Galactous.dir/src/main/main.cpp.i: cmake_force
@@ -300,7 +315,7 @@ CMakeFiles/Galactous.dir/src/simulation/Galaxy.cpp.obj: CMakeFiles/Galactous.dir
 CMakeFiles/Galactous.dir/src/simulation/Galaxy.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/src/simulation/Galaxy.cpp.obj: C:/msys64/home/kylia/Galactous/src/simulation/Galaxy.cpp
 CMakeFiles/Galactous.dir/src/simulation/Galaxy.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/Galactous.dir/src/simulation/Galaxy.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/Galactous.dir/src/simulation/Galaxy.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/src/simulation/Galaxy.cpp.obj -MF CMakeFiles\Galactous.dir\src\simulation\Galaxy.cpp.obj.d -o CMakeFiles\Galactous.dir\src\simulation\Galaxy.cpp.obj -c C:\msys64\home\kylia\Galactous\src\simulation\Galaxy.cpp
 
 CMakeFiles/Galactous.dir/src/simulation/Galaxy.cpp.i: cmake_force
@@ -315,7 +330,7 @@ CMakeFiles/Galactous.dir/src/simulation/GalaxyFactory.cpp.obj: CMakeFiles/Galact
 CMakeFiles/Galactous.dir/src/simulation/GalaxyFactory.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/src/simulation/GalaxyFactory.cpp.obj: C:/msys64/home/kylia/Galactous/src/simulation/GalaxyFactory.cpp
 CMakeFiles/Galactous.dir/src/simulation/GalaxyFactory.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/Galactous.dir/src/simulation/GalaxyFactory.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/Galactous.dir/src/simulation/GalaxyFactory.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/src/simulation/GalaxyFactory.cpp.obj -MF CMakeFiles\Galactous.dir\src\simulation\GalaxyFactory.cpp.obj.d -o CMakeFiles\Galactous.dir\src\simulation\GalaxyFactory.cpp.obj -c C:\msys64\home\kylia\Galactous\src\simulation\GalaxyFactory.cpp
 
 CMakeFiles/Galactous.dir/src/simulation/GalaxyFactory.cpp.i: cmake_force
@@ -330,7 +345,7 @@ CMakeFiles/Galactous.dir/src/simulation/Octree.cpp.obj: CMakeFiles/Galactous.dir
 CMakeFiles/Galactous.dir/src/simulation/Octree.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/src/simulation/Octree.cpp.obj: C:/msys64/home/kylia/Galactous/src/simulation/Octree.cpp
 CMakeFiles/Galactous.dir/src/simulation/Octree.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/Galactous.dir/src/simulation/Octree.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/Galactous.dir/src/simulation/Octree.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/src/simulation/Octree.cpp.obj -MF CMakeFiles\Galactous.dir\src\simulation\Octree.cpp.obj.d -o CMakeFiles\Galactous.dir\src\simulation\Octree.cpp.obj -c C:\msys64\home\kylia\Galactous\src\simulation\Octree.cpp
 
 CMakeFiles/Galactous.dir/src/simulation/Octree.cpp.i: cmake_force
@@ -345,7 +360,7 @@ CMakeFiles/Galactous.dir/src/simulation/Particle.cpp.obj: CMakeFiles/Galactous.d
 CMakeFiles/Galactous.dir/src/simulation/Particle.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/src/simulation/Particle.cpp.obj: C:/msys64/home/kylia/Galactous/src/simulation/Particle.cpp
 CMakeFiles/Galactous.dir/src/simulation/Particle.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/Galactous.dir/src/simulation/Particle.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/Galactous.dir/src/simulation/Particle.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/src/simulation/Particle.cpp.obj -MF CMakeFiles\Galactous.dir\src\simulation\Particle.cpp.obj.d -o CMakeFiles\Galactous.dir\src\simulation\Particle.cpp.obj -c C:\msys64\home\kylia\Galactous\src\simulation\Particle.cpp
 
 CMakeFiles/Galactous.dir/src/simulation/Particle.cpp.i: cmake_force
@@ -360,7 +375,7 @@ CMakeFiles/Galactous.dir/src/simulation/Simulation.cpp.obj: CMakeFiles/Galactous
 CMakeFiles/Galactous.dir/src/simulation/Simulation.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/src/simulation/Simulation.cpp.obj: C:/msys64/home/kylia/Galactous/src/simulation/Simulation.cpp
 CMakeFiles/Galactous.dir/src/simulation/Simulation.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/Galactous.dir/src/simulation/Simulation.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/Galactous.dir/src/simulation/Simulation.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/src/simulation/Simulation.cpp.obj -MF CMakeFiles\Galactous.dir\src\simulation\Simulation.cpp.obj.d -o CMakeFiles\Galactous.dir\src\simulation\Simulation.cpp.obj -c C:\msys64\home\kylia\Galactous\src\simulation\Simulation.cpp
 
 CMakeFiles/Galactous.dir/src/simulation/Simulation.cpp.i: cmake_force
@@ -375,7 +390,7 @@ CMakeFiles/Galactous.dir/src/types.cpp.obj: CMakeFiles/Galactous.dir/flags.make
 CMakeFiles/Galactous.dir/src/types.cpp.obj: CMakeFiles/Galactous.dir/includes_CXX.rsp
 CMakeFiles/Galactous.dir/src/types.cpp.obj: C:/msys64/home/kylia/Galactous/src/types.cpp
 CMakeFiles/Galactous.dir/src/types.cpp.obj: CMakeFiles/Galactous.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/Galactous.dir/src/types.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/Galactous.dir/src/types.cpp.obj"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Galactous.dir/src/types.cpp.obj -MF CMakeFiles\Galactous.dir\src\types.cpp.obj.d -o CMakeFiles\Galactous.dir\src\types.cpp.obj -c C:\msys64\home\kylia\Galactous\src\types.cpp
 
 CMakeFiles/Galactous.dir/src/types.cpp.i: cmake_force
@@ -390,6 +405,7 @@ CMakeFiles/Galactous.dir/src/types.cpp.s: cmake_force
 Galactous_OBJECTS = \
 "CMakeFiles/Galactous.dir/external/imgui/backends/imgui_impl_glfw.cpp.obj" \
 "CMakeFiles/Galactous.dir/external/imgui/backends/imgui_impl_opengl3.cpp.obj" \
+"CMakeFiles/Galactous.dir/external/imgui/imgui-SFML.cpp.obj" \
 "CMakeFiles/Galactous.dir/external/imgui/imgui.cpp.obj" \
 "CMakeFiles/Galactous.dir/external/imgui/imgui_demo.cpp.obj" \
 "CMakeFiles/Galactous.dir/external/imgui/imgui_draw.cpp.obj" \
@@ -400,7 +416,7 @@ Galactous_OBJECTS = \
 "CMakeFiles/Galactous.dir/src/Input.cpp.obj" \
 "CMakeFiles/Galactous.dir/src/display/Camera.cpp.obj" \
 "CMakeFiles/Galactous.dir/src/display/Page.cpp.obj" \
-"CMakeFiles/Galactous.dir/src/display/PointRenderer.cpp.obj" \
+"CMakeFiles/Galactous.dir/src/display/Renderer.cpp.obj" \
 "CMakeFiles/Galactous.dir/src/display/Window.cpp.obj" \
 "CMakeFiles/Galactous.dir/src/main/main.cpp.obj" \
 "CMakeFiles/Galactous.dir/src/simulation/Galaxy.cpp.obj" \
@@ -415,6 +431,7 @@ Galactous_EXTERNAL_OBJECTS =
 
 Galactous.exe: CMakeFiles/Galactous.dir/external/imgui/backends/imgui_impl_glfw.cpp.obj
 Galactous.exe: CMakeFiles/Galactous.dir/external/imgui/backends/imgui_impl_opengl3.cpp.obj
+Galactous.exe: CMakeFiles/Galactous.dir/external/imgui/imgui-SFML.cpp.obj
 Galactous.exe: CMakeFiles/Galactous.dir/external/imgui/imgui.cpp.obj
 Galactous.exe: CMakeFiles/Galactous.dir/external/imgui/imgui_demo.cpp.obj
 Galactous.exe: CMakeFiles/Galactous.dir/external/imgui/imgui_draw.cpp.obj
@@ -425,7 +442,7 @@ Galactous.exe: CMakeFiles/Galactous.dir/src/ComputeShader.cpp.obj
 Galactous.exe: CMakeFiles/Galactous.dir/src/Input.cpp.obj
 Galactous.exe: CMakeFiles/Galactous.dir/src/display/Camera.cpp.obj
 Galactous.exe: CMakeFiles/Galactous.dir/src/display/Page.cpp.obj
-Galactous.exe: CMakeFiles/Galactous.dir/src/display/PointRenderer.cpp.obj
+Galactous.exe: CMakeFiles/Galactous.dir/src/display/Renderer.cpp.obj
 Galactous.exe: CMakeFiles/Galactous.dir/src/display/Window.cpp.obj
 Galactous.exe: CMakeFiles/Galactous.dir/src/main/main.cpp.obj
 Galactous.exe: CMakeFiles/Galactous.dir/src/simulation/Galaxy.cpp.obj
@@ -435,11 +452,17 @@ Galactous.exe: CMakeFiles/Galactous.dir/src/simulation/Particle.cpp.obj
 Galactous.exe: CMakeFiles/Galactous.dir/src/simulation/Simulation.cpp.obj
 Galactous.exe: CMakeFiles/Galactous.dir/src/types.cpp.obj
 Galactous.exe: CMakeFiles/Galactous.dir/build.make
+Galactous.exe: C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/lib/libsfml-system-s-d.a
+Galactous.exe: C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/lib/libsfml-window-s-d.a
+Galactous.exe: C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/lib/libsfml-graphics-s-d.a
 Galactous.exe: C:/msys64/mingw64/lib/libglfw3.dll.a
+Galactous.exe: C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/lib/libsfml-window-s-d.a
+Galactous.exe: C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/lib/libsfml-system-s-d.a
+Galactous.exe: C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/lib/libfreetype.a
 Galactous.exe: CMakeFiles/Galactous.dir/linkLibs.rsp
 Galactous.exe: CMakeFiles/Galactous.dir/objects1.rsp
 Galactous.exe: CMakeFiles/Galactous.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Linking CXX executable Galactous.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\msys64\home\kylia\Galactous\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Linking CXX executable Galactous.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Galactous.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

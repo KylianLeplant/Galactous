@@ -76,7 +76,8 @@
         "filesystem": "cpp",
         "random": "cpp",
         "stack": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "set": "cpp"
     },
     "makefile.makefilePath": "C:\\Users\\kylia\\OneDrive\\Bureau\\Galactous\\Makefile"
 }

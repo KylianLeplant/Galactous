@@ -359,7 +359,7 @@ CMakeFiles/Galactous.dir/src/main/main.cpp.obj: \
  C:/msys64/mingw64/include/semaphore.h \
  C:/msys64/home/kylia/Galactous/include/simulation/Galaxy.hpp \
  C:/msys64/home/kylia/Galactous/include/simulation/Particle.hpp \
- C:/msys64/home/kylia/Galactous/include/display/PointRenderer.hpp \
+ C:/msys64/home/kylia/Galactous/include/display/Renderer.hpp \
  C:/msys64/home/kylia/Galactous/external/vendor/glad/glad.h \
  C:/msys64/home/kylia/Galactous/external/vendor/glad/khrplatform.h \
  C:/msys64/home/kylia/Galactous/include/display/Camera.hpp \
@@ -372,6 +372,12 @@ CMakeFiles/Galactous.dir/src/main/main.cpp.obj: \
  C:/msys64/home/kylia/Galactous/include/display/imconfig.h \
  C:/msys64/home/kylia/Galactous/external/imgui/imgui.h \
  C:/msys64/home/kylia/Galactous/external/imgui/imconfig.h \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Graphics/Color.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Graphics/Export.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Config.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/System/Vector2.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/System/Vector2.inl \
+ C:/msys64/home/kylia/Galactous/external/imgui/imgui-SFML_export.h \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/float.h \
  C:/msys64/mingw64/include/float.h \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/stdarg.h \
@@ -386,5 +392,5 @@ CMakeFiles/Galactous.dir/src/main/main.cpp.obj: \
  C:/msys64/mingw64/include/c++/14.2.0/bits/stl_map.h \
  C:/msys64/mingw64/include/c++/14.2.0/bits/stl_multimap.h \
  C:/msys64/home/kylia/Galactous/include/display/Page.hpp \
- C:/msys64/home/kylia/Galactous/include/display/PointRenderer.hpp \
+ C:/msys64/home/kylia/Galactous/include/display/Renderer.hpp \
  C:/msys64/home/kylia/Galactous/include/display/Window.hpp

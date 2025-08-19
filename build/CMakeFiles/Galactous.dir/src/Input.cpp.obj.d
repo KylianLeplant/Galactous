@@ -214,6 +214,12 @@ CMakeFiles/Galactous.dir/src/Input.cpp.obj: \
  C:/msys64/home/kylia/Galactous/include/display/imconfig.h \
  C:/msys64/home/kylia/Galactous/external/imgui/imgui.h \
  C:/msys64/home/kylia/Galactous/external/imgui/imconfig.h \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Graphics/Color.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Graphics/Export.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Config.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/System/Vector2.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/System/Vector2.inl \
+ C:/msys64/home/kylia/Galactous/external/imgui/imgui-SFML_export.h \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/float.h \
  C:/msys64/mingw64/include/float.h \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/stdarg.h \

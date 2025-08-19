@@ -13,10 +13,12 @@ On execute ensuite le programme avec `./target/main.exe`
 
 
 ### CMake
-Pour compiler avec cmake sur mingw64 dans le répertoire build: 
+Pour compiler avec cmake sur mingw64 : 
 `
+cd build
 cmake -G "MinGW Makefiles" .
 mingw32-make
+cd ..
 `
 
-On execute ensuite le programme avec `./Galactous.exe` toujours dans le répertoire build.
+On execute ensuite le programme avec `./build/Galactous.exe`.

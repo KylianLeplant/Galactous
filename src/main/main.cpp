@@ -5,7 +5,7 @@
 #include "Particle.hpp"
 #include <cmath>
 
-#include "PointRenderer.hpp"
+#include "Renderer.hpp"
 #include "GalaxyFactory.hpp"
 #include "Camera.hpp"
 #include "Window.hpp"
