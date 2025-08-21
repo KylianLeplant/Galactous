@@ -199,33 +199,14 @@ CMakeFiles/Galactous.dir/src/display/Page.cpp.obj: \
  C:/msys64/mingw64/include/c++/14.2.0/bits/stl_bvector.h \
  C:/msys64/mingw64/include/c++/14.2.0/bits/vector.tcc \
  C:/msys64/home/kylia/Galactous/include/display/Window.hpp \
- C:/msys64/mingw64/include/GLFW/glfw3.h \
- C:/msys64/home/kylia/Galactous/include/display/imconfig.h \
- C:/msys64/home/kylia/Galactous/external/imgui/imgui.h \
- C:/msys64/home/kylia/Galactous/external/imgui/imconfig.h \
- C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Graphics/Color.hpp \
- C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Graphics/Export.hpp \
- C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Config.hpp \
- C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/System/Vector2.hpp \
- C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/System/Vector2.inl \
- C:/msys64/home/kylia/Galactous/external/imgui/imgui-SFML_export.h \
- C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/float.h \
- C:/msys64/mingw64/include/float.h \
- C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/stdarg.h \
- C:/msys64/mingw64/include/stdarg.h \
- C:/msys64/mingw64/include/_mingw_stdarg.h \
- C:/msys64/mingw64/include/string.h \
- C:/msys64/mingw64/include/sec_api/string_s.h \
- C:/msys64/mingw64/include/assert.h \
- C:/msys64/home/kylia/Galactous/external/imgui/backends/imgui_impl_glfw.h \
- C:/msys64/home/kylia/Galactous/external/imgui/backends/imgui_impl_opengl3.h \
- C:/msys64/home/kylia/Galactous/include/simulation/Simulation.hpp \
- C:/msys64/home/kylia/Galactous/include/simulation/forward.hpp \
+ C:/msys64/home/kylia/Galactous/include/forward.hpp \
  C:/msys64/mingw64/include/c++/14.2.0/array \
+ C:/msys64/home/kylia/Galactous/include/simulation/GalaxyFactory.hpp \
  C:/msys64/home/kylia/Galactous/include/simulation/Galaxy.hpp \
  C:/msys64/home/kylia/Galactous/include/simulation/Particle.hpp \
  C:/msys64/home/kylia/Galactous/include/simulation/Octree.hpp \
  C:/msys64/home/kylia/Galactous/include/simulation/FlattenedOctree.hpp \
+ C:/msys64/home/kylia/Galactous/include/simulation/Simulation.hpp \
  C:/msys64/home/kylia/Galactous/include/ComputeShader.hpp \
  C:/msys64/mingw64/include/CL/opencl.hpp \
  C:/msys64/mingw64/include/CL/opencl.h C:/msys64/mingw64/include/CL/cl.h \
@@ -351,6 +332,8 @@ CMakeFiles/Galactous.dir/src/display/Page.cpp.obj: \
  C:/msys64/mingw64/include/c++/14.2.0/bits/parse_numbers.h \
  C:/msys64/mingw64/include/c++/14.2.0/bits/unique_lock.h \
  C:/msys64/mingw64/include/c++/14.2.0/cstring \
+ C:/msys64/mingw64/include/string.h \
+ C:/msys64/mingw64/include/sec_api/string_s.h \
  C:/msys64/mingw64/include/c++/14.2.0/functional \
  C:/msys64/mingw64/include/c++/14.2.0/bits/std_function.h \
  C:/msys64/mingw64/include/c++/14.2.0/unordered_map \
@@ -383,12 +366,29 @@ CMakeFiles/Galactous.dir/src/display/Page.cpp.obj: \
  C:/msys64/mingw64/include/c++/14.2.0/bits/atomic_timed_wait.h \
  C:/msys64/mingw64/include/c++/14.2.0/bits/this_thread_sleep.h \
  C:/msys64/mingw64/include/semaphore.h \
+ C:/msys64/mingw64/include/GLFW/glfw3.h \
+ C:/msys64/home/kylia/Galactous/include/display/imconfig.h \
+ C:/msys64/home/kylia/Galactous/external/imgui/imgui.h \
+ C:/msys64/home/kylia/Galactous/external/imgui/imconfig.h \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Graphics/Color.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Graphics/Export.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/Config.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/System/Vector2.hpp \
+ C:/msys64/home/kylia/Galactous/external/SFML/MinGW/x64/include/SFML/System/Vector2.inl \
+ C:/msys64/home/kylia/Galactous/external/imgui/imgui-SFML_export.h \
+ C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/float.h \
+ C:/msys64/mingw64/include/float.h \
+ C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/stdarg.h \
+ C:/msys64/mingw64/include/stdarg.h \
+ C:/msys64/mingw64/include/_mingw_stdarg.h \
+ C:/msys64/mingw64/include/assert.h \
+ C:/msys64/home/kylia/Galactous/external/imgui/backends/imgui_impl_glfw.h \
+ C:/msys64/home/kylia/Galactous/external/imgui/backends/imgui_impl_opengl3.h \
  C:/msys64/home/kylia/Galactous/include/Input.hpp \
  C:/msys64/mingw64/include/c++/14.2.0/map \
  C:/msys64/mingw64/include/c++/14.2.0/bits/stl_tree.h \
  C:/msys64/mingw64/include/c++/14.2.0/bits/stl_map.h \
  C:/msys64/mingw64/include/c++/14.2.0/bits/stl_multimap.h \
- C:/msys64/home/kylia/Galactous/include/display/Camera.hpp \
  C:/msys64/home/kylia/Galactous/include/display/Window.hpp \
- C:/msys64/home/kylia/Galactous/include/simulation/GalaxyFactory.hpp \
+ C:/msys64/home/kylia/Galactous/include/display/Camera.hpp \
  C:/msys64/home/kylia/Galactous/include/simulation/Simulation.hpp

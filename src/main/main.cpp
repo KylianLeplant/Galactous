@@ -27,8 +27,9 @@ int main() {
 
     std::vector<cl::Device> devices = ComputeShader::getListDevices();
 
-    Page page(window); 
-    page.createGalaxy(nbParticles, mass, radius, thickness, starSpeed);
+    //Page page(window); 
+    //page.createGalaxy(nbParticles, mass, radius, thickness, starSpeed);
+    window->createGalaxy(nbParticles, mass, radius, thickness, starSpeed);
 
 
 
@@ -43,7 +44,7 @@ int main() {
     int frameCount = 0;
     double fpsUpdateInterval = 1.0; // Mettre à jour les FPS toutes les secondes
 
-    page.run();
+    window->run();
     float f = 0.0f;
     int counter = 0;
     int testCount = 0;

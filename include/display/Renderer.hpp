@@ -10,7 +10,7 @@
 class Renderer {
 private:
     unsigned int shaderProgram;
-    unsigned int VAO, VBO;
+    static GLuint VAO, VBO;
     CameraPtr camera;
 
     // manages the vertex shader source code

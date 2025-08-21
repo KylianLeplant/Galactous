@@ -7,8 +7,8 @@
 #include <map>
 #include <memory>
 #include <iostream>
-#include "Camera.hpp"
 #include "Window.hpp"
+#include "Camera.hpp"
 
 // Classe pour gérer les inputs (souris, clavier)
 class Input {
