@@ -21,9 +21,10 @@ __kernel void accelerations(__global Vec3* positions, __global const float* mass
     unsigned idOctree = 0;
     char isFinished = false;
     unsigned nb = 0;
+    float last_divCoeff = 0.0f;
 
-    
-    while (idOctree < *sizeOctree && !isFinished) {
+    unsigned local_sizeOctree = sizeOctree[0];
+    while (idOctree < local_sizeOctree && !isFinished) {
         nb++;
         
         Vec3 octreeCenter = octreeCenters[idOctree];
@@ -38,12 +39,13 @@ __kernel void accelerations(__global Vec3* positions, __global const float* mass
         float s_d = octreeWidth / d;
         if (s_d < 1.0f) {
             float divCoeff = *G * octreeMass / (d * d * d);
+            last_divCoeff = divCoeff;  // Capturer pour debug
             acceleration.x += r.x * divCoeff;
             acceleration.y += r.y * divCoeff;
             acceleration.z += r.z * divCoeff;
 
             //change idOctree to the next sibling of the octree
-            while (idOctree < *sizeOctree && octreeNextSiblingIndexes[idOctree] == 0){
+            while (idOctree < local_sizeOctree && octreeNextSiblingIndexes[idOctree] == 0){
                 
                 if (idOctree == 0) {
                     isFinished = true;
@@ -63,5 +65,4 @@ __kernel void accelerations(__global Vec3* positions, __global const float* mass
     positions[gid].x += velocities[gid].x * *timeStep;
     positions[gid].y += velocities[gid].y * *timeStep;
     positions[gid].z += velocities[gid].z * *timeStep;
-
 }

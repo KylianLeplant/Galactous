@@ -14,12 +14,16 @@ using ParticlePtr = std::shared_ptr<Particle>;
 using ParticleWeakPtr = std::weak_ptr<Particle>;
 using Particles = std::vector<ParticlePtr>;
 
-// Forward declarations pour éviter les inclusions circulaires
-class Window;
-class Camera;
-using WindowPtr = std::shared_ptr<Window>;
-using WindowWeakPtr = std::weak_ptr<Window>;
-using CameraPtr = std::shared_ptr<Camera>;
-using CameraWeakPtr = std::weak_ptr<Camera>;
+struct Simulation;
+using SimulationPtr = std::shared_ptr<Simulation>;
+
+class GalaxyFactory;
+using GalaxyFactoryPtr = std::shared_ptr<GalaxyFactory>;
+using GalaxyFactoryWeakPtr = std::weak_ptr<GalaxyFactory>;
+
+struct Galaxy;
+using GalaxyPtr = std::shared_ptr<Galaxy>;
+using GalaxyWeakPtr = std::weak_ptr<Galaxy>;
+
 
 #endif // FORWARD_HPP

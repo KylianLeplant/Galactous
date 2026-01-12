@@ -1,7 +1,8 @@
 #include "Simulation.hpp"
+#include "GalaxyFactory.hpp"
 #include <algorithm>
 #include <chrono>
-
+#define SHOULD_LOG 0
 void Simulation::update(){
     while(!stopFlag.load()){
         double sum = 0.0;
@@ -27,8 +28,9 @@ void Simulation::updateWithGPU(){
         unsigned int index = 0;
         auto end = std::chrono::high_resolution_clock::now();
         auto elapsed = std::chrono::duration<double>(end - start);
-        std::cout << "\nPartie 1 : " << elapsed.count() << std::endl;
-
+        #if SHOULD_LOG
+            std::cout << "\nPartie 1 : " << elapsed.count() << std::endl;
+        #endif
         start = std::chrono::high_resolution_clock::now();
         FlattenedOctreePtr flattenedOctree;
         if (flattenedOctreeQueue.empty()) {
@@ -45,7 +47,9 @@ void Simulation::updateWithGPU(){
         
         end = std::chrono::high_resolution_clock::now();
         elapsed = end - start;
-        std::cout << "\nflattenedOctree : " << elapsed.count() << std::endl;
+        #if SHOULD_LOG
+            std::cout << "\nflattened octree : " << elapsed.count() << std::endl;
+        #endif
         unsigned int sizeOctree = flattenedOctree->centers.size();
 
         while(particlesDataQueue.size() > 1){
@@ -55,7 +59,9 @@ void Simulation::updateWithGPU(){
         std::vector<Vec3> accelerations(particlesData->positions.size(), Vec3(0.0f, 0.0f, 0.0f));
         end = std::chrono::high_resolution_clock::now();
         elapsed = end - start;
-        std::cout << "\nPartie 2 : " << elapsed.count() << std::endl;
+        #if SHOULD_LOG
+            std::cout << "\nPartie 2 : " << elapsed.count() << std::endl;
+        #endif
         start = std::chrono::high_resolution_clock::now();
         cl::Buffer bufferPositions = ComputeShader::Buffer(particlesData->positions, Permissions::All);
         cl::Buffer bufferMasses = ComputeShader::Buffer(particlesData->masses, Permissions::Read);
@@ -70,18 +76,24 @@ void Simulation::updateWithGPU(){
         cl::Buffer bufferOctreeParentIndexes = ComputeShader::Buffer(flattenedOctree->parentIndices, Permissions::Read);
         cl::Buffer bufferSizeOctree = ComputeShader::Buffer(&sizeOctree, Permissions::Read);
         cl::Buffer buffertimeStep = ComputeShader::Buffer(&time_step, Permissions::Read);
+        
 
 
         std::vector<cl::Buffer*> buffers = {&bufferPositions, &bufferMasses, &bufferVelocities, &bufferSoftening, &bufferG, &bufferOctreeCenters, &bufferOctreeWidths, &bufferOctreeMassCenters, &bufferOctreeMasses, &bufferOctreeParentIndexes, &bufferOctreeNextSiblingIndexes, &bufferSizeOctree, &buffertimeStep}; //, &bufferOctreeIndexes
         end = std::chrono::high_resolution_clock::now();
         elapsed = end - start;
-        std::cout << "\nPartie 3 (buffers) : " << elapsed.count() << std::endl;
+        #if SHOULD_LOG
+            std::cout << "\nPartie 3 (buffer creation) : " << elapsed.count() << std::endl;
+        #endif
 
         start = std::chrono::high_resolution_clock::now();
         ComputeShader::launch("accelerations", buffers, cl::NDRange(particlesData->positions.size()));
         end = std::chrono::high_resolution_clock::now();
         elapsed = end - start;
-        std::cout << "durée kernel :" << elapsed.count() << std::endl;
+        
+        #if SHOULD_LOG
+            std::cout << "\ndurée kernel : " << elapsed.count() << std::endl;
+        #endif
 
         start = std::chrono::high_resolution_clock::now();
         cl::CommandQueue queue = ComputeShader::getQueue();
@@ -103,16 +115,22 @@ void Simulation::updateWithGPU(){
                 indexParticle = 0;
             }
             galaxies[indexGalaxy]->particles[indexParticle]->velocity = particlesData->velocities[i];
+            
             galaxies[indexGalaxy]->particles[indexParticle]->pos = particlesData->positions[i];
+            
             indexParticle++;
         }
         end = std::chrono::high_resolution_clock::now();
         elapsed = end - start;
-        std::cout << "\nPartie 4 (readBuffer) : " << elapsed.count() << std::endl;
+        #if SHOULD_LOG
+            std::cout << "\nPartie 4 (read buffer) : " << elapsed.count() << std::endl; 
+        #endif
         
         auto superend = std::chrono::high_resolution_clock::now();
         elapsed = superend-superstart;
-        std::cout << "total : " << elapsed.count() << std::endl;
+        #if SHOULD_LOG
+            std::cout << "\nTemps total update GPU : " << elapsed.count() << std::endl; 
+        #endif
     }
 }
 
@@ -223,4 +241,11 @@ void Simulation::stop(){
     if (threadUpdate.joinable()) {
         threadUpdate.join();
     }
+}
+
+void Simulation::createGalaxy(size_t nbParticles, scalar_t mass_,scalar_t radius, scalar_t thickness, scalar_t starSpeed){
+    GalaxyPtr galaxy = std::make_shared<Galaxy>(galaxyFactory->generateGalaxy(nbParticles, mass_, radius, thickness, starSpeed));
+    galaxies.push_back(galaxy);
+    octreeRoot->fillOctree(galaxy->particles);
+    octreeRoot->updateMassCenter();
 }

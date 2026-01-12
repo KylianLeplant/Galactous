@@ -86,3 +86,7 @@ float* Vec3::convert_float_3() const {
     list[2] = z;
     return list;
 }
+
+Vector3 Vec3::toVector3() const {
+    return Vector3{ x, y, z };
+}

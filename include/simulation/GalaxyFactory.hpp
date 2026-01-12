@@ -1,6 +1,7 @@
 #ifndef GALAXYFACTORY_HPP
 #define GALAXYFACTORY_HPP
 
+#include "types.hpp"
 #include "Galaxy.hpp"
 #include  "Simulation.hpp"
 

@@ -4,6 +4,7 @@
 #include <cmath>
 #include <stdexcept>
 #include <iostream>
+#include "raylib.h"
 
 using scalar_t = float;
 
@@ -47,6 +48,8 @@ struct Vec3{
 
     //convert to float[3]
     float* convert_float_3() const;
+
+    Vector3 toVector3() const;
 };
 std::ostream& operator<<(std::ostream& os, const Vec3& vec);
 
