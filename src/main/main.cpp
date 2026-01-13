@@ -10,11 +10,11 @@
 #include "GalaxyFactory.hpp"
 #include "ComputeShader.hpp"
 
-void DrawParticles(const Particles& particles, Color color) {
+void DrawParticles(const std::vector<Vec3>& particlesPos, Color color) {
     // Dessiner en batch avec des petits cubes
-    for (const auto& particlePtr : particles) {
-        Vector3 pos = particlePtr->pos.toVector3();
-        DrawCubeV(pos, {0.5f, 0.5f, 0.5f}, color);
+    
+    for (const auto& position : particlesPos) {
+        DrawCubeV(position.toVector3(), {0.5f, 0.5f, 0.5f}, color);
     }
 }
 
@@ -64,18 +64,15 @@ int main() {
         std::cerr.flush();
         return 1;
     }
-    
     int width{1920}, height{1080};
     InitWindow(width, height, "Galactous");
     SetTargetFPS(60);                    // Sets the highest FPS
     while (WindowShouldClose() == false) // Keep the Window open
     {
         UpdateCamera(&camera, CAMERA_FREE); // Update camera
-        
         // Setup Canvas
         BeginDrawing();
             ClearBackground(BLACK);
-
             BeginMode3D(camera);
             // Repères visuels
             DrawGrid(20, 20.0f);  // Grille adaptée au rayon de 100
@@ -84,28 +81,14 @@ int main() {
             DrawLine3D({0,0,0}, {0,0,100}, BLUE);  // Axe Z
             
             // Dessiner toutes les particules en un seul appel
-            GalaxyWeakPtr galaxyWeakPtr = simulation->galaxies.front();
-            auto galaxy = galaxyWeakPtr.lock();
-            Particles& particles = galaxy->particles;
-            if (galaxy) {
-                Particles& particles = galaxy->particles;
-                
-                // Log la position de la première particule toutes les 60 frames
-                static int frameCount = 0;
-                if (!particles.empty()) {
-                    Vec3 pos = particles[0]->pos;
-                    //std::cout << "Particle[0] pos: (" << pos.x << ", " << pos.y << ", " << pos.z << ")" << std::endl;
-                }
-                frameCount++;
-                
-                DrawParticles(particles, WHITE);
+            ParticlesDataPtr particlesData = simulation->currentParticlesData.load(std::memory_order_acquire);
+            if (particlesData) {
+                std::vector<Vec3> particlesPos = particlesData->positions;
+                DrawParticles(particlesPos, WHITE);
             }
 
-            DrawParticles(particles, WHITE);
 
             EndMode3D();
-
-            DrawText("Welcome to the third dimension!", 10, 40, 20, DARKGRAY);
 
             DrawFPS(10, 10);
         

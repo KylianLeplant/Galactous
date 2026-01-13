@@ -2,7 +2,7 @@
 #include "GalaxyFactory.hpp"
 #include <algorithm>
 #include <chrono>
-#define SHOULD_LOG 0
+#define SHOULD_LOG 1
 void Simulation::update(){
     while(!stopFlag.load()){
         double sum = 0.0;
@@ -32,17 +32,12 @@ void Simulation::updateWithGPU(){
             std::cout << "\nPartie 1 : " << elapsed.count() << std::endl;
         #endif
         start = std::chrono::high_resolution_clock::now();
-        FlattenedOctreePtr flattenedOctree;
-        if (flattenedOctreeQueue.empty()) {
+        FlattenedOctreePtr flattenedOctree = currentFlattenedOctree.load(std::memory_order_acquire);
+        if (!flattenedOctree) {
+            // Créer le premier octree si pas encore disponible
             flattenedOctree = std::make_shared<FlattenedOctree>();
             octreeRoot->getFlattenedOctree(flattenedOctree);
-            flattenedOctreeQueue.push(flattenedOctree);
-        }
-        else{
-            while (flattenedOctreeQueue.size() > 1) {
-                flattenedOctreeQueue.pop();
-            }
-            flattenedOctree = flattenedOctreeQueue.front();
+            currentFlattenedOctree.store(flattenedOctree, std::memory_order_release);
         }
         
         end = std::chrono::high_resolution_clock::now();
@@ -50,13 +45,18 @@ void Simulation::updateWithGPU(){
         #if SHOULD_LOG
             std::cout << "\nflattened octree : " << elapsed.count() << std::endl;
         #endif
+        std::cout << "?????" << std::endl;
         unsigned int sizeOctree = flattenedOctree->centers.size();
-
-        while(particlesDataQueue.size() > 1){
-            particlesDataQueue.pop();
+        std::cout << "AAAAAA" << std::endl;
+        ParticlesDataPtr particlesData = currentParticlesData.load(std::memory_order_acquire);
+        if (!particlesData) {
+            continue; // Pas encore de données disponibles
         }
-        ParticlesDataPtr particlesData = particlesDataQueue.front();
+        std::cout << "CCCCCC" << std::endl;
+    
+        std::cout << "DDDDDD " << particlesData->positions.size() << std::endl;
         std::vector<Vec3> accelerations(particlesData->positions.size(), Vec3(0.0f, 0.0f, 0.0f));
+        std::cout << "EEEEEE" << std::endl;
         end = std::chrono::high_resolution_clock::now();
         elapsed = end - start;
         #if SHOULD_LOG
@@ -206,14 +206,14 @@ void Simulation::updateParticlesData() {
             newParticlesData->velocities.push_back(particle->velocity);
         }
     }
-    particlesDataQueue.push(newParticlesData);
+    currentParticlesData.store(newParticlesData, std::memory_order_release);
 }
 
 void Simulation::updateFlattenedOctree() {
     while (!stopFlag.load()) {
         FlattenedOctreePtr flattenedOctree = std::make_shared<FlattenedOctree>();
         octreeRoot->getFlattenedOctree(flattenedOctree);
-        flattenedOctreeQueue.push(flattenedOctree);
+        currentFlattenedOctree.store(flattenedOctree, std::memory_order_release);
     }
 }
 
