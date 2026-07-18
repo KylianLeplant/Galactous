@@ -7,7 +7,7 @@
 #include "Page.hpp"
 
 int main() {
-    size_t nbParticles = 3000;
+    size_t nbParticles = 100000;
     scalar_t mass = 100.0f;
     scalar_t radius = 100.0f;
     scalar_t thickness = 1.0f;

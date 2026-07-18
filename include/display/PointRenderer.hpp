@@ -4,45 +4,55 @@
 #include "glad.h"
 #include "Camera.hpp"
 #include <iostream>
+#include <vector>
 
-// Classe pour gérer l'affichage de points avec caméra 3D
+// Classe pour gérer l'affichage de points avec caméra 3D (batch rendering)
 class PointRenderer {
 private:
     unsigned int shaderProgram;
     unsigned int VAO, VBO;
     CameraPtr camera;
-    
-    // Shaders pour afficher un point avec matrices 3D
+
+    int locModel, locView, locProjection, locPointSize;
+
+    float pointSize = 6.0f;
+
     const char* vertexShaderSource = R"(
         #version 330 core
         layout (location = 0) in vec3 aPos;
+        layout (location = 1) in vec3 aColor;
         uniform mat4 model;
         uniform mat4 view;
         uniform mat4 projection;
-        uniform vec3 uColor;
-        out vec3 color;
+        uniform float uPointSize;
+        out vec3 vColor;
         void main() {
-            gl_Position = projection * view * model * vec4(aPos, 1.0);
-            gl_PointSize = 10.0;
-            color = uColor;
+            vec4 viewPos = view * model * vec4(aPos, 1.0);
+            gl_Position = projection * viewPos;
+            // Taille décroît avec la distance (1/viewPos.z)
+            gl_PointSize = uPointSize * (50.0 / max(-viewPos.z, 0.1));
+            vColor = aColor;
         }
     )";
 
     const char* fragmentShaderSource = R"(
         #version 330 core
-        in vec3 color;
+        in vec3 vColor;
         out vec4 FragColor;
         void main() {
-            FragColor = vec4(color, 1.0);
+            vec2 c = gl_PointCoord - vec2(0.5);
+            float d = dot(c, c);
+            if (d > 0.25) discard;
+            float alpha = smoothstep(0.25, 0.18, d);
+            FragColor = vec4(vColor * alpha, 1.0);
         }
     )";
 
-    // Fonction pour compiler un shader
     unsigned int compileShader(const char* source, GLenum type) {
         unsigned int shader = glCreateShader(type);
         glShaderSource(shader, 1, &source, NULL);
         glCompileShader(shader);
-        
+
         int success;
         char infoLog[512];
         glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
@@ -50,22 +60,19 @@ private:
             glGetShaderInfoLog(shader, 512, NULL, infoLog);
             std::cerr << "Erreur de compilation du shader : " << infoLog << std::endl;
         }
-        
         return shader;
     }
 
 public:
     PointRenderer() : camera() {
-        // Compiler les shaders
         unsigned int vertexShader = compileShader(vertexShaderSource, GL_VERTEX_SHADER);
         unsigned int fragmentShader = compileShader(fragmentShaderSource, GL_FRAGMENT_SHADER);
-        
-        // Créer le programme de shader
+
         shaderProgram = glCreateProgram();
         glAttachShader(shaderProgram, vertexShader);
         glAttachShader(shaderProgram, fragmentShader);
         glLinkProgram(shaderProgram);
-        
+
         int success;
         char infoLog[512];
         glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
@@ -73,19 +80,29 @@ public:
             glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
             std::cerr << "Erreur de liaison du programme de shader : " << infoLog << std::endl;
         }
-        
+
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
 
-        // Créer et configurer le VAO et VBO
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
-        
+
+        // Layout : vec3 aPos + vec3 aColor (stride 6 floats)
         glBindVertexArray(VAO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(1);
+
+        glBindVertexArray(0);
+
+        // Cache des locations d'uniforms
+        locModel = glGetUniformLocation(shaderProgram, "model");
+        locView = glGetUniformLocation(shaderProgram, "view");
+        locProjection = glGetUniformLocation(shaderProgram, "projection");
+        locPointSize = glGetUniformLocation(shaderProgram, "uPointSize");
     }
 
     ~PointRenderer() {
@@ -94,38 +111,43 @@ public:
         glDeleteProgram(shaderProgram);
     }
 
-    // Fonction pour afficher un point 3D avec coordonnées et couleur
-    void drawPoint(float x, float y, float z, float r, float g, float b) {
-        // Coordonnées du point
-        float pointVertices[] = { x, y, z };
-        
-        // Mettre à jour le buffer
+    // Affiche un lot de points en un seul draw call.
+    // vertices : tableau interleaved [px,py,pz, cr,cg,cb, px,py,pz, ...]
+    void drawPoints(const std::vector<float>& vertices, size_t count) {
+        if (count == 0) return;
+
+        // Permet l'additivité (les étoiles s'éclairent mutuellement)
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE);
+        glEnable(GL_PROGRAM_POINT_SIZE);
+
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(pointVertices), pointVertices, GL_DYNAMIC_DRAW);
-        
-        // Utiliser le programme de shader
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(),
+                     GL_DYNAMIC_DRAW);
+
         glUseProgram(shaderProgram);
-        
-        // Matrices de transformation
-        Mat4 model; // Matrice identité (pas de transformation de l'objet)
+
+        Mat4 model;
         Mat4 view = camera->getViewMatrix();
         Mat4 projection = camera->getProjectionMatrix();
-        
-        // Passer les matrices au shader
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, model.m);
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, view.m);
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, projection.m);
-        
-        // Passer la couleur
-        glUniform3f(glGetUniformLocation(shaderProgram, "uColor"), r, g, b);
-        
-        // Dessiner le point
+
+        glUniformMatrix4fv(locModel, 1, GL_FALSE, model.m);
+        glUniformMatrix4fv(locView, 1, GL_FALSE, view.m);
+        glUniformMatrix4fv(locProjection, 1, GL_FALSE, projection.m);
+        glUniform1f(locPointSize, pointSize);
+
         glBindVertexArray(VAO);
-        glDrawArrays(GL_POINTS, 0, 1);
+        glDrawArrays(GL_POINTS, 0, (GLsizei)count);
+
+        // Restaure l'état pour ImGui (qui dessine ensuite dans la même frame)
+        glDisable(GL_BLEND);
+        glDisable(GL_PROGRAM_POINT_SIZE);
     }
 
-    CameraPtr getCamera() { return camera; }
+    void setPointSize(float s) { pointSize = s; }
+    float getPointSize() const { return pointSize; }
 
+    CameraPtr getCamera() { return camera; }
     void setCamera(CameraPtr camera) { this->camera = camera; }
 };
 
