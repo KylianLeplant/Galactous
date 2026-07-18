@@ -30,28 +30,23 @@ void Simulation::updateWithGPU(){
         std::cout << "\nPartie 1 : " << elapsed.count() << std::endl;
 
         start = std::chrono::high_resolution_clock::now();
-        FlattenedOctreePtr flattenedOctree;
-        if (flattenedOctreeQueue.empty()) {
+        FlattenedOctreePtr flattenedOctree = currentFlattenedOctree.load(std::memory_order_acquire);
+        if (!flattenedOctree) {
+            // Créer le premier octree si pas encore disponible
             flattenedOctree = std::make_shared<FlattenedOctree>();
             octreeRoot->getFlattenedOctree(flattenedOctree);
-            flattenedOctreeQueue.push(flattenedOctree);
+            currentFlattenedOctree.store(flattenedOctree, std::memory_order_release);
         }
-        else{
-            while (flattenedOctreeQueue.size() > 1) {
-                flattenedOctreeQueue.pop();
-            }
-            flattenedOctree = flattenedOctreeQueue.front();
-        }
-        
+
         end = std::chrono::high_resolution_clock::now();
         elapsed = end - start;
         std::cout << "\nflattenedOctree : " << elapsed.count() << std::endl;
         unsigned int sizeOctree = flattenedOctree->centers.size();
 
-        while(particlesDataQueue.size() > 1){
-            particlesDataQueue.pop();
+        ParticlesDataPtr particlesData = currentParticlesData.load(std::memory_order_acquire);
+        if (!particlesData) {
+            continue; // Pas encore de données disponibles
         }
-        ParticlesDataPtr particlesData = particlesDataQueue.front();
         std::vector<Vec3> accelerations(particlesData->positions.size(), Vec3(0.0f, 0.0f, 0.0f));
         end = std::chrono::high_resolution_clock::now();
         elapsed = end - start;
@@ -188,14 +183,14 @@ void Simulation::updateParticlesData() {
             newParticlesData->velocities.push_back(particle->velocity);
         }
     }
-    particlesDataQueue.push(newParticlesData);
+    currentParticlesData.store(newParticlesData, std::memory_order_release);
 }
 
 void Simulation::updateFlattenedOctree() {
     while (!stopFlag.load()) {
         FlattenedOctreePtr flattenedOctree = std::make_shared<FlattenedOctree>();
         octreeRoot->getFlattenedOctree(flattenedOctree);
-        flattenedOctreeQueue.push(flattenedOctree);
+        currentFlattenedOctree.store(flattenedOctree, std::memory_order_release);
     }
 }
 

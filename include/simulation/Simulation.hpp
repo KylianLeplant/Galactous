@@ -10,6 +10,7 @@
 #include <unordered_set>
 #include <thread>
 #include <atomic>
+#include <memory>
 
 
 struct Simulation {
@@ -17,8 +18,8 @@ struct Simulation {
     scalar_t G = 6.67430e-11;           // gravitational constant
     scalar_t softening = 1e-2;          // to avoid singularities in the force calculation
     scalar_t theta = 1;                 // parameter to control the accuracy of the simulation, if (size of the octree) / (distance between the particle and the octree) is less than theta, the force is calculated using the octree
-    std::queue<ParticlesDataPtr> particlesDataQueue; // stack to store the particles data for GPU calculations
-    std::queue<FlattenedOctreePtr> flattenedOctreeQueue; // stack to store the flattened octree for each step of the simulation
+    std::atomic<ParticlesDataPtr> currentParticlesData; // atomic shared_ptr for thread-safe access without mutex
+    std::atomic<FlattenedOctreePtr> currentFlattenedOctree; // atomic shared_ptr for thread-safe access without mutex
     Galaxies galaxies;                  // galaxies of the simulation
     OctreePtr octreeRoot;               // main node of the simulation
     std::thread threadUpdateParticlesData;  // thread filling the particlesDataQueue in GPU mode
@@ -27,13 +28,13 @@ struct Simulation {
 
     // constructors
     Simulation()
-        : galaxies(), octreeRoot(std::make_shared<Octree>(Vec3(0,0,0),1000.0f)), particlesDataQueue(), stopFlag(false) {Octree::root = octreeRoot;std::cout<<"Octree root width : "<<octreeRoot->width<<std::endl;}
+        : galaxies(), octreeRoot(std::make_shared<Octree>(Vec3(0,0,0),1000.0f)), currentParticlesData(nullptr), currentFlattenedOctree(nullptr), stopFlag(false) {Octree::root = octreeRoot;std::cout<<"Octree root width : "<<octreeRoot->width<<std::endl;}
     Simulation(scalar_t width)
-        : galaxies(), octreeRoot(std::make_shared<Octree>(Vec3(0,0,0),width)), particlesDataQueue(), stopFlag(false) {Octree::root = octreeRoot;}
+        : galaxies(), octreeRoot(std::make_shared<Octree>(Vec3(0,0,0),width)), currentParticlesData(nullptr), currentFlattenedOctree(nullptr), stopFlag(false) {Octree::root = octreeRoot;}
     Simulation(OctreePtr& octreeRoot_)
-        : galaxies(), octreeRoot(octreeRoot_), particlesDataQueue(), stopFlag(false) {Octree::root = octreeRoot;}
+        : galaxies(), octreeRoot(octreeRoot_), currentParticlesData(nullptr), currentFlattenedOctree(nullptr), stopFlag(false) {Octree::root = octreeRoot;}
     Simulation(Galaxies& galaxies_, OctreePtr& octreeRoot_)
-        : galaxies(galaxies_), octreeRoot(octreeRoot_), particlesDataQueue(), stopFlag(false) {Octree::root = octreeRoot;}
+        : galaxies(galaxies_), octreeRoot(octreeRoot_), currentParticlesData(nullptr), currentFlattenedOctree(nullptr), stopFlag(false) {Octree::root = octreeRoot;}
     
         //destructor
     ~Simulation(){stop();}
