@@ -2,11 +2,9 @@
 #define OCTREE_HPP
 #include "types.hpp"
 #include <array>
-#include "forward.hpp"  // Include forward declarations for Octree and Particle
-    #include "Particle.hpp"
+#include "forward.hpp"
+#include "Particle.hpp"
 #include "FlattenedOctree.hpp"
-
-
 
 struct Octree : public std::enable_shared_from_this<Octree>{
     static OctreePtr root;

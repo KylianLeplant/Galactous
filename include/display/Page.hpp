@@ -9,6 +9,7 @@
 #include "imgui_impl_opengl3.h"
 #include "Input.hpp"
 #include "GalaxyFactory.hpp"
+
 class Page {
     private:
     WindowWeakPtr window;
@@ -22,11 +23,10 @@ class Page {
     public:
     Page(WindowWeakPtr window);
     Page(WindowWeakPtr window, SimulationPtr simulation);
-    //Page(WindowWeakPtr window, SimulationPtr simulation, PointRendererPtr pointRenderer);
     ~Page();
 
     // create a galaxy
-    void createGalaxy(size_t nbParticles, scalar_t mass_,scalar_t radius, scalar_t thickness, scalar_t starSpeed=0);
+    void createGalaxy(size_t nbParticles, scalar_t mass_, scalar_t radius, scalar_t thickness, scalar_t starSpeed=0);
 
     // run the display
     void run();
@@ -34,10 +34,5 @@ class Page {
     // Print the simulation
     void printSimulation();
 };
-
-
-
-
-
 
 #endif
