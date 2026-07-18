@@ -6,6 +6,7 @@ Page::Page(WindowWeakPtr window) : window(window), cameras() {
     cameras.push_back(camera);
     pointRenderer = std::make_shared<PointRenderer>();
     pointRenderer->setCamera(camera);
+    bloomRenderer = std::make_shared<BloomRenderer>();
     input = std::make_shared<Input>(window, camera);
     input->activate();
     simulation = std::make_shared<Simulation>();
@@ -17,6 +18,7 @@ Page::Page(WindowWeakPtr window, SimulationPtr simulation) : window(window), sim
     cameras.push_back(camera);
     pointRenderer = std::make_shared<PointRenderer>();
     pointRenderer->setCamera(camera);
+    bloomRenderer = std::make_shared<BloomRenderer>();
     input = std::make_shared<Input>(window, camera);
     input->activate();
     galaxyFactory = std::make_shared<GalaxyFactory>(simulation);
@@ -27,20 +29,33 @@ Page::~Page(){
 }
 
 void Page::run(){
-    float f = 0.0f;
-    int counter = 0;
     int fps = 0;
     int frameCount = 0;
     double lastFpsTime = glfwGetTime();
     std::thread threadSimulation([this]() { simulation->run(true); });
-    while (!glfwWindowShouldClose(window.lock()->getWindow())) {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    GLFWwindow* win = window.lock()->getWindow();
+    int fbW = 0, fbH = 0;
+
+    while (!glfwWindowShouldClose(win)) {
+        // Taille framebuffer courante (peut changer si l'utilisateur resize)
+        glfwGetFramebufferSize(win, &fbW, &fbH);
+        bloomRenderer->resize(fbW, fbH);
+
+        // 1) Rendu de la scène (particules) dans le FBO HDR du bloom
+        bloomRenderer->beginScene();
         glEnable(GL_DEPTH_TEST);
         printSimulation();
 
+        // 2) Bright pass + flou gaussien itératif
+        bloomRenderer->renderBloom();
+
+        // 3) Compositage final + tone mapping dans le framebuffer par défaut
+        bloomRenderer->renderToScreen();
+
         glfwPollEvents();
         if (input->isKeyPressed(Input::KEY_ESCAPE)) {
-            glfwSetWindowShouldClose(window.lock()->getWindow(), GLFW_TRUE);
+            glfwSetWindowShouldClose(win, GLFW_TRUE);
         }
 
         ImGui_ImplGlfw_NewFrame();
@@ -57,30 +72,69 @@ void Page::run(){
         }
         const ImGuiWindowFlags overlayFlags =
             ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
-            ImGuiWindowFlags_AlwaysUseWindowPadding | ImGuiWindowFlags_NoSavedSettings;
+            ImGuiWindowFlags_AlwaysUseWindowPadding | ImGuiWindowFlags_NoSavedSettings |
+            ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoFocusOnAppearing;
         ImGui::SetNextWindowPos(ImVec2(10.0f, 10.0f), ImGuiCond_Always);
-        ImGui::SetNextWindowSize(ImVec2(140.0f, 0.0f), ImGuiCond_Always);
         ImGui::Begin("##FPSOverlay", nullptr, overlayFlags);
-        ImGui::Text("FPS: %d", fps);
+        // Couleur selon le framerate (vert / jaune / rouge)
+        ImVec4 fpsColor = fps >= 50 ? ImVec4(0.3f, 1.0f, 0.3f, 1.0f)
+                       : fps >= 30 ? ImVec4(1.0f, 1.0f, 0.3f, 1.0f)
+                                    : ImVec4(1.0f, 0.3f, 0.3f, 1.0f);
+        ImGui::TextColored(fpsColor, "FPS: %d", fps);
+        ImGui::TextDisabled("%.1f ms/frame", 1000.0f / ImGui::GetIO().Framerate);
         ImGui::End();
 
-        ImGui::Begin("Galactous");
-        ImGui::Text("Bienvenue dans Galactous !");
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-        ImGui::ColorEdit3("clear color", (float*)&glClearColor);
-        if (ImGui::Button("Button")) {
-            counter++;
+        // Panneau de contrôle principal (docké à gauche, collapsible)
+        ImGui::SetNextWindowPos(ImVec2(10.0f, 60.0f), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize(ImVec2(260.0f, 0.0f), ImGuiCond_FirstUseEver);
+        ImGui::Begin("Galactous##ControlPanel", nullptr, ImGuiWindowFlags_NoCollapse);
+
+        if (ImGui::CollapsingHeader("Statistiques", ImGuiTreeNodeFlags_DefaultOpen)) {
+            size_t totalParticles = 0;
+            for (auto& galaxy : simulation->galaxies) totalParticles += galaxy->particles.size();
+            ImGui::Text("Galaxies:      %d", (int)simulation->galaxies.size());
+            ImGui::Text("Particules:    %d", (int)totalParticles);
+            ImGui::Text("FPS:           %d", fps);
         }
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
-                    1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+        if (ImGui::CollapsingHeader("Simulation", ImGuiTreeNodeFlags_DefaultOpen)) {
+            float ts = simulation->time_step;
+            if (ImGui::SliderFloat("Pas de temps", &ts, 0.0f, 50.0f, "%.2f"))
+                simulation->time_step = ts;
+            float th = simulation->theta;
+            if (ImGui::SliderFloat("Theta (Barnes-Hut)", &th, 0.1f, 2.0f, "%.2f"))
+                simulation->theta = th;
+            float soft = simulation->softening;
+            if (ImGui::SliderFloat("Softening", &soft, 0.0f, 1.0f, "%.3f"))
+                simulation->softening = soft;
+        }
+
+        if (ImGui::CollapsingHeader("Affichage", ImGuiTreeNodeFlags_DefaultOpen)) {
+            float ps = pointRenderer->getPointSize();
+            if (ImGui::SliderFloat("Taille points", &ps, 1.0f, 20.0f, "%.1f"))
+                pointRenderer->setPointSize(ps);
+        }
+
+        if (ImGui::CollapsingHeader("Bloom", ImGuiTreeNodeFlags_DefaultOpen)) {
+            ImGui::SliderFloat("Seuil", &bloomRenderer->threshold, 0.0f, 2.0f, "%.2f");
+            ImGui::SliderFloat("Intensité", &bloomRenderer->intensity, 0.0f, 3.0f, "%.2f");
+            ImGui::SliderInt("Passes de flou", &bloomRenderer->blurPasses, 1, 10);
+        }
+
+        if (ImGui::CollapsingHeader("Contrôles")) {
+            ImGui::TextDisabled("Z/S    avancer / reculer");
+            ImGui::TextDisabled("Q/D    gauche / droite");
+            ImGui::TextDisabled("Souris-G    rotation orbitale");
+            ImGui::TextDisabled("Molette   zoom");
+            ImGui::TextDisabled("Échap quitter");
+        }
+
         ImGui::End();
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        glfwSwapBuffers(window.lock()->getWindow());
+        glfwSwapBuffers(win);
     }
     simulation->stop();
     if (threadSimulation.joinable()) threadSimulation.join();

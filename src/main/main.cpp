@@ -18,8 +18,6 @@ int main() {
     Page page(window);
     page.createGalaxy(nbParticles, mass, radius, thickness, starSpeed);
 
-    glClearColor(0.149f, 0.153f, 0.2f, 1.0f);
-
     page.run();
 
     return 0;

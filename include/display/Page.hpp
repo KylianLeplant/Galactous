@@ -2,6 +2,7 @@
 #define PAGE_HPP
 
 #include "PointRenderer.hpp"
+#include "BloomRenderer.hpp"
 #include "Window.hpp"
 #include "Simulation.hpp"
 #include "imgui.h"
@@ -15,6 +16,7 @@ class Page {
     WindowWeakPtr window;
     SimulationPtr simulation;
     PointRendererPtr pointRenderer;
+    BloomRendererPtr bloomRenderer;
     InputPtr input;
     GalaxyFactoryPtr galaxyFactory;
 
